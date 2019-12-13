@@ -12,7 +12,7 @@ if ( have_posts() ) {
 	?>
 <header>
 	<?php
-	fazzo_functions::the_archive_title( '<h1>', '</h1>' );
+	functions::the_archive_title( '<h1>', '</h1>' );
 	the_archive_description( '<div class="description">', '</div>' );
 	?>
 </header>

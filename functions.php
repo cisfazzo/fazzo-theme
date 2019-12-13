@@ -32,6 +32,9 @@ if ( ! defined( 'FAZZO_THEME_TXT' ) ) {
 //Füge Klassen hinzu:
 require_once( FAZZO_THEME_ROOT . "/class/fazzo.php" );
 
+
+add_action( 'init', array('fazzo\functions', 'store_current_menu_depth') );
+
 /*
 * Starte die Hauptklasse
 */
@@ -41,3 +44,12 @@ $fazzo_theme = fazzo::instance();
 * Wird true, wenn Posts vorhanden
 */
 $fazzo_have_posts = false;
+
+
+function test()
+{
+    $tmp = functions::get_all_registered_menus();
+    var_dump($tmp);
+}
+
+//add_action('after_setup_theme', 'fazzo\test');

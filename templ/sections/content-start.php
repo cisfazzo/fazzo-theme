@@ -4,6 +4,10 @@ namespace fazzo;
 ?><div id="content-full-wrapper">
     <div id="content-wrapper" class="container">
         <div class="row">
+        <?php get_template_part( 'templ/sections/content', "top" ); ?>
+        </div>
+
+        <div class="row">
 
 <?php
 
@@ -18,9 +22,7 @@ $GLOBALS['fazzo_set'] [1] = 9;
 $GLOBALS['fazzo_set'] [2] = 3;
 
 if ( is_home() || is_front_page() ) {
-	if ( has_nav_menu( 'meta-frontpage-nav' ) & is_active_sidebar( 'fazzo-sidebar-frontpage' ) ) {
-		$GLOBALS['fazzo_set'] = $min;
-	} elseif ( ! has_nav_menu( 'meta-frontpage-nav' ) & ! is_active_sidebar( 'fazzo-sidebar-frontpage' ) ) {
+    if ( ! is_active_sidebar( 'fazzo-sidebar-frontpage' ) ) {
 		$GLOBALS['fazzo_set'][1] = 12;
 	}
 } else {

@@ -18,15 +18,18 @@ if ( ! defined( 'ABSPATH' ) ) {
         </button>
 		<div class="container-fluid">
 			<?php
-			wp_nav_menu( [
-				"theme_location" => "meta-content-nav",
-				'menu'           => "meta-content-nav",
-				'depth'          => 2,
-				"container"      => false,
-				"menu_class"     => "navbar-nav mr-auto",
-				"fallback_cb"    => "fazzo_nav_walker::fallback",
-				"walker"         => new fazzo_nav_walker(),
-			] );
+
+				$walker = '\fazzo\nav_walker';
+				wp_nav_menu( [
+					"theme_location" => "meta-content-nav",
+					'menu'           => "meta-content-nav",
+					'depth'          => 0,
+					"container"      => false,
+					"menu_class"     => "navbar-nav mr-auto",
+					"fallback_cb"    => $walker . "::fallback",
+					"walker"         => new $walker,
+				] );
+
 			?>
 		</div><!-- container-fluid -->
 	</nav><!-- meta-content-nav -->

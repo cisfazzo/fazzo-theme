@@ -20,21 +20,19 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div class="container-fluid">
 			<?php
 
-			$walker = '\fazzo\fazzo_nav_walker';
-			if(isset(fazzo::$options["paged_menu"]) && fazzo::$options["paged_menu"])
-			{
-				$walker = '\fazzo\fazzo_nav_walker_paged';
-			}
 
-			wp_nav_menu( [
-				"theme_location" => "meta-top-nav",
-				'menu'           => "meta-top-nav",
-				'depth'          => 2,
-				"container"      => false,
-				"menu_class"     => "navbar-nav mr-auto",
-				"fallback_cb"    => $walker."::fallback",
-				"walker"         => new $walker,
-			] );
+
+				$walker = '\fazzo\nav_walker';
+				wp_nav_menu( [
+					"theme_location" => "meta-top-nav",
+					'menu'           => "meta-top-nav",
+					'depth'          => 1,
+					"container"      => false,
+					"menu_class"     => "navbar-nav mr-auto",
+					"fallback_cb"    => $walker . "::fallback",
+					"walker"         => new $walker,
+				] );
+
 			?>
         </div><!-- container-fluid -->
     </nav><!-- meta-top-nav -->

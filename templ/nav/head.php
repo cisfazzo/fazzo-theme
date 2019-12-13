@@ -4,41 +4,7 @@ namespace fazzo;
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-/*
- *
- * 			wp_nav_menu( [
-				"theme_location" => "meta-top-nav",
-				'menu'           => "meta-top-nav",
-				'depth'          => 2,
-				"container"      => false,
-				"menu_class"     => "navbar-nav mr-auto collapse-hidden collapse-pack",
-				"fallback_cb"    => "fazzo_nav_walker::fallback",
-				"walker"         => new fazzo_nav_walker(),
-			] );
 
-			wp_nav_menu( [
-				"theme_location" => "meta-content-nav",
-				'menu'           => "meta-content-nav",
-				'depth'          => 2,
-				"container"      => false,
-				"menu_class"     => "navbar-nav mr-auto collapse-hidden collapse-pack",
-				"fallback_cb"    => "fazzo_nav_walker::fallback",
-				"walker"         => new fazzo_nav_walker(),
-			] );
-			wp_nav_menu( [
-				"theme_location" => "meta-bottom-nav",
-				'menu'           => "meta-bottom-nav",
-				'depth'          => 2,
-				"container"      => false,
-				"menu_class"     => "navbar-nav mr-auto collapse-hidden collapse-pack",
-				"fallback_cb"    => "fazzo_nav_walker::fallback",
-				"walker"         => new fazzo_nav_walker(),
-			] );e
- *
- *
- *
-
- */
 ?>
 
 
@@ -50,21 +16,22 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <div class=" offcanvas-collapse offcanvas-collapse<?php echo $GLOBALS["fazzo_breakpoint"]; ?> navbar-collapse" id="meta-head-nav">
 			<?php
 
-			$walker = '\fazzo\fazzo_nav_walker';
             if(isset(fazzo::$options["paged_menu"]) && fazzo::$options["paged_menu"])
             {
-                $walker = '\fazzo\fazzo_nav_walker_paged';
+                new nav_paged("meta-head-nav");
             }
-
-			wp_nav_menu( [
-				"theme_location" => "meta-head-nav",
-				'menu'           => "meta-head-nav",
-				'depth'          => 10,
-				"container"      => false,
-				"menu_class"     => "navbar-nav mr-auto mt-2 mt".$GLOBALS["fazzo_breakpoint"]."-0",
-				"fallback_cb"    => $walker."::fallback",
-				"walker"         => new $walker,
-			] );
+            else {
+	            $walker = '\fazzo\nav_walker';
+	            wp_nav_menu( [
+		            "theme_location" => "meta-head-nav",
+		            'menu'           => "meta-head-nav",
+		            'depth'          => 10,
+		            "container"      => false,
+		            "menu_class"     => "navbar-nav mr-auto mt-2 mt" . $GLOBALS["fazzo_breakpoint"] . "-0",
+		            "fallback_cb"    => $walker . "::fallback",
+		            "walker"         => new $walker,
+	            ] );
+            }
 			?>
 
                 </div><!-- meta-head-nav -->
