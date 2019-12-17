@@ -5,7 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$display_description = get_theme_mod( 'head_description_display', fazzo::$customizer_defaults["head_description_display"] );
+//$display_description = get_theme_mod( 'head_description_display', fazzo::$customizer_defaults["head_description_display"] );
+$display_description = true;
 
 $min    = [];
 $min[0] = 9;
