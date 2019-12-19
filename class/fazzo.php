@@ -121,15 +121,6 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 		}
 
 		/**
-		 * Customizer Default Werte
-		 * @since  1.0.0
-		 * @access public
-		 * @var array
-		 * @static
-		 */
-		public static $customizer_defaults = [];
-
-		/**
 		 * Customizer CSS Elemente
 		 * @since  1.0.0
 		 * @access public
@@ -147,18 +138,6 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 
 			$prefix = static::$prefix;
 
-			static::$customizer_defaults = [
-				$prefix . "background_color"        => "#fefefe",
-				$prefix . "background_color_2"      => "#303030",
-				$prefix . "background_opacity"      => "0.6",
-				$prefix . "background_image"        => "",
-				$prefix . "background_image_2"      => "",
-				$prefix . "background_head_color"   => "#fefefe",
-				$prefix . "background_head_color_2" => "#303030",
-				$prefix . "background_head_image"   => "",
-				$prefix . "background_head_opacity" => "0.6",
-
-			];
 
 			/*
 			 *
@@ -175,37 +154,72 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 				"fazzo_main_menu_opacity"      => "1",
 			 */
 
+
+
 			static::$customizer_elements = [
-				$prefix . "background_color"        => [
+				$prefix . "background_color"             => [
+					"default"  => "#fefefe",
 					"type"     => "background_color",
 					"element"  => "body",
 					"opacity"  => $prefix . "background_opacity",
 					"gradient" => $prefix . "background_color_2"
 				],
-				$prefix . "background_color_2"      => [ "type" => "background_color_2", "element" => "body" ],
-				$prefix . "background_opacity"      => [ "type" => "background_opacity", "element" => "body" ],
-				$prefix . "background_image"        => [
+				$prefix . "background_color_2"           => [
+					"default" => "#303030",
+					"type"    => "background_color_2",
+					"element" => "body"
+				],
+				$prefix . "background_opacity"           => [
+					"default" => "0.6",
+					"type"    => "background_opacity",
+					"element" => "body"
+				],
+				$prefix . "background_image"             => [
+					"default" => "",
 					"type"    => "background_image",
 					"element" => "html",
 				],
-				$prefix . "background_image_2"      => [ "type" => "background_image", "element" => "body" ],
-				$prefix . "background_head_color"   => [
+				$prefix . "background_image_2"           => [
+					"default" => "",
+					"type"    => "background_image",
+					"element" => "body"
+				],
+				$prefix . "background_head_color"        => [
+					"default"  => "#fefefe",
 					"type"     => "background_color",
 					"element"  => "#head-full-wrapper",
 					"opacity"  => $prefix . "background_head_opacity",
 					"gradient" => $prefix . "background_head_color_2"
 				],
-				$prefix . "background_head_color_2" => [
+				$prefix . "background_head_color_2"      => [
+					"default" => "#303030",
 					"type"    => "background_color_2",
 					"element" => "#head-full-wrapper"
 				],
-				$prefix . "background_head_image"   => [
+				$prefix . "background_head_image"        => [
+					"default" => "",
 					"type"    => "background_image",
 					"element" => "#head-full-wrapper",
 				],
-				$prefix . "background_head_opacity" => [
+				$prefix . "background_head_opacity"      => [
+					"default" => "0.6",
 					"type"    => "background_opacity",
 					"element" => "#head-full-wrapper"
+				],
+				$prefix . "background_head_image_size"   => [
+					"default" => 0,
+					"type"    => "background_image",
+					"element" => "#head-full-wrapper",
+				],
+				$prefix . "background_head_image_repeat" => [
+					"default" => 1,
+					"type"    => "background_image",
+					"element" => "#head-full-wrapper",
+				],
+				$prefix . "background_head_image_scroll" => [
+					"default" => 1,
+					"type"    => "background_image",
+					"element" => "#head-full-wrapper",
 				],
 			];
 
@@ -433,8 +447,8 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 		 */
 		protected static function set_class_properties() {
 
-			if ( isset( static::$options["customizer_default_values"] ) && ! empty( static::$options["customizer_default_values"] ) ) {
-				static::$customizer_defaults = static::$options["customizer_default_values"];
+			if ( isset( static::$options["customizer_elements"] ) && ! empty( static::$options["customizer_elements"] ) ) {
+				static::$customizer_elements = static::$options["customizer_elements"];
 			}
 		}
 
@@ -887,6 +901,11 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			$transport = [ "reload" => "refresh", "instant" => "postMessage" ];
 
 
+
+
+
+
+
 			$panels = [
 				0 => [
 					"name" => $prefix . "style",
@@ -930,7 +949,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 					"setting" => [
 						"name" => $prefix . "background_color",
 						"data" => [
-							"default"   => static::$customizer_defaults[ $prefix . "background_color" ],
+							"default"   => static::$customizer_elements[ $prefix . "background_color" ]["default"],
 							"transport" => $transport["instant"]
 						]
 					],
@@ -947,7 +966,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 					"setting" => [
 						"name" => $prefix . "background_color_2",
 						"data" => [
-							"default"   => static::$customizer_defaults[ $prefix . "background_color_2" ],
+							"default"   => static::$customizer_elements[ $prefix . "background_color_2" ]["default"],
 							"transport" => $transport["instant"]
 						]
 					],
@@ -964,7 +983,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 					"setting" => [
 						"name" => $prefix . "background_opacity",
 						"data" => [
-							"default"   => static::$customizer_defaults[ $prefix . "background_opacity" ],
+							"default"   => static::$customizer_elements[ $prefix . "background_opacity" ]["default"],
 							"transport" => $transport["instant"]
 						]
 					],
@@ -982,17 +1001,17 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 					"setting" => [
 						"name" => $prefix . "background_image",
 						"data" => [
-							"default"   => static::$customizer_defaults[ $prefix . "background_image" ],
+							"default"   => static::$customizer_elements[ $prefix . "background_image" ]["default"],
 							"transport" => $transport["reload"]
 						]
 					],
 					"control" => [
 						"class" => "\WP_Customize_Media_Control",
 						"data"  => [
-							'section'  => $sections[0]["name"],
-							'label'    => __( 'Background Image Layer 1', FAZZO_THEME_TXT ),
-							'mime_type'     => 'image',
-							'settings' => $prefix . "background_image",
+							'section'   => $sections[0]["name"],
+							'label'     => __( 'Background Image Layer 1', FAZZO_THEME_TXT ),
+							'mime_type' => 'image',
+							'settings'  => $prefix . "background_image",
 						]
 					],
 				],
@@ -1000,17 +1019,17 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 					"setting" => [
 						"name" => $prefix . "background_image_2",
 						"data" => [
-							"default"   => static::$customizer_defaults[ $prefix . "background_image_2" ],
+							"default"   => static::$customizer_elements[ $prefix . "background_image_2" ]["default"],
 							"transport" => $transport["reload"]
 						]
 					],
 					"control" => [
 						"class" => "\WP_Customize_Media_Control",
 						"data"  => [
-							'section'  => $sections[0]["name"],
-							'label'    => __( 'Background Image Layer 2', FAZZO_THEME_TXT ),
-							'mime_type'     => 'image',
-							'settings' => $prefix . "background_image_2",
+							'section'   => $sections[0]["name"],
+							'label'     => __( 'Background Image Layer 2', FAZZO_THEME_TXT ),
+							'mime_type' => 'image',
+							'settings'  => $prefix . "background_image_2",
 						]
 					],
 				],
@@ -1018,7 +1037,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 					"setting" => [
 						"name" => $prefix . "background_head_color",
 						"data" => [
-							"default"   => static::$customizer_defaults[ $prefix . "background_head_color" ],
+							"default"   => static::$customizer_elements[ $prefix . "background_head_color" ]["default"],
 							"transport" => $transport["instant"]
 						]
 					],
@@ -1035,7 +1054,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 					"setting" => [
 						"name" => $prefix . "background_head_color_2",
 						"data" => [
-							"default"   => static::$customizer_defaults[ $prefix . "background_head_color_2" ],
+							"default"   => static::$customizer_elements[ $prefix . "background_head_color_2" ]["default"],
 							"transport" => $transport["instant"]
 						]
 					],
@@ -1052,7 +1071,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 					"setting" => [
 						"name" => $prefix . "background_head_opacity",
 						"data" => [
-							"default"   => static::$customizer_defaults[ $prefix . "background_head_opacity" ],
+							"default"   => static::$customizer_elements[ $prefix . "background_head_opacity" ]["default"],
 							"transport" => $transport["instant"]
 						]
 					],
@@ -1066,25 +1085,89 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 						]
 					],
 				],
+
+
 				[
 					"setting" => [
 						"name" => $prefix . "background_head_image",
 						"data" => [
-							"default"   => static::$customizer_defaults[ $prefix . "background_head_image" ],
+							"default"   => static::$customizer_elements[ $prefix . "background_head_image" ]["default"],
 							"transport" => $transport["reload"]
 						]
 					],
 					"control" => [
 						"class" => "\WP_Customize_Media_Control",
 						"data"  => [
-							'section'  => $sections[1]["name"],
-							'label'    => __( 'Background Head Image', FAZZO_THEME_TXT ),
-							'mime_type'     => 'image',
-							'settings' => $prefix . "background_head_image",
+							'section'   => $sections[1]["name"],
+							'label'     => __( 'Background Head Image', FAZZO_THEME_TXT ),
+							'mime_type' => 'image',
+							'settings'  => $prefix . "background_head_image",
 						]
 					],
 				],
+				[
+					"setting" => [
+						"name" => $prefix . "background_head_image_size",
+						"data" => [
+							"default"   => static::$customizer_elements[ $prefix . "background_head_image_size" ]["default"],
+							"transport" => $transport["instant"]
+						]
+					],
+					"control" => [
+						"class" => "\WP_Customize_Control",
+						"data"  => [
+							'section'  => $sections[1]["name"],
+							'label'    => __( 'Background Size', FAZZO_THEME_TXT ),
+							'type'     => 'select',
+							'settings' => $prefix . "background_head_image_size",
+							'choices'  => [
+								'auto auto' => __( 'Original', FAZZO_THEME_TXT ),
+								'cover'     => __( 'Screen Fits', FAZZO_THEME_TXT ),
+								'contain'   => __( 'Full Screen', FAZZO_THEME_TXT ),
+							],
+						],
+					],
+				],
+				[
+					"setting" => [
+						"name" => $prefix . "background_head_image_repeat",
+						"data" => [
+							"default"   => static::$customizer_elements[ $prefix . "background_head_image_repeat" ]["default"],
+							"transport" => $transport["instant"]
+						]
+					],
+					"control" => [
+						"class" => "\WP_Customize_Control",
+						"data"  => [
+							'section'  => $sections[1]["name"],
+							'label'    => __( 'Background Repeat', FAZZO_THEME_TXT ),
+							'type'     => 'checkbox',
+							'settings' => $prefix . "background_head_image_repeat",
+						]
+					],
+				],
+				[
+					"setting" => [
+						"name" => $prefix . "background_head_image_scroll",
+						"data" => [
+							"default"   => static::$customizer_elements[ $prefix . "background_head_image_scroll" ]["default"],
+							"transport" => $transport["instant"]
+						]
+					],
+					"control" => [
+						"class" => "\WP_Customize_Control",
+						"data"  => [
+							'section'  => $sections[1]["name"],
+							'label'    => __( 'Background Scroll', FAZZO_THEME_TXT ),
+							'type'     => 'checkbox',
+							'settings' => $prefix . "background_head_image_scroll",
+						]
+					],
+				],
+
 			];
+
+
 
 
 			$javascript["header"] = "(function ($) {";
@@ -1352,39 +1435,39 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 
 			$mods = [];
 
-			foreach ( static::$customizer_defaults as $name => $value ) {
-				$mods[ $name ] = [
-					"value" => get_theme_mod( $name, static::$customizer_defaults[ $name ] ),
-					"data"  => static::$customizer_elements[ $name ]
-				];
-			}
 
 
-			foreach ( $mods as $name => $mod ) {
-				switch ( $mod["data"]["type"] ) {
+			foreach ( static::$customizer_elements as $setting => $data ) {
+				static::$customizer_elements[ $setting ]["default"] = get_theme_mod( $setting, $data["default"] );
+
+				switch ( static::$customizer_elements[ $setting ]["type"] ) {
 					case "background_color":
-						$rgb = functions::get_rgb_from_hex( $mod['value'] );
-						if ( isset( $mod["data"]["opacity"] ) ) {
-							$opacity = $mods[ $mod["data"]["opacity"] ]["value"];
+						if ( isset( static::$customizer_elements[ $setting ]["stop"] ) ) {
+							continue;
+						}
+						$rgb = functions::get_rgb_from_hex( static::$customizer_elements[ $setting ]['default'] );
+						if ( isset( static::$customizer_elements[ $setting ]["opacity"] ) ) {
+							$opacity = static::$customizer_elements[ static::$customizer_elements[ $setting ]["opacity"] ]["default"];
 						} else {
 							$opacity = 1;
 						}
-						if ( isset( $mod["data"]["gradient"] ) ) {
-							$rgb2                                = functions::get_rgb_from_hex( $mods[ $mod["data"]["gradient"] ]["value"]);
-							$css_ar[ $mod["data"]["element"] ][] = "background-image: linear-gradient(to bottom, rgba($rgb,$opacity) 50%, rgba($rgb2,$opacity) 100%);";
+						if ( isset( static::$customizer_elements[ $setting ]["gradient"] ) ) {
+							$rgb2                                                            = functions::get_rgb_from_hex( static::$customizer_elements[ static::$customizer_elements[ $setting ]["gradient"] ]["default"] );
+							$css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-image: linear-gradient(to bottom, rgba($rgb,$opacity) 50%, rgba($rgb2,$opacity) 100%);";
 						} else {
-							$css_ar[ $mod["data"]["element"] ][] = "background-color: $rgb,$opacity;";
+							$css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-color: $rgb,$opacity;";
 						}
 
 						break;
 					case "background_image":
-						if ( ! empty( $mod['value'] ) ) {
-							$image = wp_get_attachment_image_src( $mod['value'], "full" );
+						if ( ! empty( static::$customizer_elements[ $setting ]['default'] ) ) {
+							$image = wp_get_attachment_image_src( static::$customizer_elements[ $setting ]['default'], "full" );
 							if ( $image[0] ) {
-								$css_ar[ $mod["data"]["element"] ][] = "background-image: url('" . $image[0] . "');";
-								$css_ar[ $mod["data"]["element"] ][] = "background-position: top center;";
-								$css_ar[ $mod["data"]["element"] ][] = "background-repeat: repeat;";
-								$css_ar[ $mod["data"]["element"] ][] = "background-attachement: fixed;";
+								$css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-image: url('" . $image[0] . "');";
+								$css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-position: top center;";
+								$css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-repeat: repeat;";
+								$css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-attachement: fixed;";
+								static::$customizer_elements[ $setting ]["stop"]                 = true;
 							}
 						}
 						break;
@@ -1482,7 +1565,6 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 								= "opacity: " . $main_menu_opacity . ";";
 						}
 			*/
-
 
 
 			foreach ( $css_ar as $element => $rows ) {
