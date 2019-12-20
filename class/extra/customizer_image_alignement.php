@@ -7,7 +7,7 @@ use Exception;
 $dir_root = dirname( __FILE__ ) . "/../../";
 require_once( $dir_root . "security.php" );
 
-if ( ! class_exists( '\fazzo\customizer_image_alignement' ) ) {
+if ( ! class_exists( '\fazzo\customizer_image_alignement' ) && class_exists( '\WP_Customize_Control'  )) {
 
 	class customizer_image_alignement extends \WP_Customize_Control {
 
@@ -74,14 +74,17 @@ if ( ! class_exists( '\fazzo\customizer_image_alignement' ) ) {
 
 			$background_position = sprintf(
 				'%s %s',
-				get_theme_mod( $this->id .'_x', fazzo::$customizer_elements[$this->id.'_x'] ),
-				get_theme_mod( $this->id .'_y', fazzo::$customizer_elements[$this->id.'_y'] )
+				get_theme_mod( $this->id .'_x', fazzo::$customizer_elements[$this->id.'_position_x'] ),
+				get_theme_mod( $this->id .'_y', fazzo::$customizer_elements[$this->id.'_position_y'] )
 			);
 
 ?>
+            <div class="wrap" id="<?php echo $this->id;?>-wrapper">
+
 			<table class="form-table" role="presentation">
 			<tbody>
 		<input name="background-preset" type="hidden" value="custom">
+
 			<?php
 			$background_position_options = array(
 				array(
@@ -136,11 +139,11 @@ if ( ! class_exists( '\fazzo\customizer_image_alignement' ) ) {
 						<?php foreach ( $background_position_options as $group ) : ?>
 							<div class="button-group">
 								<?php foreach ( $group as $value => $input ) : ?>
-									<label>
-										<input class="screen-reader-text fazzo-custom-background-position" name="background-position" type="radio" value="<?php echo esc_attr( $value ); ?>"<?php checked( $value, $background_position ); ?>>
-										<span class="button display-options position"><span class="<?php echo esc_attr( $input['icon'] ); ?>" aria-hidden="true"></span></span>
-										<span class="screen-reader-text"><?php echo $input['label']; ?></span>
-									</label>
+                                    <label>
+                                        <input class="screen-reader-text" name="background-position" type="radio" value="<?php echo esc_attr( $value ); ?>"<?php checked( $value, $background_position ); ?>>
+                                        <span class="button display-options position fazzo-back-pos"><span class="<?php echo esc_attr( $input['icon'] ); ?>" aria-hidden="true"></span></span>
+                                        <span class="screen-reader-text"><?php echo $input['label']; ?></span>
+                                    </label>
 								<?php endforeach; ?>
 							</div>
 						<?php endforeach; ?>
@@ -149,9 +152,17 @@ if ( ! class_exists( '\fazzo\customizer_image_alignement' ) ) {
 		</tr>
 			</tbody>
 			</table>
+
 			<?php
 			wp_nonce_field( 'custom-background' );
+			?>
+
+</div>
+    <?php
 		}
+
+
 	}
 
 }
+

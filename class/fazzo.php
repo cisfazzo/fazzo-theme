@@ -62,7 +62,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 		 * @access public
 		 * @var string
 		 */
-		const version = '0.0.2';
+		const version = '0.0.19';
 
 		/**
 		 * Minimal erforderliche PHP-Version.
@@ -156,27 +156,27 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 
 
 			static::$customizer_elements = [
-				$prefix . "background_color_top"         => "#fefefe",
-				$prefix . "background_color_bottom"      => "#303030",
-				$prefix . "background_opacity"           => "0.6",
+				$prefix . "background_color_top"         => "#d8d8d8",
+				$prefix . "background_color_bottom"      => "#ffffff",
+				$prefix . "background_opacity"           => "1",
 				$prefix . "background_image"             => "",
-				$prefix . "background_image_position_x"        => false,
-				$prefix . "background_image_position_y"        => false,
+				$prefix . "background_image_position_x"        => "center",
+				$prefix . "background_image_position_y"        => "center",
 				$prefix . "background_image_size"        => "auto auto",
 				$prefix . "background_image_repeat"      => 1,
 				$prefix . "background_image_scroll"      => 1,
 				$prefix . "background_image_2"           => "",
-				$prefix . "background_image_2_position_x"        => false,
-				$prefix . "background_image_2_position_y"        => false,
+				$prefix . "background_image_2_position_x"        => "center",
+				$prefix . "background_image_2_position_y"        => "center",
 				$prefix . "background_image_2_size"      => "auto auto",
 				$prefix . "background_image_2_repeat"    => 1,
 				$prefix . "background_image_2_scroll"    => 1,
-				$prefix . "background_head_color_top"    => "#fefefe",
-				$prefix . "background_head_color_bottom" => "#303030",
+				$prefix . "background_head_color_top"    => "#ffffff",
+				$prefix . "background_head_color_bottom" => "#878787",
 				$prefix . "background_head_image"        => "",
-				$prefix . "background_head_image_position_x"        => false,
-				$prefix . "background_head_image_position_y"        => false,
-				$prefix . "background_head_opacity"      => "0.6",
+				$prefix . "background_head_image_position_x"        => "center",
+				$prefix . "background_head_image_position_y"        => "center",
+				$prefix . "background_head_opacity"      => "1",
 				$prefix . "background_head_image_size"   => "auto auto",
 				$prefix . "background_head_image_repeat" => 1,
 				$prefix . "background_head_image_scroll" => 1,
@@ -193,7 +193,8 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			self::update_plugin();
 
 			// Customizer
-			add_action( 'customize_preview_init', [ $this, 'customizer_preview' ] );
+			add_action( 'customize_preview_init', [ $this, 'customizer_preview_enqueue' ] );
+            add_action( 'customize_controls_enqueue_scripts',  [ $this, 'customizer_controls_enqueue' ] );
 			add_action( 'customize_register', [ $this, 'customizer_register' ] );
 			add_action( 'wp_head', [ $this, 'customizer_css' ] );
 
@@ -254,7 +255,8 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			// Metaboxen
 			add_action( "add_meta_boxes", [ $this, "register_meta_boxes" ] );
 
-
+            // Bugfix:
+            add_filter( ‘big_image_size_threshold’, ‘__return_false’ );
 		}
 
 		/**
@@ -827,20 +829,36 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 
 
 		/**
-		 * Customizer Preview
+		 * Customizer Preview enqueue Scripts and Styles
 		 * @return void
 		 * @since  1.0.0
 		 * @access public
 		 */
-		public function customizer_preview() {
+		public function customizer_preview_enqueue() {
 
-			wp_enqueue_script( 'fazzo-theme-customizer-js', get_template_directory_uri() . '/js/customizer.js', [
+			wp_enqueue_script( 'fazzo-theme-customizer-pre-js', get_template_directory_uri() . '/js/customizer_preview.js', [
 				'jquery',
 				'customize-preview',
 			], static::version, true );
 
 			wp_enqueue_style( "fazzo-theme-customizer-css", get_template_directory_uri() . "/css/customizer.css", [], static::version, 'all' );
 		}
+
+
+        /**
+         * Customizer Control enqueue Scripts and Styles
+         * @return void
+         * @since  1.0.0
+         * @access public
+         */
+        public function customizer_controls_enqueue() {
+
+            wp_enqueue_script( 'fazzo-theme-customizer-con-js', get_template_directory_uri() . '/js/customizer_controls.js', [
+                'jquery',
+                'customize-preview',
+            ], static::version, true );
+
+        }
 
 
 		/**
@@ -860,8 +878,8 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			$id_background_color_top    = $customizer->add_control( "color", "background_color_top", $section_background_style, __( 'Background Color Top', FAZZO_THEME_TXT ) );
 			$id_background_color_bottom = $customizer->add_control( "color", "background_color_bottom", $section_background_style, __( 'Background Color Bottom', FAZZO_THEME_TXT ) );
 			$id_background_opacity      = $customizer->add_control( "text", "background_opacity", $section_background_style, __( 'Background Color Opacity', FAZZO_THEME_TXT ) );
-			$customizer->add_control( "image", "background_image", $section_background_style, __( 'Background Image Layer 1', FAZZO_THEME_TXT ) );
-			$customizer->add_control( "image", "background_image_2", $section_background_style, __( 'Background Image Layer 2', FAZZO_THEME_TXT ) );
+            $id_background_image = $customizer->add_control( "image", "background_image", $section_background_style, __( 'Background Image Layer 1', FAZZO_THEME_TXT ) );
+            $id_background_image_2 = $customizer->add_control( "image", "background_image_2", $section_background_style, __( 'Background Image Layer 2', FAZZO_THEME_TXT ) );
 			$id_background_head_color_top    = $customizer->add_control( "color", "background_head_color_top", $section_head_style, __( 'Background Head Color Top', FAZZO_THEME_TXT ) );
 			$id_background_head_color_bottom = $customizer->add_control( "color", "background_head_color_bottom", $section_head_style, __( 'Background Head Color Bottom', FAZZO_THEME_TXT ) );
 			$id_background_head_opacity      = $customizer->add_control( "text", "background_head_opacity", $section_head_style, __( 'Background Head Opacity', FAZZO_THEME_TXT ) );
@@ -871,7 +889,10 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 (function ($) {
 			// CODE FOR {$id_background_color_top}:
 			wp.customize('{$id_background_color_top}', function (value) { value.bind(function (value_set) {
-			   	var opacity = wp.customize('{$id_background_opacity}').get();
+			   	var image = wp.customize('{$id_background_image_2}').get();
+			    if(image)
+			        return;
+			    var opacity = wp.customize('{$id_background_opacity}').get();
                 var color_2 = wp.customize('{$id_background_color_bottom}').get();
                 var rgba = hexToRgbA(value_set, opacity);
                 var rgba_2 = hexToRgbA(color_2, opacity);
@@ -879,6 +900,9 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			})})
 			// CODE FOR {$id_background_color_bottom}:
 			wp.customize('{$id_background_color_bottom}', function (value) { value.bind(function (value_set) {
+			    var image = wp.customize('{$id_background_image_2}').get();
+			    if(image)
+			        return;
 			    var opacity = wp.customize('{$id_background_opacity}').get();
                 var color = wp.customize('{$id_background_color_top}').get();
                 var rgba = hexToRgbA(color, opacity);
@@ -887,15 +911,91 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			})})
 			// CODE FOR {$id_background_opacity}:
 			wp.customize('{$id_background_opacity}', function (value) { value.bind(function (value_set) {
+			    var image = wp.customize('{$id_background_image_2}').get();
+			    if(image)
+			        return;
 			var color = wp.customize('{$id_background_color_top}').get();
 				var color_2 = wp.customize('{$id_background_color_bottom}').get();
                 var rgba = hexToRgbA(color, value_set);
                 var rgba_2 = hexToRgbA(color_2, value_set);
 				$('body').css('background-image', 'linear-gradient(to bottom, '+rgba+' 50%, '+rgba_2+' 100%)');
 			})})
+			
+			// CODE FOR {$id_background_image}_size:
+			wp.customize('{$id_background_image}_size', function (value) { value.bind(function (value_set) {
+			    var size = wp.customize('{$id_background_image}_size').get();
+				$('html').css('background-size', size);
+			})})
+			// CODE FOR {$id_background_image}_repeat:
+			wp.customize('{$id_background_image}_repeat', function (value) { value.bind(function (value_set) {
+			    var repeat = wp.customize('{$id_background_image}_repeat').get();
+			    if(repeat)
+			        repeat = 'repeat';
+			    else
+			        repeat = 'no-repeat';
+				$('html').css('background-repeat', repeat);
+			})})
+			// CODE FOR {$id_background_image}_scroll:
+			wp.customize('{$id_background_image}_scroll', function (value) { value.bind(function (value_set) {
+			    var scroll = wp.customize('{$id_background_image}_scroll').get();
+			    if(scroll)
+			        scroll = 'scroll';
+			    else
+			        scroll = 'fixed';
+				$('html').css('background-attachment ', scroll);
+			})})
+			// CODE FOR {$id_background_image}_position_x:
+			wp.customize('{$id_background_image}_position_x', function (value) { value.bind(function (value_set) {
+			    var position_y = wp.customize('{$id_background_image}_position_y').get();
+				$('html').css('background-position', value_set+" "+position_y);
+			})})
+			// CODE FOR {$id_background_image}_position_y:
+			wp.customize('{$id_background_image}_position_y', function (value) { value.bind(function (value_set) {
+			    var position_x = wp.customize('{$id_background_image}_position_x').get();
+				$('html').css('background-position', position_x+" "+value_set);
+			})})		
+			
+			// CODE FOR {$id_background_image_2}_size:
+			wp.customize('{$id_background_image_2}_size', function (value) { value.bind(function (value_set) {
+			    var size = wp.customize('{$id_background_image_2}_size').get();
+				$('body').css('background-size', size);
+			})})
+			// CODE FOR {$id_background_image_2}_repeat:
+			wp.customize('{$id_background_image_2}_repeat', function (value) { value.bind(function (value_set) {
+			    var repeat = wp.customize('{$id_background_image_2}_repeat').get();
+			    if(repeat)
+			        repeat = 'repeat';
+			    else
+			        repeat = 'no-repeat';
+				$('body').css('background-repeat', repeat);
+			})})
+			// CODE FOR {$id_background_image_2}_scroll:
+			wp.customize('{$id_background_image_2}_scroll', function (value) { value.bind(function (value_set) {
+			    var scroll = wp.customize('{$id_background_image_2}_scroll').get();
+			    if(scroll)
+			        scroll = 'scroll';
+			    else
+			        scroll = 'fixed';
+				$('body').css('background-attachment ', scroll);
+			})})
+			// CODE FOR {$id_background_image_2}_position_x:
+			wp.customize('{$id_background_image_2}_position_x', function (value) { value.bind(function (value_set) {
+			    var position_y = wp.customize('{$id_background_image_2}_position_y').get();
+				$('body').css('background-position', value_set+" "+position_y);
+			})})
+			// CODE FOR {$id_background_image_2}_position_y:
+			wp.customize('{$id_background_image_2}_position_y', function (value) { value.bind(function (value_set) {
+			    var position_x = wp.customize('{$id_background_image_2}_position_x').get();
+				$('body').css('background-position', position_x+" "+value_set);
+			})})		
+			
+			
 			// CODE FOR {$id_background_head_color_top}:
 			wp.customize('{$id_background_head_color_top}', function (value) { value.bind(function (value_set) {
-			   	var opacity = wp.customize('{$id_background_head_opacity}').get();
+			    var image = wp.customize('{$id_background_head_image}').get();
+			    if(image)
+			        return;
+			    var opacity = wp.customize('{$id_background_head_opacity}').get();
                 var color_2 = wp.customize('{$id_background_head_color_bottom}').get();
                 var rgba = hexToRgbA(value_set, opacity);
                 var rgba_2 = hexToRgbA(color_2, opacity);
@@ -903,6 +1003,9 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			})})
 			// CODE FOR {$id_background_head_color_bottom}:
 			wp.customize('{$id_background_head_color_bottom}', function (value) { value.bind(function (value_set) {
+			    var image = wp.customize('{$id_background_head_image}').get();
+			    if(image)
+			        return;
 			    var opacity = wp.customize('{$id_background_head_opacity}').get();
                 var color = wp.customize('{$id_background_head_color_top}').get();
                 var rgba = hexToRgbA(color, opacity);
@@ -911,12 +1014,17 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			})})
 			// CODE FOR {$id_background_head_opacity}:
 			wp.customize('{$id_background_head_opacity}', function (value) { value.bind(function (value_set) {
-			var color = wp.customize('{$id_background_head_color_top}').get();
+			    var image = wp.customize('{$id_background_head_image}').get();
+			    if(image)
+			        return;			    
+			    var color = wp.customize('{$id_background_head_color_top}').get();
 				var color_2 = wp.customize('{$id_background_head_color_bottom}').get();
                 var rgba = hexToRgbA(color, value_set);
                 var rgba_2 = hexToRgbA(color_2, value_set);
 				$('#head-full-wrapper').css('background-image', 'linear-gradient(to bottom, '+rgba+' 50%, '+rgba_2+' 100%)');
 			})})
+			
+			
 			// CODE FOR {$id_background_head_image}_size:
 			wp.customize('{$id_background_head_image}_size', function (value) { value.bind(function (value_set) {
 			    var size = wp.customize('{$id_background_head_image}_size').get();
@@ -938,11 +1046,22 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			        scroll = 'scroll';
 			    else
 			        scroll = 'fixed';
-				$('#head-full-wrapper').css('background-attachement', scroll);
+				$('#head-full-wrapper').css('background-attachment ', scroll);
 			})})
+			// CODE FOR {$id_background_head_image}_position_x:
+			wp.customize('{$id_background_head_image}_position_x', function (value) { value.bind(function (value_set) {
+			    var position_y = wp.customize('{$id_background_head_image}_position_y').get();
+				$('#head-full-wrapper').css('background-position', value_set+" "+position_y);
+			})})
+			// CODE FOR {$id_background_head_image}_position_y:
+			wp.customize('{$id_background_head_image}_position_y', function (value) { value.bind(function (value_set) {
+			    var position_x = wp.customize('{$id_background_head_image}_position_x').get();
+				$('#head-full-wrapper').css('background-position', position_x+" "+value_set);
+			})})			
 })(jQuery);		
+
 JS;
-			wp_register_script( 'dummy-handle-footer', '', [ "fazzo-theme-customizer-js" ], static::version, true );
+			wp_register_script( 'dummy-handle-footer', '', [ "fazzo-theme-customizer-pre-js" ], static::version, true );
 			wp_enqueue_script( 'dummy-handle-footer' );
 			wp_add_inline_script( 'dummy-handle-footer', $js_content, 'after' );
 
@@ -1175,7 +1294,7 @@ JS;
 											$css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-image: url('" . $image[0] . "');";
 											$css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-position: top center;";
 											$css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-repeat: repeat;";
-											$css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-attachement: fixed;";
+											$css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-attachment : fixed;";
 											static::$customizer_elements[ $setting ]["stop"]                 = true;
 										}
 									}
@@ -1192,38 +1311,124 @@ JS;
 
 			$image_src = wp_get_attachment_image_src( $this->get_mod( "background_head_image" ), "full" );
 			if ( $image_src[0] ) {
-				$image = $image_src[0];
-				$size = $this->get_mod( "background_head_image_size" );
-				$repeat = $this->get_mod( "background_head_image_scroll" );
-				if ( $repeat ) {
-					$repeat = "repeat";
-				} else {
-					$repeat = "no-repeat";
-				}
-				$scroll = $this->get_mod( "background_head_image_repeat" );
-				if ( $repeat ) {
-					$repeat = "scroll";
-				} else {
-					$repeat = "fixed";
-				}
-
-
-				$style .= <<<CSS
-
+                $image = $image_src[0];
+                $size = $this->get_mod("background_head_image_size");
+                $repeat = $this->get_mod("background_head_image_repeat");
+                if ($repeat) {
+                    $repeat = "repeat";
+                } else {
+                    $repeat = "no-repeat";
+                }
+                $scroll = $this->get_mod("background_head_image_scroll");
+                if ($scroll) {
+                    $scroll = "scroll";
+                } else {
+                    $scroll = "fixed";
+                }
+                $position_x = $this->get_mod("background_head_image_position_x");
+                $position_y = $this->get_mod("background_head_image_position_y");
+                $style .= <<<CSS
 #head-full-wrapper {
 	background-image: url('{$image}');
-	background-position: top center;
+	background-position: {$position_x} {$position_y};
 	background-size: {$size};
 	background-repeat: {$repeat};
-	background-attachement: {$scroll};
+	background-attachment : {$scroll};
 }
-
 CSS;
-			} else {
+            }
+            else
+                {
+                    $opacity = $this->get_mod( "background_head_opacity" );
+                    $color_top = $this->get_mod( "background_head_color_top" );
+                    $color_bottom = $this->get_mod( "background_head_color_bottom" );
+                    $rgba_top = functions::get_rgb_from_hex($color_top).",".$opacity;
+                    $rgba_bottom = functions::get_rgb_from_hex($color_bottom).",".$opacity;
 
-			}
+                    $style .= <<<CSS
+#head-full-wrapper {
+	background-image: linear-gradient(to bottom, rgba({$rgba_top}) 50%, rgba({$rgba_bottom}) 100%);
+}
+CSS;
+                }
 
-			echo "<style>" . $style . "</style>";
+
+			$image_src = wp_get_attachment_image_src( $this->get_mod( "background_image" ), "full" );
+            if ( $image_src[0] ) {
+                $image = $image_src[0];
+                $size = $this->get_mod( "background_image_size" );
+                $repeat = $this->get_mod( "background_image_repeat" );
+                if ( $repeat ) {
+                    $repeat = "repeat";
+                } else {
+                    $repeat = "no-repeat";
+                }
+                $scroll = $this->get_mod( "background_image_scroll" );
+                if ( $scroll ) {
+                    $scroll = "scroll";
+                } else {
+                    $scroll = "fixed";
+                }
+                $position_x = $this->get_mod( "background_image_position_x" );
+                $position_y = $this->get_mod( "background_image_position_y" );
+                $style .= <<<CSS
+html {
+	background-image: url('{$image}');
+	background-position: {$position_x} {$position_y};
+	background-size: {$size};
+	background-repeat: {$repeat};
+	background-attachment : {$scroll};
+}
+CSS;
+
+            }
+            $image_src = wp_get_attachment_image_src( $this->get_mod( "background_image_2" ), "full" );
+            if ( $image_src[0] ) {
+                $image = $image_src[0];
+                $size = $this->get_mod( "background_image_2_size" );
+                $repeat = $this->get_mod( "background_image_2_repeat" );
+                if ( $repeat ) {
+                    $repeat = "repeat";
+                } else {
+                    $repeat = "no-repeat";
+                }
+                $scroll = $this->get_mod( "background_image_2_scroll" );
+                if ( $scroll ) {
+                    $scroll = "scroll";
+                } else {
+                    $scroll = "fixed";
+                }
+                $position_x = $this->get_mod( "background_image_2_position_x" );
+                $position_y = $this->get_mod( "background_image_2_position_y" );
+                $style .= <<<CSS
+body {
+	background-image: url('{$image}');
+	background-position: {$position_x} {$position_y};
+	background-size: {$size};
+	background-repeat: {$repeat};
+	background-attachment : {$scroll};
+}
+CSS;
+            }
+            else
+            {
+                $opacity = $this->get_mod( "background_opacity" );
+                $color_top = $this->get_mod( "background_color_top" );
+                $color_bottom = $this->get_mod( "background_color_bottom" );
+                $rgba_top = functions::get_rgb_from_hex($color_top).",".$opacity;
+                $rgba_bottom = functions::get_rgb_from_hex($color_bottom).",".$opacity;
+
+                $style .= <<<CSS
+body {
+	background-image: linear-gradient(to bottom, rgba({$rgba_top}) 50%, rgba({$rgba_bottom}) 100%);
+}
+CSS;
+            }
+
+
+
+
+            echo "<style>" . $style . "</style>";
 
 
 			/*

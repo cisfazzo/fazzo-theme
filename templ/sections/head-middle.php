@@ -40,11 +40,10 @@ if ( is_active_sidebar( 'fazzo-sidebar-head' ) ) {
 						$fazzo_description = single_post_title( "", false );
 					} ?>
                     <div id="head-text">
-                    <h1 id="head-title"><a href="<?php echo get_option( 'home' ); ?>"><?php bloginfo( "name" ); ?></a>
-                    </h1>
+                    <h1 id="head-title"><a href="<?php echo get_option( 'home' ); ?>"><?php bloginfo( "name" ); ?></a></h1>
 					<?php if ( ! empty( $fazzo_description ) &&  $display_description) { ?>
                         <div id="head-description"><span><?php echo $fazzo_description; ?></span></div><?php } ?>
-                        </div><!-- head-text -->
+                    </div><!-- head-text -->
                 <?php } ?>
             </div><!-- head-bloginfo-wrapper -->
 

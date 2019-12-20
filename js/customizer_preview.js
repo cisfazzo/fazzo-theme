@@ -12,3 +12,4 @@ function hexToRgbA(hex, opacity) {
     }
     throw new Error('Bad Hex')
 }
+

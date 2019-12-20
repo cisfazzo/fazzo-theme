@@ -27,6 +27,8 @@ $.fn.onPositionChanged = function (trigger, millis) {
 };
 
 
+
+
 $(function () {
     'use strict'
 
@@ -34,7 +36,7 @@ $(function () {
         $('.offcanvas-collapse').toggleClass('open')
     })
 
-
+/*
     const {easing, tween, styler, value, posed, physics} = window.popmotion;
     const divStyler = styler(document.querySelector('#head-title'));
     tween({
@@ -47,7 +49,7 @@ $(function () {
         // loop: 5,
         // yoyo: 5
     }).start(divStyler.set);
-
+*/
     $('#head-top-right-wrapper #search-collapse').click(function () {
 
         $('#head-top-right-wrapper .search-field').css("display", "inline-block").animate({opacity: 1}, 800);
@@ -56,7 +58,7 @@ $(function () {
         $('#head-top-right-wrapper .search-field').focus();
 
     });
-
+/*
     function fazzo_bar(inner, id, duration, seek, style, jsonstyle1, jsonstyle2) {
         var adjust = 2;
         $(inner).prepend($("<div id='" + id + "' style='" + style + "'></div>"));
@@ -142,6 +144,7 @@ $(function () {
     setTimeout(function () {
         fazzo_disco();
     }, disco_time);
+    */
 
     function fazzo_trigger_mouseenter(element) {
         element.addClass('hover');
