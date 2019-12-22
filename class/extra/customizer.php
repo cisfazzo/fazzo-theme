@@ -155,6 +155,16 @@ if ( ! class_exists( '\fazzo\customizer' ) ) {
 						"transport" => $this->transport["instant"],
 					] );
 					break;
+                case "color":
+                    $this->wp_customize->add_setting( $id, [
+                        "default"   => fazzo::$customizer_elements[ $id ],
+                        "transport" => $this->transport["instant"],
+                    ] );
+                    $this->wp_customize->add_setting( $id."_transparent", [
+                        "default"   => fazzo::$customizer_elements[ $id."_transparent" ],
+                        "transport" => $this->transport["instant"],
+                    ] );
+                    break;
 				default:
 					$this->wp_customize->add_setting( $id, [
 						"default"   => fazzo::$customizer_elements[ $id ],
@@ -260,6 +270,13 @@ if ( ! class_exists( '\fazzo\customizer' ) ) {
 							'label'    => $title,
 							'settings' => $id,
 						] ) );
+                    $this->wp_customize->add_control( new \WP_Customize_Control( $this->wp_customize, $id."_transparent",
+                        [
+                            'section'  => $to_id,
+                            'label'    => $title." ".__("Transparent", FAZZO_THEME_TXT),
+                            'type'     => 'checkbox',
+                            'settings' => $id."_transparent",
+                        ] ) );
 					break;
 				default:
 					// Do nothing

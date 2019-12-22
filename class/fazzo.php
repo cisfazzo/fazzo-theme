@@ -4,845 +4,893 @@ namespace fazzo;
 
 use Exception;
 
-$dir_root = dirname( __FILE__ ) . "/../";
-require_once( $dir_root . "security.php" );
+$dir_root = dirname(__FILE__) . "/../";
+require_once($dir_root . "security.php");
 
 
-$fazzo_require_subdirs = [ "widgets", "customizer", "extra" ];
+$fazzo_require_subdirs = ["widgets", "customizer", "extra"];
 
-foreach ( $fazzo_require_subdirs as $fazzo_require_subdir ) {
+foreach ($fazzo_require_subdirs as $fazzo_require_subdir) {
 
-	$path = dirname( __FILE__ ) . "/" . $fazzo_require_subdir . "/";
-	if ( is_dir( $path ) ) {
-		$files = scandir( $path );
-		if ( ! empty( $files ) && is_array( $files ) ) {
-			foreach ( $files as $filename ) {
-				$path = dirname( __FILE__ ) . "/" . $fazzo_require_subdir . '/' . $filename;
+    $path = dirname(__FILE__) . "/" . $fazzo_require_subdir . "/";
+    if (is_dir($path)) {
+        $files = scandir($path);
+        if (!empty($files) && is_array($files)) {
+            foreach ($files as $filename) {
+                $path = dirname(__FILE__) . "/" . $fazzo_require_subdir . '/' . $filename;
 
-				if ( is_file( $path ) ) {
+                if (is_file($path)) {
 
-					require_once $path;
-				}
-			}
-		}
-	}
+                    require_once $path;
+                }
+            }
+        }
+    }
 }
 
 // Aktionen, wenn das Plugin aktiviert, bzw. deaktiviert wird:
-register_activation_hook( __FILE__, [ 'fazzo', 'activation' ] );
-register_deactivation_hook( __FILE__, [ 'fazzo', 'deactivation' ] );
+register_activation_hook(__FILE__, ['fazzo', 'activation']);
+register_deactivation_hook(__FILE__, ['fazzo', 'deactivation']);
 
-if ( ! class_exists( '\fazzo\fazzo' ) ) {
+if (!class_exists('\fazzo\fazzo')) {
 
-	/*
-	 * FAZZO-Theme-Haupt-Klasse
-	 */
+    /*
+     * FAZZO-Theme-Haupt-Klasse
+     */
 
-	class fazzo {
+    class fazzo
+    {
 
-		/**
-		 * Name der Variable unter der die Einstellungen des Plugins gespeichert werden.
-		 * @since  1.0.0
-		 * @access public
-		 * @var string
-		 */
-		const option_name = 'fazzo';
+        /**
+         * Name der Variable unter der die Einstellungen des Plugins gespeichert werden.
+         * @since  1.0.0
+         * @access public
+         * @var string
+         */
+        const option_name = 'fazzo';
 
-		/**
-		 * Name der Variable zum Zwecke der Aktualisierung des Plugins.
-		 * @since  1.0.0
-		 * @access public
-		 * @var string
-		 */
-		const version_option_name = 'fazzo_version';
+        /**
+         * Name der Variable zum Zwecke der Aktualisierung des Plugins.
+         * @since  1.0.0
+         * @access public
+         * @var string
+         */
+        const version_option_name = 'fazzo_version';
 
-		/**
-		 * Version des Plugins
-		 * @since  1.0.0
-		 * @access public
-		 * @var string
-		 */
-		const version = '0.0.19';
+        /**
+         * Version des Plugins
+         * @since  1.0.0
+         * @access public
+         * @var string
+         */
+        const version = '0.0.19';
 
-		/**
-		 * Minimal erforderliche PHP-Version.
-		 * @since  1.0.0
-		 * @access public
-		 * @var string
-		 */
-		const php_version = '7.2';
+        /**
+         * Minimal erforderliche PHP-Version.
+         * @since  1.0.0
+         * @access public
+         * @var string
+         */
+        const php_version = '7.2';
 
-		/**
-		 * Minimal erforderliche WordPress-Version.
-		 * @since  1.0.0
-		 * @access public
-		 * @var string
-		 */
-		const wp_version = '5.2.3';
+        /**
+         * Minimal erforderliche WordPress-Version.
+         * @since  1.0.0
+         * @access public
+         * @var string
+         */
+        const wp_version = '5.2.3';
 
-		/**
-		 * Optionen des Plugins
-		 * @since  1.0.0
-		 * @access public
-		 * @var array
-		 */
-		public static $options;
+        /**
+         * Optionen des Plugins
+         * @since  1.0.0
+         * @access public
+         * @var array
+         */
+        public static $options;
 
-		/**
-		 * Ein Prefix
-		 * @since  1.0.0
-		 * @access public
-		 * @var array
-		 */
-		public static $prefix = "fazzo_";
+        /**
+         * Ein Prefix
+         * @since  1.0.0
+         * @access public
+         * @var array
+         */
+        public static $prefix = "fazzo_";
 
-		/**
-		 * Bezieht sich auf eine einzige Instanz dieser Klasse.
-		 * @since  1.0.0
-		 * @access protected
-		 * @var object
-		 */
-		protected static $instance = null;
-
-
-		/**
-		 * Erstellt und gibt eine Instanz der Klasse zurück.
-		 * @return object
-		 * @since  1.0.0
-		 * @access public
-		 * @static
-		 */
-		public static function instance() {
-			if ( null == self::$instance ) {
-				self::$instance = new self;
-			}
-
-			return self::$instance;
-		}
-
-		/**
-		 * Customizer CSS Elemente
-		 * @since  1.0.0
-		 * @access public
-		 * @var array
-		 * @static
-		 */
-		public static $customizer_elements = [];
-
-		/**
-		 * PHP constructor.
-		 * @since  1.0.0
-		 * @access public
-		 */
-		private function __construct() {
-
-			$prefix = static::$prefix;
+        /**
+         * Bezieht sich auf eine einzige Instanz dieser Klasse.
+         * @since  1.0.0
+         * @access protected
+         * @var object
+         */
+        protected static $instance = null;
 
 
-			/*
-			 *
+        /**
+         * Erstellt und gibt eine Instanz der Klasse zurück.
+         * @return object
+         * @since  1.0.0
+         * @access public
+         * @static
+         */
+        public static function instance()
+        {
+            if (null == self::$instance) {
+                self::$instance = new self;
+            }
 
-				"head_full_wrapper_display"        => true,
-				"head_top_right_wrapper_display"   => true,
-				"head_middle_full_wrapper_display" => true,
-				"head_description_display"         => true,
-				"post_nav_display"                 => true,
+            return self::$instance;
+        }
 
-				"fazzo_main_menu_color"        => "#CCCCCC",
-				"fazzo_main_menu_color2"       => "#333333",
-				"fazzo_main_menu_border_color" => "#dddddd",
-				"fazzo_main_menu_opacity"      => "1",
-			 */
+        /**
+         * Customizer CSS Elemente
+         * @since  1.0.0
+         * @access public
+         * @var array
+         * @static
+         */
+        public static $customizer_elements = [];
 
+        /**
+         * PHP constructor.
+         * @since  1.0.0
+         * @access public
+         */
+        private function __construct()
+        {
 
-			static::$customizer_elements = [
-				$prefix . "background_color_top"         => "#d8d8d8",
-				$prefix . "background_color_bottom"      => "#ffffff",
-				$prefix . "background_opacity"           => "1",
-				$prefix . "background_image"             => "",
-				$prefix . "background_image_position_x"        => "center",
-				$prefix . "background_image_position_y"        => "center",
-				$prefix . "background_image_size"        => "auto auto",
-				$prefix . "background_image_repeat"      => 1,
-				$prefix . "background_image_scroll"      => 1,
-				$prefix . "background_image_2"           => "",
-				$prefix . "background_image_2_position_x"        => "center",
-				$prefix . "background_image_2_position_y"        => "center",
-				$prefix . "background_image_2_size"      => "auto auto",
-				$prefix . "background_image_2_repeat"    => 1,
-				$prefix . "background_image_2_scroll"    => 1,
-				$prefix . "background_head_color_top"    => "#ffffff",
-				$prefix . "background_head_color_bottom" => "#878787",
-				$prefix . "background_head_image"        => "",
-				$prefix . "background_head_image_position_x"        => "center",
-				$prefix . "background_head_image_position_y"        => "center",
-				$prefix . "background_head_opacity"      => "1",
-				$prefix . "background_head_image_size"   => "auto auto",
-				$prefix . "background_head_image_repeat" => 1,
-				$prefix . "background_head_image_scroll" => 1,
-			];
+            $prefix = static::$prefix;
 
 
-			// Sprachdateien werden eingebunden:
-			self::load_textdomain();
+            /*
+             *
 
-			// Erhalte die Einstellungen zum Plugin:
-			self::get_options();
+                "head_full_wrapper_display"        => true,
+                "head_top_right_wrapper_display"   => true,
+                "head_middle_full_wrapper_display" => true,
+                "head_description_display"         => true,
+                "post_nav_display"                 => true,
 
-			// Aktualisierung des Plugins (ggf):
-			self::update_plugin();
+                "fazzo_main_menu_color"        => "#CCCCCC",
+                "fazzo_main_menu_color2"       => "#333333",
+                "fazzo_main_menu_border_color" => "#dddddd",
+                "fazzo_main_menu_opacity"      => "1",
+             */
 
-			// Customizer
-			add_action( 'customize_preview_init', [ $this, 'customizer_preview_enqueue' ] );
-            add_action( 'customize_controls_enqueue_scripts',  [ $this, 'customizer_controls_enqueue' ] );
-			add_action( 'customize_register', [ $this, 'customizer_register' ] );
-			add_action( 'wp_head', [ $this, 'customizer_css' ] );
 
-			// Enable Builtin Options
-			add_theme_support( "post-thumbnails" );
-			add_theme_support( "custom-header" );
-			add_theme_support( 'title-tag' );
-			add_theme_support( 'html5', [
-				'comment-form',
-				'comment-list',
-				'gallery',
-				'caption',
-			] );
-			add_theme_support( 'post-formats', [
-				'image',
-				'video',
-				'gallery',
-				'audio',
-			] );
-			add_theme_support( 'customize-selective-refresh-widgets' );
+            static::$customizer_elements = [
+                $prefix . "background_color_top" => "#d8d8d8",
+                $prefix . "background_color_bottom" => "#ffffff",
+                $prefix . "background_color_top_transparent" => 0,
+                $prefix . "background_color_bottom_transparent" => 0,
+                $prefix . "background_opacity" => "1",
+                $prefix . "background_image" => "",
+                $prefix . "background_image_position_x" => "center",
+                $prefix . "background_image_position_y" => "center",
+                $prefix . "background_image_size" => "auto auto",
+                $prefix . "background_image_repeat" => 1,
+                $prefix . "background_image_scroll" => 1,
+                $prefix . "background_image_2" => "",
+                $prefix . "background_image_2_position_x" => "center",
+                $prefix . "background_image_2_position_y" => "center",
+                $prefix . "background_image_2_size" => "auto auto",
+                $prefix . "background_image_2_repeat" => 1,
+                $prefix . "background_image_2_scroll" => 1,
+                $prefix . "background_head_color_top" => "#ffffff",
+                $prefix . "background_head_color_bottom" => "#878787",
+                $prefix . "background_head_color_top_transparent" => 0,
+                $prefix . "background_head_color_bottom_transparent" => 0,
+                $prefix . "background_head_image" => "",
+                $prefix . "background_head_image_position_x" => "center",
+                $prefix . "background_head_image_position_y" => "center",
+                $prefix . "background_head_opacity" => "1",
+                $prefix . "background_head_image_size" => "auto auto",
+                $prefix . "background_head_image_repeat" => 1,
+                $prefix . "background_head_image_scroll" => 1,
 
-			// Menüs des Themes
-			add_action( "after_setup_theme", [ $this, "register_menus" ] );
+                $prefix . "background_nav_top_color_top" => "#ffffff",
+                $prefix . "background_nav_top_color_bottom" => "#878787",
+                $prefix . "background_nav_top_color_top_transparent" => 0,
+                $prefix . "background_nav_top_color_bottom_transparent" => 0,
+                $prefix . "background_nav_top_image" => "",
+                $prefix . "background_nav_top_image_position_x" => "center",
+                $prefix . "background_nav_top_image_position_y" => "center",
+                $prefix . "background_nav_top_opacity" => "1",
+                $prefix . "background_nav_top_image_size" => "auto auto",
+                $prefix . "background_nav_top_image_repeat" => 1,
+                $prefix . "background_nav_top_image_scroll" => 1,
+            ];
 
-			// Sidebars aktivieren
-			add_action( 'widgets_init', [ $this, 'register_sidebars' ] );
 
-			// Scripte einbinden
-			add_action( "admin_enqueue_scripts", [ $this, "load_admin_scripts" ] );
-			add_action( "wp_enqueue_scripts", [ $this, "load_frontend_scripts" ] );
+            // Sprachdateien werden eingebunden:
+            self::load_textdomain();
 
-			// Nav Link CSS Manipulation
-			add_filter( 'next_posts_link_attributes', [ $this, 'nav_link_attributes' ] );
-			add_filter( 'previous_posts_link_attributes', [ $this, "nav_link_attributes" ] );
+            // Erhalte die Einstellungen zum Plugin:
+            self::get_options();
 
-			// Excerpt Manipulation
-			add_filter( 'excerpt_length', [ $this, 'new_excerpt_length' ] );
-			add_filter( 'excerpt_more', [ $this, 'new_excerpt_more' ] );
+            // Aktualisierung des Plugins (ggf):
+            self::update_plugin();
 
-			// Shortcode
-			add_shortcode( 'fazzo-year', [ $this, "shortcode_year" ] );
-			add_shortcode( 'fazzo-title', [ $this, "shortcode_blog_title" ] );
-			add_shortcode( 'fazzo-description', [ $this, "shortcode_blog_description" ] );
+            // Customizer
+            add_action('customize_preview_init', [$this, 'customizer_preview_enqueue']);
+            add_action('customize_controls_enqueue_scripts', [$this, 'customizer_controls_enqueue']);
+            add_action('customize_register', [$this, 'customizer_register']);
+            add_action('wp_head', [$this, 'customizer_css']);
 
-			// additional image sizes
-			add_image_size( 'fazzo-featured-image', 9999, 330 );
-			add_image_size( 'fazzo-nav-image', 9999, 20 );
+            // Enable Builtin Options
+            add_theme_support("post-thumbnails");
+            add_theme_support("custom-header");
+            add_theme_support('title-tag');
+            add_theme_support('html5', [
+                'comment-form',
+                'comment-list',
+                'gallery',
+                'caption',
+            ]);
+            add_theme_support('post-formats', [
+                'image',
+                'video',
+                'gallery',
+                'audio',
+            ]);
+            add_theme_support('customize-selective-refresh-widgets');
 
-			// Custom Widgets
-			add_action( 'widgets_init', [ $this, 'register_widgets' ] );
+            // Menüs des Themes
+            add_action("after_setup_theme", [$this, "register_menus"]);
 
-			// Zeige diese Optionsseite nur an, wenn der User die Rechte dazu hat:
-			if ( current_user_can( 'manage_options' ) ) {
-				// Zeige Optionsseite an
-				add_action( 'admin_menu', [ $this, 'settings_page' ] );
-			}
+            // Sidebars aktivieren
+            add_action('widgets_init', [$this, 'register_sidebars']);
 
-			// Metaboxen
-			add_action( "add_meta_boxes", [ $this, "register_meta_boxes" ] );
+            // Scripte einbinden
+            add_action("admin_enqueue_scripts", [$this, "load_admin_scripts"]);
+            add_action("wp_enqueue_scripts", [$this, "load_frontend_scripts"]);
+
+            // Nav Link CSS Manipulation
+            add_filter('next_posts_link_attributes', [$this, 'nav_link_attributes']);
+            add_filter('previous_posts_link_attributes', [$this, "nav_link_attributes"]);
+
+            // Excerpt Manipulation
+            add_filter('excerpt_length', [$this, 'new_excerpt_length']);
+            add_filter('excerpt_more', [$this, 'new_excerpt_more']);
+
+            // Shortcode
+            add_shortcode('fazzo-year', [$this, "shortcode_year"]);
+            add_shortcode('fazzo-title', [$this, "shortcode_blog_title"]);
+            add_shortcode('fazzo-description', [$this, "shortcode_blog_description"]);
+
+            // additional image sizes
+            add_image_size('fazzo-featured-image', 9999, 330);
+            add_image_size('fazzo-nav-image', 9999, 20);
+
+            // Custom Widgets
+            add_action('widgets_init', [$this, 'register_widgets']);
+
+            // Zeige diese Optionsseite nur an, wenn der User die Rechte dazu hat:
+            if (current_user_can('manage_options')) {
+                // Zeige Optionsseite an
+                add_action('admin_menu', [$this, 'settings_page']);
+            }
+
+            // Metaboxen
+            add_action("add_meta_boxes", [$this, "register_meta_boxes"]);
 
             // Bugfix:
-            add_filter( ‘big_image_size_threshold’, ‘__return_false’ );
-		}
-
-		/**
-		 * Aktionen bei Plugin Aktivierung
-		 *
-		 * @param $network_wide boolean Teilt mit, ob Netzwerkweit aktiviert werden soll
-		 *
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 * @static
-		 *
-		 */
-		public static function activation( $network_wide ) {
-			// Sprachdateien werden eingebunden.
-			self::load_textdomain();
-
-			// Überprüft die minimal erforderliche PHP- u. WP-Version.
-			self::check_system_requirements();
-
-			// Aktualisierung des Plugins (ggf).
-			self::update_plugin();
-		}
-
-		/**
-		 * Aktionen bei Plugin Deaktivierung
-		 *
-		 * @param $network_wide boolean Teilt mit, ob Netzwerkweit aktiviert werden soll
-		 *
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 * @static
-		 *
-		 */
-		public static function deactivation( $network_wide ) {
-			self::delete_options();
-		}
-
-		/**
-		 * Einbindung der Sprachdateien
-		 * @return void
-		 * @since  1.0.0
-		 * @access protected
-		 * @static
-		 */
-		protected static function load_textdomain() {
-			load_plugin_textdomain( FAZZO_THEME_TXT, false, sprintf( '%s/lang/', dirname( plugin_basename( __FILE__ ) ) ) );
-		}
-
-
-		/**
-		 * Überprüft die minimal erforderliche PHP- u. WP-Version
-		 * @return void
-		 * @since  1.0.0
-		 * @access protected
-		 * @static
-		 */
-		protected static function check_system_requirements() {
-			$error = '';
-
-			if ( version_compare( PHP_VERSION, self::php_version, '<' ) ) {
-				$error = sprintf( __( 'FAZZO-Theme: Your server is running PHP version %s. Please upgrade at least to PHP version %s.', FAZZO_THEME_TXT ), PHP_VERSION, self::wp_version );
-			}
-
-			if ( version_compare( $GLOBALS['wp_version'], self::wp_version, '<' ) ) {
-				$error = sprintf( __( 'FAZZO-Theme: Your Wordpress version is %s. Please upgrade at least to Wordpress version %s.', FAZZO_THEME_TXT ), $GLOBALS['wp_version'], self::wp_version );
-			}
-
-			if ( ! empty( $error ) ) {
-				deactivate_plugins( plugin_basename( __FILE__ ), false, true );
-				wp_die( $error );
-			}
-		}
-
-
-		/**
-		 * Aktualisiere Plugin, wenn nötig
-		 * @return void
-		 * @since  1.0.0
-		 * @access protected
-		 * @static
-		 */
-		private static function update_plugin() {
-			$version_stored = get_option( static::version_option_name, '0' );
-
-			if ( version_compare( $version_stored, static::version, '<' ) ) {
-				// Führe Update durch:
-				update_option( static::version_option_name, static::version );
-			}
-		}
-
-		/**
-		 * Löscht alle Einstellungen
-		 * @return void
-		 * @since  1.0.0
-		 * @access protected
-		 * @static
-		 */
-		protected static function delete_options() {
-			delete_option( static::option_name );
-			delete_option( self::version_option_name );
-		}
-
-
-		/**
-		 * Setzt die Einstellungen und Eigenschaften, mit Berücksichtung auf Default Einstellungen
-		 * @return void
-		 * @since  1.0.0
-		 * @access protected
-		 * @static
-		 */
-		protected static function get_options() {
-
-			$defaults = static::default_options();
-
-			$options = get_option( static::option_name );
-			if ( $options === false ) {
-				$options = [];
-			}
-
-			functions::parse_args_multidim( $options, $defaults );
-
-			static::$options = $options;
-			static::set_class_properties();
-		}
-
-		/**
-		 * Standardeinstellungen definieren
-		 * @return array
-		 * @since  1.0.0
-		 * @access protected
-		 * @static
-		 */
-		private static function default_options() {
-			// Multidimensionales Array ist möglich:
-			$options = [ "load_bootstrap" => 1 ];
-			$options = [ "paged_menu" => 0 ];
-
-			return $options;
-		}
-
-		/**
-		 * Setzt die Eigenschaften der Klasse
-		 * @return void
-		 * @since  1.0.0
-		 * @access protected
-		 * @static
-		 */
-		protected static function set_class_properties() {
-
-			if ( isset( static::$options["customizer_elements"] ) && ! empty( static::$options["customizer_elements"] ) ) {
-				static::$customizer_elements = static::$options["customizer_elements"];
-			}
-		}
-
-
-		/**
-		 * Die Menü Positionen des Themes bekannt geben
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function register_menus() {
-			register_nav_menu( "meta-bottom-nav", "Bottom-Menu" );
-			register_nav_menu( "meta-content-nav", "Content-Menu" );
-			register_nav_menu( "meta-frontpage-nav", "Frontpage-Menu" );
-			register_nav_menu( "meta-head-nav", "Head-Menu" );
-			register_nav_menu( "meta-top-nav", "Top-Menu" );
-		}
-
-
-		/**
-		 * Sidebars für die Startseite aktivieren
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function register_sidebars() {
-
-			// Bottom
-
-			register_sidebar( [
-				'name'          => __( 'Bottom A', FAZZO_THEME_TXT ),
-				'id'            => 'fazzo-sidebar-bottom-a',
-				'description'   => __( 'Bottom Sidebar', FAZZO_THEME_TXT ),
-				'before_widget' => '<div id="%1$s" class="widget sidebar-bottom %2$s">',
-				'after_widget'  => '</div>',
-				'before_title'  => '<h1 class="widget-title">',
-				'after_title'   => '</h1>',
-			] );
-
-			register_sidebar( [
-				'name'          => __( 'Bottom B', FAZZO_THEME_TXT ),
-				'id'            => 'fazzo-sidebar-bottom-b',
-				'description'   => __( 'Bottom Sidebar', FAZZO_THEME_TXT ),
-				'before_widget' => '<div id="%1$s" class="widget sidebar-bottom %2$s">',
-				'after_widget'  => '</div>',
-				'before_title'  => '<h1 class="widget-title">',
-				'after_title'   => '</h1>',
-			] );
-
-			register_sidebar( [
-				'name'          => __( 'Bottom C', FAZZO_THEME_TXT ),
-				'id'            => 'fazzo-sidebar-bottom-c',
-				'description'   => __( 'Bottom Sidebar', FAZZO_THEME_TXT ),
-				'before_widget' => '<div id="%1$s" class="widget sidebar-bottom %2$s">',
-				'after_widget'  => '</div>',
-				'before_title'  => '<h1 class="widget-title">',
-				'after_title'   => '</h1>',
-			] );
-
-			// Content
-
-			register_sidebar( [
-				'name'          => __( 'Content', FAZZO_THEME_TXT ),
-				'id'            => 'fazzo-sidebar-content',
-				'description'   => __( 'Content Sidebar', FAZZO_THEME_TXT ),
-				'before_widget' => '<div id="%1$s" class="widget sidebar-content %2$s">',
-				'after_widget'  => '</div>',
-				'before_title'  => '<h1 class="widget-title">',
-				'after_title'   => '</h1>',
-			] );
-
-
-			// Frontpage
-
-			register_sidebar( [
-				'name'          => __( 'Frontpage', FAZZO_THEME_TXT ),
-				'id'            => 'fazzo-sidebar-frontpage',
-				'description'   => __( 'Frontpage Sidebar', FAZZO_THEME_TXT ),
-				'before_widget' => '<div id="%1$s" class="widget sidebar-frontpage %2$s">',
-				'after_widget'  => '</div>',
-				'before_title'  => '<h1 class="widget-title">',
-				'after_title'   => '</h1>',
-			] );
-
-
-			// Head
-
-			register_sidebar( [
-				'name'          => __( 'Head', FAZZO_THEME_TXT ),
-				'id'            => 'fazzo-sidebar-head',
-				'description'   => __( 'Head Sidebar', FAZZO_THEME_TXT ),
-				'before_widget' => '<div id="%1$s" class="widget sidebar-head %2$s">',
-				'after_widget'  => '</div>',
-				'before_title'  => '<h1 class="widget-title">',
-				'after_title'   => '</h1>',
-			] );
-
-
-			// Top
-
-			register_sidebar( [
-				'name'          => __( 'Top', FAZZO_THEME_TXT ),
-				'id'            => 'fazzo-sidebar-top',
-				'description'   => __( 'Top Sidebar', FAZZO_THEME_TXT ),
-				'before_widget' => '<div id="%1$s" class="widget sidebar-top %2$s">',
-				'after_widget'  => '</div>',
-				'before_title'  => '<h1 class="widget-title">',
-				'after_title'   => '</h1>',
-			] );
-
-
-		}
-
-
-		/**
-		 * Scripte und CSS laden - Admin Bereich
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function load_admin_scripts() {
-			// Add the wordpress color picker
-			wp_enqueue_style( 'wp-color-picker' );
-			wp_enqueue_script( 'wp-color-picker' );
-			wp_enqueue_script( "fazzo-admin-js", get_template_directory_uri() . "/js/admin.js", [ "wp-color-picker" ], static::version, true );
-		}
-
-
-		/**
-		 * Scripte und CSS laden - Frontend Bereich
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function load_frontend_scripts() {
-			if ( ! is_customize_preview() ) {
-				wp_enqueue_script( "fazzo-jquery", get_template_directory_uri() . "/ext/jquery/jquery-3.4.1.min.js", [], "3.4.1", true );
-			}
-
-			wp_enqueue_script( "fazzo-jquery-ui-js", get_template_directory_uri() . "/ext/jquery/jquery-ui-1.12.1.custom/jquery-ui.min.js", [ "fazzo-jquery" ], "1.12.1", true );
-			//wp_enqueue_script( "fazzo-jquery-migrate-js", get_template_directory_uri() . "/ext/jquery/migrate/jquery-migrate-1.4.1.min.js", [ "fazzo-jquery" ], "1.12.1", true );
-
-
-			wp_enqueue_script( "fazzo-popmotion", get_template_directory_uri() . "/ext/popmotion/popmotion.global.min.js", [ "fazzo-jquery" ], static::version, true );
-
-			if ( functions::is_true( static::$options["load_bootstrap"] ) ) {
-				wp_enqueue_script( "fazzo-popper", get_template_directory_uri() . "/ext/bootstrap/popper-1.14.7/popper.min.js", [ "fazzo-jquery" ], "1.14.7", true );
-				wp_enqueue_script( "fazzo-bootstrap-js", get_template_directory_uri() . "/ext/bootstrap/bootstrap-4.3.1-dist/js/bootstrap.min.js", [ "fazzo-popper" ], "4.4.1", true );
-				//wp_enqueue_script( "fazzo-offcanvas-js", get_template_directory_uri() . "/ext/bootstrap/offcanvas-2.5.2/dist/js/bootstrap.offcanvas.min.js", [ "fazzo-bootstrap-js" ], "2.5.2", true );
-				wp_enqueue_script( "fazzo-js", get_template_directory_uri() . "/js/page.js", [ "fazzo-bootstrap-js" ], static::version, true );
-			} else {
-				wp_enqueue_script( "fazzo-js", get_template_directory_uri() . "/js/page.js", [ "fazzo-jquery" ], static::version, true );
-			}
-
-
-			wp_enqueue_style( "fazzo-font-awesome", get_template_directory_uri() . "/ext/fonts/fontawesome-free-5.9.0-web/css/all.min.css", [], "5.9.0", 'all' );
-			wp_enqueue_style( "fazzo-jquery-ui-css", get_template_directory_uri() . "/ext/jquery/jquery-ui-1.12.1.custom/jquery-ui.min.css", [ "fazzo-font-awesome" ], '1.12.1', 'all' );
-
-			if ( functions::is_true( static::$options["load_bootstrap"] ) ) {
-				wp_enqueue_style( "fazzo-bootstrap-css", get_template_directory_uri() . "/ext/bootstrap/bootstrap-4.3.1-dist/css/bootstrap.min.css", [ "fazzo-jquery-ui-css" ], '4.4.1', 'all' );
-				//wp_enqueue_style( "fazzo-offcanvas-css", get_template_directory_uri() . "/ext/bootstrap/offcanvas-2.5.2/dist/css/bootstrap.offcanvas.min.css", [ "fazzo-bootstrap-css" ], '2.5.2', 'all' );
-				wp_enqueue_style( "fazzo-style", get_template_directory_uri() . "/css/style.css", [ "fazzo-bootstrap-css" ], static::version, 'all' );
-			} else {
-				wp_enqueue_style( "fazzo-style", get_template_directory_uri() . "/css/style.css", [ "fazzo-jquery-ui-css" ], static::version, 'all' );
-			}
-
-			wp_enqueue_style( "fazzo-print", get_template_directory_uri() . "/css/print.css", [ "fazzo-style" ], static::version, 'print' );
-
-		}
-
-
-		/**
-		 * CSS Klasse für die Navigation durch Seiten setzen
-		 * @return string
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function nav_link_attributes() {
-			return 'class="wp-link-nav"';
-		}
-
-
-		/**
-		 * Länge des Excerpts setzen
-		 *
-		 * @param $length int Die Wordpress Länge (Nicht genutzt)
-		 *
-		 * @return int
-		 * @since  1.0.0
-		 * @access public
-		 *
-		 */
-		public function new_excerpt_length( $length ) {
-			return 30;
-		}
-
-		/**
-		 * "Excerpt more" string setzen
-		 *
-		 * @param $more string Wordpress More (Nicht genutzt)
-		 *
-		 * @return string
-		 * @since  1.0.0
-		 * @access public
-		 *
-		 */
-		public function new_excerpt_more( $more ) {
-			global $post;
-			$fade_out = "...";
-			$content  = "";
-			$content  .= " <a href='" . get_permalink( $post->ID ) . "' class='read-more-link'>$fade_out <span class='read-more'></span><span class='read-more-hover' style='display:none;'> </span></a>";
-
-			return $content;
-		}
-
-
-		/**
-		 * Shortcode: Aktuelles Jahr anzeigen
-		 *
-		 * @param array $atts Attribute
-		 * @param string $content Inhalt
-		 * @param string $tag Tags
-		 *
-		 * @return string
-		 * @since  1.0.0
-		 * @access public
-		 *
-		 */
-		public function shortcode_year( $atts = [], $content = null, $tag = '' ) {
-			return date( "Y" );
-		}
-
-		/**
-		 * Shortcode: Blog Titel anzeigen
-		 *
-		 * @param array $atts Attribute
-		 * @param string $content Inhalt
-		 * @param string $tag Tags
-		 *
-		 * @return string
-		 * @since  1.0.0
-		 * @access public
-		 *
-		 */
-		public function shortcode_blog_title( $atts = [], $content = null, $tag = '' ) {
-			return get_bloginfo( "name" );
-		}
-
-		/**
-		 * Shortcode: Beschreibung anzeigen
-		 *
-		 * @param array $atts Attribute
-		 * @param string $content Inhalt
-		 * @param string $tag Tags
-		 *
-		 * @return string
-		 * @since  1.0.0
-		 * @access public
-		 *
-		 */
-		public function shortcode_blog_description( $atts = [], $content = null, $tag = '' ) {
-			return get_bloginfo( "description" );
-		}
-
-
-		/**
-		 * Registriere neue Widgets
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function register_widgets() {
-			//register_widget( 'fazzo_widget_tax_menu' );
-		}
-
-
-		/**
-		 * Dummy Funktion
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function dummy_callback() {
-		}
-
-		/**
-		 * Speichert die Plugin Optionen und frischt die Klassen Eigenschaften auf
-		 * @return void
-		 * @since  1.0.0
-		 * @access protected
-		 * @static
-		 */
-		protected static function save_options() {
-			update_option( static::option_name, static::$options );
-
-			// Initialisiere Eigenschaften
-			static::set_class_properties();
-		}
-
-
-		/**
-		 * Bindet das Navigationstemplate ein
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public static function get_comments_navigation() {
-			if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) {
-
-				get_template_part( 'templ/nav', 'comments' );
-
-			}
-		}
-
-		/**
-		 * Bindet das Navigationstemplate ein
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function get_posts_navigation() {
-			if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) {
-
-				get_template_part( 'templ/nav', 'posts' );
-
-			}
-		}
-
-		/**
-		 * Füge eine Optionsseite hinzu
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function settings_page() {
-			// Argumente:
-			$menu_slug   = 'lnt';
-			$parent_slug = "admin.php?page=" . $menu_slug;
-			$page_title  = esc_html__( 'Page Config', FAZZO_THEME_TXT );
-			$menu_title  = esc_html__( 'Config', FAZZO_THEME_TXT );
-			$capability  = 'manage_options';
-			$post_type   = "toplevel";
-			$function    = [ $this, 'settings_page_display' ];
-
-			$icon_url = 'dashicons-networking';
-			$position = 80;
-
-			// Definiere Einstellungen zu dieser Seite für spätere Verwendung:
-			define( 'FAZZO_SETTINGS_PAGE', $parent_slug );
-			define( 'FAZZO_SETTINGS_HOOK', $post_type . '_page_' . $menu_slug );
-			define( 'FAZZO_SETTINGS_SLUG', $menu_slug );
-
-			// Füge Seite hinzug
-			add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
-		}
-
-		/**
-		 * Ausgabe der Optionsseite, welche auch die gesendeten Formulardaten speichert
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function settings_page_display() {
-			// Security:
-			$nonce_name      = "fazzo_configuration_nonce";
-			$nonce_input_key = "fazzo-configuration-nonce";
-			$nonce_value     = wp_create_nonce( $nonce_name );
-			$form_action_url = admin_url( FAZZO_SETTINGS_PAGE );
-
-			// Speichern
-			if ( functions::validate_nonce( $nonce_input_key, $nonce_name ) ) {
-				if ( isset( $_POST['todo'] ) && $_POST['todo'] == "config" ) {
-
-					static::$options['load_bootstrap'] = intval( $_POST['load_bootstrap'] );
-					static::$options['paged_menu']     = intval( $_POST['paged_menu'] );
-					static::save_options();
-				}
-			}
-
-			// Zeige das Template:
-			require_once( FAZZO_THEME_ROOT . "/class/templ/settings.php" );
-		}
-
-		/**
-		 * Registriere Meta Boxen
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function register_meta_boxes() {
-
-			$screens = [ 'post', 'pages' ];
-			foreach ( $screens as $screen ) {
-				add_meta_box(
-					'fazzo_meta_box_css',               // Unique ID
-					'CSS',                             // Box title
-					[ $this, "display_meta_boxes_css", ],    // Content callback, must be of type callable
-					$screen,                                  // Post type
-					'side', 'default'
-				);
-			}
-
-		}
-
-		/**
-		 * Zeige CSS Meta Box
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function display_meta_boxes_css( $post, $metabox ) {
-
-			$val = "";
-			echo '<input type="text" name="cpa_settings_options[background]" value="' . $val . '" class="color-field" >';
-
-		}
-
-
-		/**
-		 * Customizer Preview enqueue Scripts and Styles
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function customizer_preview_enqueue() {
-
-			wp_enqueue_script( 'fazzo-theme-customizer-pre-js', get_template_directory_uri() . '/js/customizer_preview.js', [
-				'jquery',
-				'customize-preview',
-			], static::version, true );
-
-			wp_enqueue_style( "fazzo-theme-customizer-css", get_template_directory_uri() . "/css/customizer.css", [], static::version, 'all' );
-		}
+            add_filter(‘big_image_size_threshold’, ‘__return_false’);
+        }
+
+        /**
+         * Aktionen bei Plugin Aktivierung
+         *
+         * @param $network_wide boolean Teilt mit, ob Netzwerkweit aktiviert werden soll
+         *
+         * @return void
+         * @since  1.0.0
+         * @access public
+         * @static
+         *
+         */
+        public static function activation($network_wide)
+        {
+            // Sprachdateien werden eingebunden.
+            self::load_textdomain();
+
+            // Überprüft die minimal erforderliche PHP- u. WP-Version.
+            self::check_system_requirements();
+
+            // Aktualisierung des Plugins (ggf).
+            self::update_plugin();
+        }
+
+        /**
+         * Aktionen bei Plugin Deaktivierung
+         *
+         * @param $network_wide boolean Teilt mit, ob Netzwerkweit aktiviert werden soll
+         *
+         * @return void
+         * @since  1.0.0
+         * @access public
+         * @static
+         *
+         */
+        public static function deactivation($network_wide)
+        {
+            self::delete_options();
+        }
+
+        /**
+         * Einbindung der Sprachdateien
+         * @return void
+         * @since  1.0.0
+         * @access protected
+         * @static
+         */
+        protected static function load_textdomain()
+        {
+            load_plugin_textdomain(FAZZO_THEME_TXT, false, sprintf('%s/lang/', dirname(plugin_basename(__FILE__))));
+        }
+
+
+        /**
+         * Überprüft die minimal erforderliche PHP- u. WP-Version
+         * @return void
+         * @since  1.0.0
+         * @access protected
+         * @static
+         */
+        protected static function check_system_requirements()
+        {
+            $error = '';
+
+            if (version_compare(PHP_VERSION, self::php_version, '<')) {
+                $error = sprintf(__('FAZZO-Theme: Your server is running PHP version %s. Please upgrade at least to PHP version %s.', FAZZO_THEME_TXT), PHP_VERSION, self::wp_version);
+            }
+
+            if (version_compare($GLOBALS['wp_version'], self::wp_version, '<')) {
+                $error = sprintf(__('FAZZO-Theme: Your Wordpress version is %s. Please upgrade at least to Wordpress version %s.', FAZZO_THEME_TXT), $GLOBALS['wp_version'], self::wp_version);
+            }
+
+            if (!empty($error)) {
+                deactivate_plugins(plugin_basename(__FILE__), false, true);
+                wp_die($error);
+            }
+        }
+
+
+        /**
+         * Aktualisiere Plugin, wenn nötig
+         * @return void
+         * @since  1.0.0
+         * @access protected
+         * @static
+         */
+        private static function update_plugin()
+        {
+            $version_stored = get_option(static::version_option_name, '0');
+
+            if (version_compare($version_stored, static::version, '<')) {
+                // Führe Update durch:
+                update_option(static::version_option_name, static::version);
+            }
+        }
+
+        /**
+         * Löscht alle Einstellungen
+         * @return void
+         * @since  1.0.0
+         * @access protected
+         * @static
+         */
+        protected static function delete_options()
+        {
+            delete_option(static::option_name);
+            delete_option(self::version_option_name);
+        }
+
+
+        /**
+         * Setzt die Einstellungen und Eigenschaften, mit Berücksichtung auf Default Einstellungen
+         * @return void
+         * @since  1.0.0
+         * @access protected
+         * @static
+         */
+        protected static function get_options()
+        {
+
+            $defaults = static::default_options();
+
+            $options = get_option(static::option_name);
+            if ($options === false) {
+                $options = [];
+            }
+
+            functions::parse_args_multidim($options, $defaults);
+
+            static::$options = $options;
+            static::set_class_properties();
+        }
+
+        /**
+         * Standardeinstellungen definieren
+         * @return array
+         * @since  1.0.0
+         * @access protected
+         * @static
+         */
+        private static function default_options()
+        {
+            // Multidimensionales Array ist möglich:
+            $options = ["load_bootstrap" => 1];
+            $options = ["paged_menu" => 0];
+
+            return $options;
+        }
+
+        /**
+         * Setzt die Eigenschaften der Klasse
+         * @return void
+         * @since  1.0.0
+         * @access protected
+         * @static
+         */
+        protected static function set_class_properties()
+        {
+
+            if (isset(static::$options["customizer_elements"]) && !empty(static::$options["customizer_elements"])) {
+                static::$customizer_elements = static::$options["customizer_elements"];
+            }
+        }
+
+
+        /**
+         * Die Menü Positionen des Themes bekannt geben
+         * @return void
+         * @since  1.0.0
+         * @access public
+         */
+        public function register_menus()
+        {
+            register_nav_menu("meta-bottom-nav", "Bottom-Menu");
+            register_nav_menu("meta-content-nav", "Content-Menu");
+            register_nav_menu("meta-frontpage-nav", "Frontpage-Menu");
+            register_nav_menu("meta-head-nav", "Head-Menu");
+            register_nav_menu("meta-top-nav", "Top-Menu");
+        }
+
+
+        /**
+         * Sidebars für die Startseite aktivieren
+         * @return void
+         * @since  1.0.0
+         * @access public
+         */
+        public function register_sidebars()
+        {
+
+            // Bottom
+
+            register_sidebar([
+                'name' => __('Bottom A', FAZZO_THEME_TXT),
+                'id' => 'fazzo-sidebar-bottom-a',
+                'description' => __('Bottom Sidebar', FAZZO_THEME_TXT),
+                'before_widget' => '<div id="%1$s" class="widget sidebar-bottom %2$s">',
+                'after_widget' => '</div>',
+                'before_title' => '<h1 class="widget-title">',
+                'after_title' => '</h1>',
+            ]);
+
+            register_sidebar([
+                'name' => __('Bottom B', FAZZO_THEME_TXT),
+                'id' => 'fazzo-sidebar-bottom-b',
+                'description' => __('Bottom Sidebar', FAZZO_THEME_TXT),
+                'before_widget' => '<div id="%1$s" class="widget sidebar-bottom %2$s">',
+                'after_widget' => '</div>',
+                'before_title' => '<h1 class="widget-title">',
+                'after_title' => '</h1>',
+            ]);
+
+            register_sidebar([
+                'name' => __('Bottom C', FAZZO_THEME_TXT),
+                'id' => 'fazzo-sidebar-bottom-c',
+                'description' => __('Bottom Sidebar', FAZZO_THEME_TXT),
+                'before_widget' => '<div id="%1$s" class="widget sidebar-bottom %2$s">',
+                'after_widget' => '</div>',
+                'before_title' => '<h1 class="widget-title">',
+                'after_title' => '</h1>',
+            ]);
+
+            // Content
+
+            register_sidebar([
+                'name' => __('Content', FAZZO_THEME_TXT),
+                'id' => 'fazzo-sidebar-content',
+                'description' => __('Content Sidebar', FAZZO_THEME_TXT),
+                'before_widget' => '<div id="%1$s" class="widget sidebar-content %2$s">',
+                'after_widget' => '</div>',
+                'before_title' => '<h1 class="widget-title">',
+                'after_title' => '</h1>',
+            ]);
+
+
+            // Frontpage
+
+            register_sidebar([
+                'name' => __('Frontpage', FAZZO_THEME_TXT),
+                'id' => 'fazzo-sidebar-frontpage',
+                'description' => __('Frontpage Sidebar', FAZZO_THEME_TXT),
+                'before_widget' => '<div id="%1$s" class="widget sidebar-frontpage %2$s">',
+                'after_widget' => '</div>',
+                'before_title' => '<h1 class="widget-title">',
+                'after_title' => '</h1>',
+            ]);
+
+
+            // Head
+
+            register_sidebar([
+                'name' => __('Head', FAZZO_THEME_TXT),
+                'id' => 'fazzo-sidebar-head',
+                'description' => __('Head Sidebar', FAZZO_THEME_TXT),
+                'before_widget' => '<div id="%1$s" class="widget sidebar-head %2$s">',
+                'after_widget' => '</div>',
+                'before_title' => '<h1 class="widget-title">',
+                'after_title' => '</h1>',
+            ]);
+
+
+            // Top
+
+            register_sidebar([
+                'name' => __('Top', FAZZO_THEME_TXT),
+                'id' => 'fazzo-sidebar-top',
+                'description' => __('Top Sidebar', FAZZO_THEME_TXT),
+                'before_widget' => '<div id="%1$s" class="widget sidebar-top %2$s">',
+                'after_widget' => '</div>',
+                'before_title' => '<h1 class="widget-title">',
+                'after_title' => '</h1>',
+            ]);
+
+
+        }
+
+
+        /**
+         * Scripte und CSS laden - Admin Bereich
+         * @return void
+         * @since  1.0.0
+         * @access public
+         */
+        public function load_admin_scripts()
+        {
+            // Add the wordpress color picker
+            wp_enqueue_style('wp-color-picker');
+            wp_enqueue_script('wp-color-picker');
+            wp_enqueue_script("fazzo-admin-js", get_template_directory_uri() . "/js/admin.js", ["wp-color-picker"], static::version, true);
+        }
+
+
+        /**
+         * Scripte und CSS laden - Frontend Bereich
+         * @return void
+         * @since  1.0.0
+         * @access public
+         */
+        public function load_frontend_scripts()
+        {
+            if (!is_customize_preview()) {
+                wp_enqueue_script("fazzo-jquery", get_template_directory_uri() . "/ext/jquery/jquery-3.4.1.min.js", [], "3.4.1", true);
+            }
+
+            wp_enqueue_script("fazzo-jquery-ui-js", get_template_directory_uri() . "/ext/jquery/jquery-ui-1.12.1.custom/jquery-ui.min.js", ["fazzo-jquery"], "1.12.1", true);
+            //wp_enqueue_script( "fazzo-jquery-migrate-js", get_template_directory_uri() . "/ext/jquery/migrate/jquery-migrate-1.4.1.min.js", [ "fazzo-jquery" ], "1.12.1", true );
+
+
+            wp_enqueue_script("fazzo-popmotion", get_template_directory_uri() . "/ext/popmotion/popmotion.global.min.js", ["fazzo-jquery"], static::version, true);
+
+            if (functions::is_true(static::$options["load_bootstrap"])) {
+                wp_enqueue_script("fazzo-popper", get_template_directory_uri() . "/ext/bootstrap/popper-1.14.7/popper.min.js", ["fazzo-jquery"], "1.14.7", true);
+                wp_enqueue_script("fazzo-bootstrap-js", get_template_directory_uri() . "/ext/bootstrap/bootstrap-4.3.1-dist/js/bootstrap.min.js", ["fazzo-popper"], "4.4.1", true);
+                //wp_enqueue_script( "fazzo-offcanvas-js", get_template_directory_uri() . "/ext/bootstrap/offcanvas-2.5.2/dist/js/bootstrap.offcanvas.min.js", [ "fazzo-bootstrap-js" ], "2.5.2", true );
+                wp_enqueue_script("fazzo-js", get_template_directory_uri() . "/js/page.js", ["fazzo-bootstrap-js"], static::version, true);
+            } else {
+                wp_enqueue_script("fazzo-js", get_template_directory_uri() . "/js/page.js", ["fazzo-jquery"], static::version, true);
+            }
+
+
+            wp_enqueue_style("fazzo-font-awesome", get_template_directory_uri() . "/ext/fonts/fontawesome-free-5.9.0-web/css/all.min.css", [], "5.9.0", 'all');
+            wp_enqueue_style("fazzo-jquery-ui-css", get_template_directory_uri() . "/ext/jquery/jquery-ui-1.12.1.custom/jquery-ui.min.css", ["fazzo-font-awesome"], '1.12.1', 'all');
+
+            if (functions::is_true(static::$options["load_bootstrap"])) {
+                wp_enqueue_style("fazzo-bootstrap-css", get_template_directory_uri() . "/ext/bootstrap/bootstrap-4.3.1-dist/css/bootstrap.min.css", ["fazzo-jquery-ui-css"], '4.4.1', 'all');
+                //wp_enqueue_style( "fazzo-offcanvas-css", get_template_directory_uri() . "/ext/bootstrap/offcanvas-2.5.2/dist/css/bootstrap.offcanvas.min.css", [ "fazzo-bootstrap-css" ], '2.5.2', 'all' );
+                wp_enqueue_style("fazzo-style", get_template_directory_uri() . "/css/style.css", ["fazzo-bootstrap-css"], static::version, 'all');
+            } else {
+                wp_enqueue_style("fazzo-style", get_template_directory_uri() . "/css/style.css", ["fazzo-jquery-ui-css"], static::version, 'all');
+            }
+
+            wp_enqueue_style("fazzo-print", get_template_directory_uri() . "/css/print.css", ["fazzo-style"], static::version, 'print');
+
+        }
+
+
+        /**
+         * CSS Klasse für die Navigation durch Seiten setzen
+         * @return string
+         * @since  1.0.0
+         * @access public
+         */
+        public function nav_link_attributes()
+        {
+            return 'class="wp-link-nav"';
+        }
+
+
+        /**
+         * Länge des Excerpts setzen
+         *
+         * @param $length int Die Wordpress Länge (Nicht genutzt)
+         *
+         * @return int
+         * @since  1.0.0
+         * @access public
+         *
+         */
+        public function new_excerpt_length($length)
+        {
+            return 30;
+        }
+
+        /**
+         * "Excerpt more" string setzen
+         *
+         * @param $more string Wordpress More (Nicht genutzt)
+         *
+         * @return string
+         * @since  1.0.0
+         * @access public
+         *
+         */
+        public function new_excerpt_more($more)
+        {
+            global $post;
+            $fade_out = "...";
+            $content = "";
+            $content .= " <a href='" . get_permalink($post->ID) . "' class='read-more-link'>$fade_out <span class='read-more'></span><span class='read-more-hover' style='display:none;'> </span></a>";
+
+            return $content;
+        }
+
+
+        /**
+         * Shortcode: Aktuelles Jahr anzeigen
+         *
+         * @param array $atts Attribute
+         * @param string $content Inhalt
+         * @param string $tag Tags
+         *
+         * @return string
+         * @since  1.0.0
+         * @access public
+         *
+         */
+        public function shortcode_year($atts = [], $content = null, $tag = '')
+        {
+            return date("Y");
+        }
+
+        /**
+         * Shortcode: Blog Titel anzeigen
+         *
+         * @param array $atts Attribute
+         * @param string $content Inhalt
+         * @param string $tag Tags
+         *
+         * @return string
+         * @since  1.0.0
+         * @access public
+         *
+         */
+        public function shortcode_blog_title($atts = [], $content = null, $tag = '')
+        {
+            return get_bloginfo("name");
+        }
+
+        /**
+         * Shortcode: Beschreibung anzeigen
+         *
+         * @param array $atts Attribute
+         * @param string $content Inhalt
+         * @param string $tag Tags
+         *
+         * @return string
+         * @since  1.0.0
+         * @access public
+         *
+         */
+        public function shortcode_blog_description($atts = [], $content = null, $tag = '')
+        {
+            return get_bloginfo("description");
+        }
+
+
+        /**
+         * Registriere neue Widgets
+         * @return void
+         * @since  1.0.0
+         * @access public
+         */
+        public function register_widgets()
+        {
+            //register_widget( 'fazzo_widget_tax_menu' );
+        }
+
+
+        /**
+         * Dummy Funktion
+         * @return void
+         * @since  1.0.0
+         * @access public
+         */
+        public function dummy_callback()
+        {
+        }
+
+        /**
+         * Speichert die Plugin Optionen und frischt die Klassen Eigenschaften auf
+         * @return void
+         * @since  1.0.0
+         * @access protected
+         * @static
+         */
+        protected static function save_options()
+        {
+            update_option(static::option_name, static::$options);
+
+            // Initialisiere Eigenschaften
+            static::set_class_properties();
+        }
+
+
+        /**
+         * Bindet das Navigationstemplate ein
+         * @return void
+         * @since  1.0.0
+         * @access public
+         */
+        public static function get_comments_navigation()
+        {
+            if (get_comment_pages_count() > 1 && get_option('page_comments')) {
+
+                get_template_part('templ/nav', 'comments');
+
+            }
+        }
+
+        /**
+         * Bindet das Navigationstemplate ein
+         * @return void
+         * @since  1.0.0
+         * @access public
+         */
+        public function get_posts_navigation()
+        {
+            if (get_comment_pages_count() > 1 && get_option('page_comments')) {
+
+                get_template_part('templ/nav', 'posts');
+
+            }
+        }
+
+        /**
+         * Füge eine Optionsseite hinzu
+         * @return void
+         * @since  1.0.0
+         * @access public
+         */
+        public function settings_page()
+        {
+            // Argumente:
+            $menu_slug = 'lnt';
+            $parent_slug = "admin.php?page=" . $menu_slug;
+            $page_title = esc_html__('Page Config', FAZZO_THEME_TXT);
+            $menu_title = esc_html__('Config', FAZZO_THEME_TXT);
+            $capability = 'manage_options';
+            $post_type = "toplevel";
+            $function = [$this, 'settings_page_display'];
+
+            $icon_url = 'dashicons-networking';
+            $position = 80;
+
+            // Definiere Einstellungen zu dieser Seite für spätere Verwendung:
+            define('FAZZO_SETTINGS_PAGE', $parent_slug);
+            define('FAZZO_SETTINGS_HOOK', $post_type . '_page_' . $menu_slug);
+            define('FAZZO_SETTINGS_SLUG', $menu_slug);
+
+            // Füge Seite hinzug
+            add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position);
+        }
+
+        /**
+         * Ausgabe der Optionsseite, welche auch die gesendeten Formulardaten speichert
+         * @return void
+         * @since  1.0.0
+         * @access public
+         */
+        public function settings_page_display()
+        {
+            // Security:
+            $nonce_name = "fazzo_configuration_nonce";
+            $nonce_input_key = "fazzo-configuration-nonce";
+            $nonce_value = wp_create_nonce($nonce_name);
+            $form_action_url = admin_url(FAZZO_SETTINGS_PAGE);
+
+            // Speichern
+            if (functions::validate_nonce($nonce_input_key, $nonce_name)) {
+                if (isset($_POST['todo']) && $_POST['todo'] == "config") {
+
+                    static::$options['load_bootstrap'] = intval($_POST['load_bootstrap']);
+                    static::$options['paged_menu'] = intval($_POST['paged_menu']);
+                    static::save_options();
+                }
+            }
+
+            // Zeige das Template:
+            require_once(FAZZO_THEME_ROOT . "/class/templ/settings.php");
+        }
+
+        /**
+         * Registriere Meta Boxen
+         * @return void
+         * @since  1.0.0
+         * @access public
+         */
+        public function register_meta_boxes()
+        {
+
+            $screens = ['post', 'pages'];
+            foreach ($screens as $screen) {
+                add_meta_box(
+                    'fazzo_meta_box_css',               // Unique ID
+                    'CSS',                             // Box title
+                    [$this, "display_meta_boxes_css",],    // Content callback, must be of type callable
+                    $screen,                                  // Post type
+                    'side', 'default'
+                );
+            }
+
+        }
+
+        /**
+         * Zeige CSS Meta Box
+         * @return void
+         * @since  1.0.0
+         * @access public
+         */
+        public function display_meta_boxes_css($post, $metabox)
+        {
+
+            $val = "";
+            echo '<input type="text" name="cpa_settings_options[background]" value="' . $val . '" class="color-field" >';
+
+        }
+
+
+        /**
+         * Customizer Preview enqueue Scripts and Styles
+         * @return void
+         * @since  1.0.0
+         * @access public
+         */
+        public function customizer_preview_enqueue()
+        {
+
+            wp_enqueue_script('fazzo-theme-customizer-pre-js', get_template_directory_uri() . '/js/customizer_preview.js', [
+                'jquery',
+                'customize-preview',
+            ], static::version, true);
+
+            wp_enqueue_style("fazzo-theme-customizer-css", get_template_directory_uri() . "/css/customizer.css", [], static::version, 'all');
+        }
 
 
         /**
@@ -851,466 +899,509 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
          * @since  1.0.0
          * @access public
          */
-        public function customizer_controls_enqueue() {
+        public function customizer_controls_enqueue()
+        {
 
-            wp_enqueue_script( 'fazzo-theme-customizer-con-js', get_template_directory_uri() . '/js/customizer_controls.js', [
+            wp_enqueue_script('fazzo-theme-customizer-con-js', get_template_directory_uri() . '/js/customizer_controls.js', [
                 'jquery',
                 'customize-preview',
-            ], static::version, true );
+            ], static::version, true);
 
         }
 
 
-		/**
-		 * Customizer
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function customizer_register( $wp_customize ) {
+        /**
+         * Customizer
+         * @return void
+         * @since  1.0.0
+         * @access public
+         */
+        public function customizer_register($wp_customize)
+        {
 
-			$prefix = static::$prefix;
+            $prefix = static::$prefix;
 
-			$customizer                 = new customizer( $wp_customize );
-			$panel_style                = $customizer->add_panel( "style", __( 'Homepage Style', FAZZO_THEME_TXT ), __( 'Set specific styles', FAZZO_THEME_TXT ) );
-			$section_background_style   = $customizer->add_section( "background_style", $panel_style, __( 'Background Site', FAZZO_THEME_TXT ), __( 'Set specific backgrounds', FAZZO_THEME_TXT ) );
-			$section_head_style         = $customizer->add_section( "background_head_style", $panel_style, __( 'Background Head', FAZZO_THEME_TXT ), __( 'Set specific backgrounds', FAZZO_THEME_TXT ) );
-			$id_background_color_top    = $customizer->add_control( "color", "background_color_top", $section_background_style, __( 'Background Color Top', FAZZO_THEME_TXT ) );
-			$id_background_color_bottom = $customizer->add_control( "color", "background_color_bottom", $section_background_style, __( 'Background Color Bottom', FAZZO_THEME_TXT ) );
-			$id_background_opacity      = $customizer->add_control( "text", "background_opacity", $section_background_style, __( 'Background Color Opacity', FAZZO_THEME_TXT ) );
-            $id_background_image = $customizer->add_control( "image", "background_image", $section_background_style, __( 'Background Image Layer 1', FAZZO_THEME_TXT ) );
-            $id_background_image_2 = $customizer->add_control( "image", "background_image_2", $section_background_style, __( 'Background Image Layer 2', FAZZO_THEME_TXT ) );
-			$id_background_head_color_top    = $customizer->add_control( "color", "background_head_color_top", $section_head_style, __( 'Background Head Color Top', FAZZO_THEME_TXT ) );
-			$id_background_head_color_bottom = $customizer->add_control( "color", "background_head_color_bottom", $section_head_style, __( 'Background Head Color Bottom', FAZZO_THEME_TXT ) );
-			$id_background_head_opacity      = $customizer->add_control( "text", "background_head_opacity", $section_head_style, __( 'Background Head Opacity', FAZZO_THEME_TXT ) );
-			$id_background_head_image = $customizer->add_control( "image", "background_head_image", $section_head_style, __( 'Background Head Image', FAZZO_THEME_TXT ) );
+            $customizer = new customizer($wp_customize);
+            $panel_style = $customizer->add_panel("style", __('Homepage Style', FAZZO_THEME_TXT), __('Set specific styles', FAZZO_THEME_TXT));
+            $section_background_style = $customizer->add_section("background_style", $panel_style, __('Background Site', FAZZO_THEME_TXT), __('Set specific backgrounds', FAZZO_THEME_TXT));
+            $section_head_style = $customizer->add_section("background_head_style", $panel_style, __('Background Head', FAZZO_THEME_TXT), __('Set specific backgrounds', FAZZO_THEME_TXT));
+            $section_nav_top_style = $customizer->add_section("nav_top_style", $panel_style, __('Navigation Top', FAZZO_THEME_TXT), __('Set specific styles', FAZZO_THEME_TXT));
 
-			$js_content = <<<JS
+            $id_background_color_top = $customizer->add_control("color", "background_color_top", $section_background_style, __('Background Color Top', FAZZO_THEME_TXT));
+            $id_background_color_bottom = $customizer->add_control("color", "background_color_bottom", $section_background_style, __('Background Color Bottom', FAZZO_THEME_TXT));
+            $id_background_opacity = $customizer->add_control("text", "background_opacity", $section_background_style, __('Background Color Opacity', FAZZO_THEME_TXT));
+            $id_background_image = $customizer->add_control("image", "background_image", $section_background_style, __('Background Image Layer 1', FAZZO_THEME_TXT));
+            $id_background_image_2 = $customizer->add_control("image", "background_image_2", $section_background_style, __('Background Image Layer 2', FAZZO_THEME_TXT));
+            $id_background_head_color_top = $customizer->add_control("color", "background_head_color_top", $section_head_style, __('Background Head Color Top', FAZZO_THEME_TXT));
+            $id_background_head_color_bottom = $customizer->add_control("color", "background_head_color_bottom", $section_head_style, __('Background Head Color Bottom', FAZZO_THEME_TXT));
+            $id_background_head_opacity = $customizer->add_control("text", "background_head_opacity", $section_head_style, __('Background Head Opacity', FAZZO_THEME_TXT));
+            $id_background_head_image = $customizer->add_control("image", "background_head_image", $section_head_style, __('Background Head Image', FAZZO_THEME_TXT));
+
+
+            $id_background_nav_top_color_top = $customizer->add_control("color", "background_nav_top_color_top", $section_nav_top_style, __('Background Navigation Top Color Top', FAZZO_THEME_TXT));
+            $id_background_nav_top_color_bottom = $customizer->add_control("color", "background_nav_top_color_bottom", $section_nav_top_style, __('Background Navigation Top Color Bottom', FAZZO_THEME_TXT));
+            $id_background_nav_top_opacity = $customizer->add_control("text", "background_nav_top_opacity", $section_nav_top_style, __('Background Navigation Top Opacity', FAZZO_THEME_TXT));
+            $id_background_nav_top_image = $customizer->add_control("image", "background_nav_top_image", $section_nav_top_style, __('Background Navigation Top Image', FAZZO_THEME_TXT));
+
+            $js_content = <<<JS
+
+
+
 (function ($) {
+    function fazzo_linear_gradient(background_image, background_opacity, background_color_top, background_color_bottom, element)
+    {
+                    var image = wp.customize(background_image).get();
+                    if(image)
+                        return;
+                    var opacity = wp.customize(background_opacity).get();
+                    var color_top = wp.customize(background_color_top).get();
+                    var color_bottom = wp.customize(background_color_bottom).get();
+                    var rgba_top = hexToRgbA(color_top, opacity);
+                    var rgba_bottom = hexToRgbA(color_bottom, opacity);
+                            
+                    var transparent_top = wp.customize(background_color_top+'_transparent').get();
+                    if(transparent_top)
+                        var value_top = 'transparent';
+                    else
+                        var value_top = rgba_top;
+                    var transparent_bottom = wp.customize(background_color_bottom+'_transparent').get();
+                    if(transparent_bottom)
+                        var value_bottom = 'transparent';
+                    else
+                        var value_bottom = rgba_bottom;
+                    
+                    $(element).css('background-image', 'linear-gradient(to bottom, '+value_top+' 50%, '+value_bottom+' 100%)');
+    }
+    function fazzo_background_size(background_image, element)
+    {
+			    var size = wp.customize(background_image+'_size').get();
+				$(element).css('background-size', size);
+    }
+    function fazzo_background_repeat(background_image, element)
+    {
+        		var repeat = wp.customize(background_image+'_repeat').get();
+			    if(repeat)
+			        repeat = 'repeat';
+			    else
+			        repeat = 'no-repeat';
+				$(element).css('background-repeat', repeat);
+    }
+    function fazzo_background_attachment(background_image, element)
+    {
+			    var scroll = wp.customize(background_image+'_scroll').get();
+			    if(scroll)
+			        scroll = 'scroll';
+			    else
+			        scroll = 'fixed';
+				$(element).css('background-attachment ', scroll);
+    }    
+    function fazzo_background_position(background_image, element)
+    {
+                var position_y = wp.customize(background_image+'_position_y').get();
+                var position_x = wp.customize(background_image+'_position_x').get();
+                $(element).css('background-position', position_x+" "+position_y);
+    }    
+    
+    
 			// CODE FOR {$id_background_color_top}:
 			wp.customize('{$id_background_color_top}', function (value) { value.bind(function (value_set) {
-			   	var image = wp.customize('{$id_background_image_2}').get();
-			    if(image)
-			        return;
-			    var opacity = wp.customize('{$id_background_opacity}').get();
-                var color_2 = wp.customize('{$id_background_color_bottom}').get();
-                var rgba = hexToRgbA(value_set, opacity);
-                var rgba_2 = hexToRgbA(color_2, opacity);
-				$('body').css('background-image', 'linear-gradient(to bottom, '+rgba+' 50%, '+rgba_2+' 100%)');
+			    fazzo_linear_gradient('{$id_background_image_2}','{$id_background_opacity}','{$id_background_color_top}','{$id_background_color_bottom}','body');
 			})})
+			// CODE FOR {$id_background_color_top}_transparent:
+			wp.customize('{$id_background_color_top}_transparent', function (value) { value.bind(function (value_set) {
+			    fazzo_linear_gradient('{$id_background_image_2}','{$id_background_opacity}','{$id_background_color_top}','{$id_background_color_bottom}','body');
+			})})			
 			// CODE FOR {$id_background_color_bottom}:
 			wp.customize('{$id_background_color_bottom}', function (value) { value.bind(function (value_set) {
-			    var image = wp.customize('{$id_background_image_2}').get();
-			    if(image)
-			        return;
-			    var opacity = wp.customize('{$id_background_opacity}').get();
-                var color = wp.customize('{$id_background_color_top}').get();
-                var rgba = hexToRgbA(color, opacity);
-                var rgba_2 = hexToRgbA(value_set, opacity);
-				$('body').css('background-image', 'linear-gradient(to bottom, '+rgba+' 50%, '+rgba_2+' 100%)');
+			    fazzo_linear_gradient('{$id_background_image_2}','{$id_background_opacity}','{$id_background_color_top}','{$id_background_color_bottom}','body');
 			})})
+			// CODE FOR {$id_background_color_bottom}_transparent:
+			wp.customize('{$id_background_color_bottom}_transparent', function (value) { value.bind(function (value_set) {
+			    fazzo_linear_gradient('{$id_background_image_2}','{$id_background_opacity}','{$id_background_color_top}','{$id_background_color_bottom}','body');
+			})})			
 			// CODE FOR {$id_background_opacity}:
 			wp.customize('{$id_background_opacity}', function (value) { value.bind(function (value_set) {
-			    var image = wp.customize('{$id_background_image_2}').get();
-			    if(image)
-			        return;
-			var color = wp.customize('{$id_background_color_top}').get();
-				var color_2 = wp.customize('{$id_background_color_bottom}').get();
-                var rgba = hexToRgbA(color, value_set);
-                var rgba_2 = hexToRgbA(color_2, value_set);
-				$('body').css('background-image', 'linear-gradient(to bottom, '+rgba+' 50%, '+rgba_2+' 100%)');
+			    fazzo_linear_gradient('{$id_background_image_2}','{$id_background_opacity}','{$id_background_color_top}','{$id_background_color_bottom}','body');
 			})})
-			
 			// CODE FOR {$id_background_image}_size:
 			wp.customize('{$id_background_image}_size', function (value) { value.bind(function (value_set) {
-			    var size = wp.customize('{$id_background_image}_size').get();
-				$('html').css('background-size', size);
+			    fazzo_background_size('{$id_background_image}', 'html');
 			})})
 			// CODE FOR {$id_background_image}_repeat:
 			wp.customize('{$id_background_image}_repeat', function (value) { value.bind(function (value_set) {
-			    var repeat = wp.customize('{$id_background_image}_repeat').get();
-			    if(repeat)
-			        repeat = 'repeat';
-			    else
-			        repeat = 'no-repeat';
-				$('html').css('background-repeat', repeat);
+			    fazzo_background_repeat('{$id_background_image}', 'html');
 			})})
 			// CODE FOR {$id_background_image}_scroll:
 			wp.customize('{$id_background_image}_scroll', function (value) { value.bind(function (value_set) {
-			    var scroll = wp.customize('{$id_background_image}_scroll').get();
-			    if(scroll)
-			        scroll = 'scroll';
-			    else
-			        scroll = 'fixed';
-				$('html').css('background-attachment ', scroll);
+			    fazzo_background_attachment('{$id_background_image}', 'html');
 			})})
 			// CODE FOR {$id_background_image}_position_x:
 			wp.customize('{$id_background_image}_position_x', function (value) { value.bind(function (value_set) {
-			    var position_y = wp.customize('{$id_background_image}_position_y').get();
-				$('html').css('background-position', value_set+" "+position_y);
+			    fazzo_background_position('{$id_background_image}', 'html');
 			})})
 			// CODE FOR {$id_background_image}_position_y:
 			wp.customize('{$id_background_image}_position_y', function (value) { value.bind(function (value_set) {
-			    var position_x = wp.customize('{$id_background_image}_position_x').get();
-				$('html').css('background-position', position_x+" "+value_set);
+                fazzo_background_position('{$id_background_image}', 'html');
 			})})		
-			
-			// CODE FOR {$id_background_image_2}_size:
+				// CODE FOR {$id_background_image_2}_size:
 			wp.customize('{$id_background_image_2}_size', function (value) { value.bind(function (value_set) {
-			    var size = wp.customize('{$id_background_image_2}_size').get();
-				$('body').css('background-size', size);
+			    fazzo_background_size('{$id_background_image_2}', 'body');
 			})})
 			// CODE FOR {$id_background_image_2}_repeat:
 			wp.customize('{$id_background_image_2}_repeat', function (value) { value.bind(function (value_set) {
-			    var repeat = wp.customize('{$id_background_image_2}_repeat').get();
-			    if(repeat)
-			        repeat = 'repeat';
-			    else
-			        repeat = 'no-repeat';
-				$('body').css('background-repeat', repeat);
+			    fazzo_background_repeat('{$id_background_image_2}', 'body');
 			})})
 			// CODE FOR {$id_background_image_2}_scroll:
 			wp.customize('{$id_background_image_2}_scroll', function (value) { value.bind(function (value_set) {
-			    var scroll = wp.customize('{$id_background_image_2}_scroll').get();
-			    if(scroll)
-			        scroll = 'scroll';
-			    else
-			        scroll = 'fixed';
-				$('body').css('background-attachment ', scroll);
+			    fazzo_background_attachment('{$id_background_image_2}', 'body');
 			})})
 			// CODE FOR {$id_background_image_2}_position_x:
 			wp.customize('{$id_background_image_2}_position_x', function (value) { value.bind(function (value_set) {
-			    var position_y = wp.customize('{$id_background_image_2}_position_y').get();
-				$('body').css('background-position', value_set+" "+position_y);
+			    fazzo_background_position('{$id_background_image_2}', 'body');
 			})})
 			// CODE FOR {$id_background_image_2}_position_y:
 			wp.customize('{$id_background_image_2}_position_y', function (value) { value.bind(function (value_set) {
-			    var position_x = wp.customize('{$id_background_image_2}_position_x').get();
-				$('body').css('background-position', position_x+" "+value_set);
+			    fazzo_background_position('{$id_background_image_2}', 'body');
 			})})		
 			
 			
 			// CODE FOR {$id_background_head_color_top}:
 			wp.customize('{$id_background_head_color_top}', function (value) { value.bind(function (value_set) {
-			    var image = wp.customize('{$id_background_head_image}').get();
-			    if(image)
-			        return;
-			    var opacity = wp.customize('{$id_background_head_opacity}').get();
-                var color_2 = wp.customize('{$id_background_head_color_bottom}').get();
-                var rgba = hexToRgbA(value_set, opacity);
-                var rgba_2 = hexToRgbA(color_2, opacity);
-				$('#head-full-wrapper').css('background-image', 'linear-gradient(to bottom, '+rgba+' 50%, '+rgba_2+' 100%)');
+                fazzo_linear_gradient('{$id_background_head_image}','{$id_background_head_opacity}','{$id_background_head_color_top}','{$id_background_head_color_bottom}','#head-full-wrapper');
 			})})
+			// CODE FOR {$id_background_head_color_top}_transparent:
+			wp.customize('{$id_background_head_color_top}_transparent', function (value) { value.bind(function (value_set) {
+			    fazzo_linear_gradient('{$id_background_head_image}','{$id_background_head_opacity}','{$id_background_head_color_top}','{$id_background_head_color_bottom}','#head-full-wrapper');
+			})})				
 			// CODE FOR {$id_background_head_color_bottom}:
 			wp.customize('{$id_background_head_color_bottom}', function (value) { value.bind(function (value_set) {
-			    var image = wp.customize('{$id_background_head_image}').get();
-			    if(image)
-			        return;
-			    var opacity = wp.customize('{$id_background_head_opacity}').get();
-                var color = wp.customize('{$id_background_head_color_top}').get();
-                var rgba = hexToRgbA(color, opacity);
-                var rgba_2 = hexToRgbA(value_set, opacity);
-				$('#head-full-wrapper').css('background-image', 'linear-gradient(to bottom, '+rgba+' 50%, '+rgba_2+' 100%)');
+			    fazzo_linear_gradient('{$id_background_head_image}','{$id_background_head_opacity}','{$id_background_head_color_top}','{$id_background_head_color_bottom}','#head-full-wrapper');
 			})})
+			// CODE FOR {$id_background_head_color_bottom}_transparent:
+			wp.customize('{$id_background_head_color_bottom}_transparent', function (value) { value.bind(function (value_set) {
+			    fazzo_linear_gradient('{$id_background_head_image}','{$id_background_head_opacity}','{$id_background_head_color_top}','{$id_background_head_color_bottom}','#head-full-wrapper');
+			})})		
 			// CODE FOR {$id_background_head_opacity}:
 			wp.customize('{$id_background_head_opacity}', function (value) { value.bind(function (value_set) {
-			    var image = wp.customize('{$id_background_head_image}').get();
-			    if(image)
-			        return;			    
-			    var color = wp.customize('{$id_background_head_color_top}').get();
-				var color_2 = wp.customize('{$id_background_head_color_bottom}').get();
-                var rgba = hexToRgbA(color, value_set);
-                var rgba_2 = hexToRgbA(color_2, value_set);
-				$('#head-full-wrapper').css('background-image', 'linear-gradient(to bottom, '+rgba+' 50%, '+rgba_2+' 100%)');
+			    fazzo_linear_gradient('{$id_background_head_image}','{$id_background_head_opacity}','{$id_background_head_color_top}','{$id_background_head_color_bottom}','#head-full-wrapper');
 			})})
-			
-			
 			// CODE FOR {$id_background_head_image}_size:
 			wp.customize('{$id_background_head_image}_size', function (value) { value.bind(function (value_set) {
-			    var size = wp.customize('{$id_background_head_image}_size').get();
-				$('#head-full-wrapper').css('background-size', size);
+			    fazzo_background_size('{$id_background_head_image}', '#head-full-wrapper');
 			})})
 			// CODE FOR {$id_background_head_image}_repeat:
 			wp.customize('{$id_background_head_image}_repeat', function (value) { value.bind(function (value_set) {
-			    var repeat = wp.customize('{$id_background_head_image}_repeat').get();
-			    if(repeat)
-			        repeat = 'repeat';
-			    else
-			        repeat = 'no-repeat';
-				$('#head-full-wrapper').css('background-repeat', repeat);
+			    fazzo_background_repeat('{$id_background_head_image}', '#head-full-wrapper');
 			})})
 			// CODE FOR {$id_background_head_image}_scroll:
 			wp.customize('{$id_background_head_image}_scroll', function (value) { value.bind(function (value_set) {
-			    var scroll = wp.customize('{$id_background_head_image}_scroll').get();
-			    if(scroll)
-			        scroll = 'scroll';
-			    else
-			        scroll = 'fixed';
-				$('#head-full-wrapper').css('background-attachment ', scroll);
+			    fazzo_background_attachment('{$id_background_head_image}', '#head-full-wrapper');
 			})})
 			// CODE FOR {$id_background_head_image}_position_x:
 			wp.customize('{$id_background_head_image}_position_x', function (value) { value.bind(function (value_set) {
-			    var position_y = wp.customize('{$id_background_head_image}_position_y').get();
-				$('#head-full-wrapper').css('background-position', value_set+" "+position_y);
+			    fazzo_background_position('{$id_background_head_image}', '#head-full-wrapper');
 			})})
 			// CODE FOR {$id_background_head_image}_position_y:
 			wp.customize('{$id_background_head_image}_position_y', function (value) { value.bind(function (value_set) {
-			    var position_x = wp.customize('{$id_background_head_image}_position_x').get();
-				$('#head-full-wrapper').css('background-position', position_x+" "+value_set);
+			    fazzo_background_position('{$id_background_head_image}', '#head-full-wrapper');
 			})})			
+
+			// CODE FOR {$id_background_nav_top_color_top}:
+			wp.customize('{$id_background_nav_top_color_top}', function (value) { value.bind(function (value_set) {
+                fazzo_linear_gradient('{$id_background_nav_top_image}','{$id_background_nav_top_opacity}','{$id_background_nav_top_color_top}','{$id_background_nav_top_color_bottom}','#head-top-full-wrapper');
+			})})
+			// CODE FOR {$id_background_nav_top_color_top}_transparent:
+			wp.customize('{$id_background_nav_top_color_top}_transparent', function (value) { value.bind(function (value_set) {
+			    fazzo_linear_gradient('{$id_background_nav_top_image}','{$id_background_nav_top_opacity}','{$id_background_nav_top_color_top}','{$id_background_nav_top_color_bottom}','#head-top-full-wrapper');
+			})})				
+			// CODE FOR {$id_background_nav_top_color_bottom}:
+			wp.customize('{$id_background_nav_top_color_bottom}', function (value) { value.bind(function (value_set) {
+			    fazzo_linear_gradient('{$id_background_nav_top_image}','{$id_background_nav_top_opacity}','{$id_background_nav_top_color_top}','{$id_background_nav_top_color_bottom}','#head-top-full-wrapper');
+			})})
+			// CODE FOR {$id_background_nav_top_color_bottom}_transparent:
+			wp.customize('{$id_background_nav_top_color_bottom}_transparent', function (value) { value.bind(function (value_set) {
+			    fazzo_linear_gradient('{$id_background_nav_top_image}','{$id_background_nav_top_opacity}','{$id_background_nav_top_color_top}','{$id_background_nav_top_color_bottom}','#head-top-full-wrapper');
+			})})		
+			// CODE FOR {$id_background_nav_top_opacity}:
+			wp.customize('{$id_background_nav_top_opacity}', function (value) { value.bind(function (value_set) {
+			    fazzo_linear_gradient('{$id_background_nav_top_image}','{$id_background_nav_top_opacity}','{$id_background_nav_top_color_top}','{$id_background_nav_top_color_bottom}','#head-top-full-wrapper');
+			})})
+			// CODE FOR {$id_background_nav_top_image}_size:
+			wp.customize('{$id_background_nav_top_image}_size', function (value) { value.bind(function (value_set) {
+			    fazzo_background_size('{$id_background_nav_top_image}', '#head-top-full-wrapper');
+			})})
+			// CODE FOR {$id_background_nav_top_image}_repeat:
+			wp.customize('{$id_background_nav_top_image}_repeat', function (value) { value.bind(function (value_set) {
+			    fazzo_background_repeat('{$id_background_nav_top_image}', '#head-top-full-wrapper');
+			})})
+			// CODE FOR {$id_background_nav_top_image}_scroll:
+			wp.customize('{$id_background_nav_top_image}_scroll', function (value) { value.bind(function (value_set) {
+			    fazzo_background_attachment('{$id_background_nav_top_image}', '#head-top-full-wrapper');
+			})})
+			// CODE FOR {$id_background_nav_top_image}_position_x:
+			wp.customize('{$id_background_nav_top_image}_position_x', function (value) { value.bind(function (value_set) {
+			    fazzo_background_position('{$id_background_nav_top_image}', '#head-top-full-wrapper');
+			})})
+			// CODE FOR {$id_background_nav_top_image}_position_y:
+			wp.customize('{$id_background_nav_top_image}_position_y', function (value) { value.bind(function (value_set) {
+			    fazzo_background_position('{$id_background_nav_top_image}', '#head-top-full-wrapper');
+			})})	
+
 })(jQuery);		
 
 JS;
-			wp_register_script( 'dummy-handle-footer', '', [ "fazzo-theme-customizer-pre-js" ], static::version, true );
-			wp_enqueue_script( 'dummy-handle-footer' );
-			wp_add_inline_script( 'dummy-handle-footer', $js_content, 'after' );
+            wp_register_script('dummy-handle-footer', '', ["fazzo-theme-customizer-pre-js"], static::version, true);
+            wp_enqueue_script('dummy-handle-footer');
+            wp_add_inline_script('dummy-handle-footer', $js_content, 'after');
 
 
-			/*
-						$wp_customize->add_section( 'fazzo_main_menu_style', [
-							'priority'       => 665,
-							'capability'     => 'edit_theme_options',
-							'theme_supports' => '',
-							'title'          => __( 'Main Menu', FAZZO_THEME_TXT ),
-							'description'    => "",
-							'panel'          => 'fazzo_style',
-						] );
+            /*
+                        $wp_customize->add_section( 'fazzo_main_menu_style', [
+                            'priority'       => 665,
+                            'capability'     => 'edit_theme_options',
+                            'theme_supports' => '',
+                            'title'          => __( 'Main Menu', FAZZO_THEME_TXT ),
+                            'description'    => "",
+                            'panel'          => 'fazzo_style',
+                        ] );
 
-						$wp_customize->add_setting( 'fazzo_main_menu_color', [
-							'default'   => static::$customizer_defaults["fazzo_main_menu_color"],
-							'transport' => 'postMessage',
-						] );
+                        $wp_customize->add_setting( 'fazzo_main_menu_color', [
+                            'default'   => static::$customizer_defaults["fazzo_main_menu_color"],
+                            'transport' => 'postMessage',
+                        ] );
 
-						$wp_customize->add_control( new \WP_Customize_Color_Control( $wp_customize, 'fazzo_main_menu_color', [
-							'label'    => __( 'Background Color', FAZZO_THEME_TXT ),
-							'section'  => 'fazzo_main_menu_style',
-							'settings' => 'fazzo_main_menu_color',
-						] ) );
+                        $wp_customize->add_control( new \WP_Customize_Color_Control( $wp_customize, 'fazzo_main_menu_color', [
+                            'label'    => __( 'Background Color', FAZZO_THEME_TXT ),
+                            'section'  => 'fazzo_main_menu_style',
+                            'settings' => 'fazzo_main_menu_color',
+                        ] ) );
 
-						$wp_customize->add_setting( 'fazzo_main_menu_color2', [
-							'default'   => static::$customizer_defaults["fazzo_main_menu_color2"],
-							'transport' => 'postMessage',
-						] );
+                        $wp_customize->add_setting( 'fazzo_main_menu_color2', [
+                            'default'   => static::$customizer_defaults["fazzo_main_menu_color2"],
+                            'transport' => 'postMessage',
+                        ] );
 
-						$wp_customize->add_control( new \WP_Customize_Color_Control( $wp_customize, 'fazzo_main_menu_color2', [
-							'label'    => __( 'Background Color 2', FAZZO_THEME_TXT ),
-							'section'  => 'fazzo_main_menu_style',
-							'settings' => 'fazzo_main_menu_color2',
-						] ) );
+                        $wp_customize->add_control( new \WP_Customize_Color_Control( $wp_customize, 'fazzo_main_menu_color2', [
+                            'label'    => __( 'Background Color 2', FAZZO_THEME_TXT ),
+                            'section'  => 'fazzo_main_menu_style',
+                            'settings' => 'fazzo_main_menu_color2',
+                        ] ) );
 
-						$wp_customize->add_setting( 'fazzo_main_menu_border_color', [
-							'default'   => static::$customizer_defaults["fazzo_main_menu_border_color"],
-							'transport' => 'postMessage',
-						] );
+                        $wp_customize->add_setting( 'fazzo_main_menu_border_color', [
+                            'default'   => static::$customizer_defaults["fazzo_main_menu_border_color"],
+                            'transport' => 'postMessage',
+                        ] );
 
-						$wp_customize->add_control( new \WP_Customize_Color_Control( $wp_customize, 'fazzo_main_menu_border_color', [
-							'label'    => __( 'Border Color', FAZZO_THEME_TXT ),
-							'section'  => 'fazzo_main_menu_style',
-							'settings' => 'fazzo_main_menu_border_color',
-						] ) );
-
-
-						$wp_customize->add_setting( 'fazzo_main_menu_opacity', [
-							'default'   => static::$customizer_defaults["fazzo_main_menu_opacity"],
-							'transport' => 'postMessage',
-						] );
-
-						$wp_customize->add_control( new \WP_Customize_Control( $wp_customize, 'fazzo_main_menu_opacity', [
-							'label'    => __( 'Background Opacity', FAZZO_THEME_TXT ),
-							'section'  => 'fazzo_main_menu_style',
-							'settings' => 'fazzo_main_menu_opacity',
-							'type'     => 'text',
-						] ) );
+                        $wp_customize->add_control( new \WP_Customize_Color_Control( $wp_customize, 'fazzo_main_menu_border_color', [
+                            'label'    => __( 'Border Color', FAZZO_THEME_TXT ),
+                            'section'  => 'fazzo_main_menu_style',
+                            'settings' => 'fazzo_main_menu_border_color',
+                        ] ) );
 
 
-						$wp_customize->add_panel( 'fazzo_elements', [
-							'priority'       => 666,
-							'capability'     => 'edit_theme_options',
-							'theme_supports' => '',
-							'title'          => __( 'Homepage Elements', FAZZO_THEME_TXT ),
-							'description'    => "",
-						] );
+                        $wp_customize->add_setting( 'fazzo_main_menu_opacity', [
+                            'default'   => static::$customizer_defaults["fazzo_main_menu_opacity"],
+                            'transport' => 'postMessage',
+                        ] );
 
-						// Show/Hide Elements
-						$wp_customize->add_section( 'head_full_wrapper_display', [
-							'priority'       => 666,
-							'capability'     => 'edit_theme_options',
-							'theme_supports' => '',
-							'title'          => __( 'Show Elements of Head Area', FAZZO_THEME_TXT ),
-							'description'    => "",
-							'panel'          => 'fazzo_elements',
-						] );
-
-						$wp_customize->add_setting( 'head_full_wrapper_display', [
-							'default'   => static::$customizer_defaults["head_full_wrapper_display"],
-							'transport' => 'refresh',
-						] );
-
-						$wp_customize->add_control( new \WP_Customize_Control( $wp_customize, 'head_full_wrapper_display', [
-							'label'    => __( 'Show Head Area?', FAZZO_THEME_TXT ),
-							'section'  => 'head_full_wrapper_display',
-							'settings' => 'head_full_wrapper_display',
-							'type'     => 'radio',
-							'choices'  => [
-								true  => __( 'Yes', FAZZO_THEME_TXT ),
-								false => __( 'No', FAZZO_THEME_TXT ),
-							],
-						] ) );
+                        $wp_customize->add_control( new \WP_Customize_Control( $wp_customize, 'fazzo_main_menu_opacity', [
+                            'label'    => __( 'Background Opacity', FAZZO_THEME_TXT ),
+                            'section'  => 'fazzo_main_menu_style',
+                            'settings' => 'fazzo_main_menu_opacity',
+                            'type'     => 'text',
+                        ] ) );
 
 
-						$wp_customize->add_setting( 'head_top_right_wrapper_display', [
-							'default'   => static::$customizer_defaults["head_top_right_wrapper_display"],
-							'transport' => 'refresh',
-						] );
+                        $wp_customize->add_panel( 'fazzo_elements', [
+                            'priority'       => 666,
+                            'capability'     => 'edit_theme_options',
+                            'theme_supports' => '',
+                            'title'          => __( 'Homepage Elements', FAZZO_THEME_TXT ),
+                            'description'    => "",
+                        ] );
 
-						$wp_customize->add_control( new \WP_Customize_Control( $wp_customize, 'head_top_right_wrapper_display', [
-							'label'    => __( 'Show Search?', FAZZO_THEME_TXT ),
-							'section'  => 'head_full_wrapper_display',
-							'settings' => 'head_top_right_wrapper_display',
-							'type'     => 'radio',
-							'choices'  => [
-								true  => __( 'Yes', FAZZO_THEME_TXT ),
-								false => __( 'No', FAZZO_THEME_TXT ),
-							],
-						] ) );
+                        // Show/Hide Elements
+                        $wp_customize->add_section( 'head_full_wrapper_display', [
+                            'priority'       => 666,
+                            'capability'     => 'edit_theme_options',
+                            'theme_supports' => '',
+                            'title'          => __( 'Show Elements of Head Area', FAZZO_THEME_TXT ),
+                            'description'    => "",
+                            'panel'          => 'fazzo_elements',
+                        ] );
 
-						$wp_customize->add_setting( 'head_middle_full_wrapper_display', [
-							'default'   => static::$customizer_defaults["head_middle_full_wrapper_display"],
-							'transport' => 'refresh',
-						] );
+                        $wp_customize->add_setting( 'head_full_wrapper_display', [
+                            'default'   => static::$customizer_defaults["head_full_wrapper_display"],
+                            'transport' => 'refresh',
+                        ] );
 
-						$wp_customize->add_control( new \WP_Customize_Control( $wp_customize, 'head_middle_full_wrapper_display', [
-							'label'    => __( 'Head Middle Show?', FAZZO_THEME_TXT ),
-							'section'  => 'head_full_wrapper_display',
-							'settings' => 'head_middle_full_wrapper_display',
-							'type'     => 'radio',
-							'choices'  => [
-								true  => __( 'Yes', FAZZO_THEME_TXT ),
-								false => __( 'No', FAZZO_THEME_TXT ),
-							],
-						] ) );
-
-						$wp_customize->add_setting( 'head_description_display', [
-							'default'   => static::$customizer_defaults["head_description_display"],
-							'transport' => 'refresh',
-						] );
-
-						$wp_customize->add_control( new \WP_Customize_Control( $wp_customize, 'head_description_display', [
-							'label'    => __( 'Description Show?', FAZZO_THEME_TXT ),
-							'section'  => 'head_full_wrapper_display',
-							'settings' => 'head_description_display',
-							'type'     => 'radio',
-							'choices'  => [
-								true  => __( 'Yes', FAZZO_THEME_TXT ),
-								false => __( 'No', FAZZO_THEME_TXT ),
-							],
-						] ) );
+                        $wp_customize->add_control( new \WP_Customize_Control( $wp_customize, 'head_full_wrapper_display', [
+                            'label'    => __( 'Show Head Area?', FAZZO_THEME_TXT ),
+                            'section'  => 'head_full_wrapper_display',
+                            'settings' => 'head_full_wrapper_display',
+                            'type'     => 'radio',
+                            'choices'  => [
+                                true  => __( 'Yes', FAZZO_THEME_TXT ),
+                                false => __( 'No', FAZZO_THEME_TXT ),
+                            ],
+                        ] ) );
 
 
-						// Show/Hide Elements
-						$wp_customize->add_section( 'content_full_wrapper_display', [
-							'priority'       => 666,
-							'capability'     => 'edit_theme_options',
-							'theme_supports' => '',
-							'title'          => __( 'Show Elements of Content Area', FAZZO_THEME_TXT ),
-							'description'    => "",
-							'panel'          => 'fazzo_elements',
-						] );
+                        $wp_customize->add_setting( 'head_top_right_wrapper_display', [
+                            'default'   => static::$customizer_defaults["head_top_right_wrapper_display"],
+                            'transport' => 'refresh',
+                        ] );
 
-						$wp_customize->add_setting( 'post_nav_display', [
-							'default'   => static::$customizer_defaults["post_nav_display"],
-							'transport' => 'refresh',
-						] );
+                        $wp_customize->add_control( new \WP_Customize_Control( $wp_customize, 'head_top_right_wrapper_display', [
+                            'label'    => __( 'Show Search?', FAZZO_THEME_TXT ),
+                            'section'  => 'head_full_wrapper_display',
+                            'settings' => 'head_top_right_wrapper_display',
+                            'type'     => 'radio',
+                            'choices'  => [
+                                true  => __( 'Yes', FAZZO_THEME_TXT ),
+                                false => __( 'No', FAZZO_THEME_TXT ),
+                            ],
+                        ] ) );
 
-						$wp_customize->add_control( new \WP_Customize_Control( $wp_customize, 'post_nav_display', [
-							'label'    => __( 'Show Post Navigation?', FAZZO_THEME_TXT ),
-							'section'  => 'content_full_wrapper_display',
-							'settings' => 'post_nav_display',
-							'type'     => 'radio',
-							'choices'  => [
-								true  => __( 'Yes', FAZZO_THEME_TXT ),
-								false => __( 'No', FAZZO_THEME_TXT ),
-							],
-						] ) );
-			*/
-		}
+                        $wp_customize->add_setting( 'head_middle_full_wrapper_display', [
+                            'default'   => static::$customizer_defaults["head_middle_full_wrapper_display"],
+                            'transport' => 'refresh',
+                        ] );
 
-		/**
-		 * Get Theme Mod
-		 * @return mixed
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function get_mod( $id ) {
+                        $wp_customize->add_control( new \WP_Customize_Control( $wp_customize, 'head_middle_full_wrapper_display', [
+                            'label'    => __( 'Head Middle Show?', FAZZO_THEME_TXT ),
+                            'section'  => 'head_full_wrapper_display',
+                            'settings' => 'head_middle_full_wrapper_display',
+                            'type'     => 'radio',
+                            'choices'  => [
+                                true  => __( 'Yes', FAZZO_THEME_TXT ),
+                                false => __( 'No', FAZZO_THEME_TXT ),
+                            ],
+                        ] ) );
 
-			return get_theme_mod( static::$prefix . $id, static::$customizer_elements[ static::$prefix . $id ] );
-		}
+                        $wp_customize->add_setting( 'head_description_display', [
+                            'default'   => static::$customizer_defaults["head_description_display"],
+                            'transport' => 'refresh',
+                        ] );
 
-		/**
-		 * Customizer Preview
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function customizer_css() {
+                        $wp_customize->add_control( new \WP_Customize_Control( $wp_customize, 'head_description_display', [
+                            'label'    => __( 'Description Show?', FAZZO_THEME_TXT ),
+                            'section'  => 'head_full_wrapper_display',
+                            'settings' => 'head_description_display',
+                            'type'     => 'radio',
+                            'choices'  => [
+                                true  => __( 'Yes', FAZZO_THEME_TXT ),
+                                false => __( 'No', FAZZO_THEME_TXT ),
+                            ],
+                        ] ) );
 
 
-			$css            = "";
-			$css_ar         = [];
-			$css_ar["body"] = [];
-			$css_ar["html"] = [];
+                        // Show/Hide Elements
+                        $wp_customize->add_section( 'content_full_wrapper_display', [
+                            'priority'       => 666,
+                            'capability'     => 'edit_theme_options',
+                            'theme_supports' => '',
+                            'title'          => __( 'Show Elements of Content Area', FAZZO_THEME_TXT ),
+                            'description'    => "",
+                            'panel'          => 'fazzo_elements',
+                        ] );
 
-			$prefix = static::$prefix;
+                        $wp_customize->add_setting( 'post_nav_display', [
+                            'default'   => static::$customizer_defaults["post_nav_display"],
+                            'transport' => 'refresh',
+                        ] );
 
-			$mods = [];
+                        $wp_customize->add_control( new \WP_Customize_Control( $wp_customize, 'post_nav_display', [
+                            'label'    => __( 'Show Post Navigation?', FAZZO_THEME_TXT ),
+                            'section'  => 'content_full_wrapper_display',
+                            'settings' => 'post_nav_display',
+                            'type'     => 'radio',
+                            'choices'  => [
+                                true  => __( 'Yes', FAZZO_THEME_TXT ),
+                                false => __( 'No', FAZZO_THEME_TXT ),
+                            ],
+                        ] ) );
+            */
+        }
 
-			/*
-						foreach ( static::$customizer_elements as $setting => $data ) {
-							static::$customizer_elements[ $setting ]["default"] = get_theme_mod( $setting, $data["default"] );
+        /**
+         * Get Theme Mod
+         * @return mixed
+         * @since  1.0.0
+         * @access public
+         */
+        public function get_mod($id)
+        {
 
-							switch ( static::$customizer_elements[ $setting ]["type"] ) {
-								case "background_color":
-									if ( isset( static::$customizer_elements[ $setting ]["stop"] ) ) {
-										continue;
-									}
-									$rgb = functions::get_rgb_from_hex( static::$customizer_elements[ $setting ]['default'] );
-									if ( isset( static::$customizer_elements[ $setting ]["opacity"] ) ) {
-										$opacity = static::$customizer_elements[ static::$customizer_elements[ $setting ]["opacity"] ]["default"];
-									} else {
-										$opacity = 1;
-									}
-									if ( isset( static::$customizer_elements[ $setting ]["gradient"] ) ) {
-										$rgb2                                                            = functions::get_rgb_from_hex( static::$customizer_elements[ static::$customizer_elements[ $setting ]["gradient"] ]["default"] );
-										$css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-image: linear-gradient(to bottom, rgba($rgb,$opacity) 50%, rgba($rgb2,$opacity) 100%);";
-									} else {
-										$css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-color: $rgb,$opacity;";
-									}
+            return get_theme_mod(static::$prefix . $id, static::$customizer_elements[static::$prefix . $id]);
+        }
 
-									break;
-								case "background_image":
-									if ( ! empty( static::$customizer_elements[ $setting ]['default'] ) ) {
-										$image = wp_get_attachment_image_src( static::$customizer_elements[ $setting ]['default'], "full" );
-										if ( $image[0] ) {
-											$css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-image: url('" . $image[0] . "');";
-											$css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-position: top center;";
-											$css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-repeat: repeat;";
-											$css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-attachment : fixed;";
-											static::$customizer_elements[ $setting ]["stop"]                 = true;
-										}
-									}
-									break;
-								case "background_opacity":
-								default:
-									// Do nothing
-									break;
+        /**
+         * Customizer Preview
+         * @return void
+         * @since  1.0.0
+         * @access public
+         */
+        public function customizer_css()
+        {
 
-							}
-						}
-			*/
-			$style = "";
 
-			$image_src = wp_get_attachment_image_src( $this->get_mod( "background_head_image" ), "full" );
-			if ( $image_src[0] ) {
+            $css = "";
+            $css_ar = [];
+            $css_ar["body"] = [];
+            $css_ar["html"] = [];
+
+            $prefix = static::$prefix;
+
+            $mods = [];
+
+            /*
+                        foreach ( static::$customizer_elements as $setting => $data ) {
+                            static::$customizer_elements[ $setting ]["default"] = get_theme_mod( $setting, $data["default"] );
+
+                            switch ( static::$customizer_elements[ $setting ]["type"] ) {
+                                case "background_color":
+                                    if ( isset( static::$customizer_elements[ $setting ]["stop"] ) ) {
+                                        continue;
+                                    }
+                                    $rgb = functions::get_rgb_from_hex( static::$customizer_elements[ $setting ]['default'] );
+                                    if ( isset( static::$customizer_elements[ $setting ]["opacity"] ) ) {
+                                        $opacity = static::$customizer_elements[ static::$customizer_elements[ $setting ]["opacity"] ]["default"];
+                                    } else {
+                                        $opacity = 1;
+                                    }
+                                    if ( isset( static::$customizer_elements[ $setting ]["gradient"] ) ) {
+                                        $rgb2                                                            = functions::get_rgb_from_hex( static::$customizer_elements[ static::$customizer_elements[ $setting ]["gradient"] ]["default"] );
+                                        $css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-image: linear-gradient(to bottom, rgba($rgb,$opacity) 50%, rgba($rgb2,$opacity) 100%);";
+                                    } else {
+                                        $css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-color: $rgb,$opacity;";
+                                    }
+
+                                    break;
+                                case "background_image":
+                                    if ( ! empty( static::$customizer_elements[ $setting ]['default'] ) ) {
+                                        $image = wp_get_attachment_image_src( static::$customizer_elements[ $setting ]['default'], "full" );
+                                        if ( $image[0] ) {
+                                            $css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-image: url('" . $image[0] . "');";
+                                            $css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-position: top center;";
+                                            $css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-repeat: repeat;";
+                                            $css_ar[ static::$customizer_elements[ $setting ]["element"] ][] = "background-attachment : fixed;";
+                                            static::$customizer_elements[ $setting ]["stop"]                 = true;
+                                        }
+                                    }
+                                    break;
+                                case "background_opacity":
+                                default:
+                                    // Do nothing
+                                    break;
+
+                            }
+                        }
+            */
+            $style = "";
+
+            $image_src = wp_get_attachment_image_src($this->get_mod("background_head_image"), "full");
+            if ($image_src[0]) {
                 $image = $image_src[0];
                 $size = $this->get_mod("background_head_image_size");
                 $repeat = $this->get_mod("background_head_image_repeat");
@@ -1336,41 +1427,39 @@ JS;
 	background-attachment : {$scroll};
 }
 CSS;
-            }
-            else
-                {
-                    $opacity = $this->get_mod( "background_head_opacity" );
-                    $color_top = $this->get_mod( "background_head_color_top" );
-                    $color_bottom = $this->get_mod( "background_head_color_bottom" );
-                    $rgba_top = functions::get_rgb_from_hex($color_top).",".$opacity;
-                    $rgba_bottom = functions::get_rgb_from_hex($color_bottom).",".$opacity;
+            } else {
+                $opacity = $this->get_mod("background_head_opacity");
+                $color_top = $this->get_mod("background_head_color_top");
+                $color_bottom = $this->get_mod("background_head_color_bottom");
+                $rgba_top = functions::get_rgb_from_hex($color_top) . "," . $opacity;
+                $rgba_bottom = functions::get_rgb_from_hex($color_bottom) . "," . $opacity;
 
-                    $style .= <<<CSS
+                $style .= <<<CSS
 #head-full-wrapper {
 	background-image: linear-gradient(to bottom, rgba({$rgba_top}) 50%, rgba({$rgba_bottom}) 100%);
 }
 CSS;
-                }
+            }
 
 
-			$image_src = wp_get_attachment_image_src( $this->get_mod( "background_image" ), "full" );
-            if ( $image_src[0] ) {
+            $image_src = wp_get_attachment_image_src($this->get_mod("background_image"), "full");
+            if ($image_src[0]) {
                 $image = $image_src[0];
-                $size = $this->get_mod( "background_image_size" );
-                $repeat = $this->get_mod( "background_image_repeat" );
-                if ( $repeat ) {
+                $size = $this->get_mod("background_image_size");
+                $repeat = $this->get_mod("background_image_repeat");
+                if ($repeat) {
                     $repeat = "repeat";
                 } else {
                     $repeat = "no-repeat";
                 }
-                $scroll = $this->get_mod( "background_image_scroll" );
-                if ( $scroll ) {
+                $scroll = $this->get_mod("background_image_scroll");
+                if ($scroll) {
                     $scroll = "scroll";
                 } else {
                     $scroll = "fixed";
                 }
-                $position_x = $this->get_mod( "background_image_position_x" );
-                $position_y = $this->get_mod( "background_image_position_y" );
+                $position_x = $this->get_mod("background_image_position_x");
+                $position_y = $this->get_mod("background_image_position_y");
                 $style .= <<<CSS
 html {
 	background-image: url('{$image}');
@@ -1382,24 +1471,24 @@ html {
 CSS;
 
             }
-            $image_src = wp_get_attachment_image_src( $this->get_mod( "background_image_2" ), "full" );
-            if ( $image_src[0] ) {
+            $image_src = wp_get_attachment_image_src($this->get_mod("background_image_2"), "full");
+            if ($image_src[0]) {
                 $image = $image_src[0];
-                $size = $this->get_mod( "background_image_2_size" );
-                $repeat = $this->get_mod( "background_image_2_repeat" );
-                if ( $repeat ) {
+                $size = $this->get_mod("background_image_2_size");
+                $repeat = $this->get_mod("background_image_2_repeat");
+                if ($repeat) {
                     $repeat = "repeat";
                 } else {
                     $repeat = "no-repeat";
                 }
-                $scroll = $this->get_mod( "background_image_2_scroll" );
-                if ( $scroll ) {
+                $scroll = $this->get_mod("background_image_2_scroll");
+                if ($scroll) {
                     $scroll = "scroll";
                 } else {
                     $scroll = "fixed";
                 }
-                $position_x = $this->get_mod( "background_image_2_position_x" );
-                $position_y = $this->get_mod( "background_image_2_position_y" );
+                $position_x = $this->get_mod("background_image_2_position_x");
+                $position_y = $this->get_mod("background_image_2_position_y");
                 $style .= <<<CSS
 body {
 	background-image: url('{$image}');
@@ -1409,14 +1498,12 @@ body {
 	background-attachment : {$scroll};
 }
 CSS;
-            }
-            else
-            {
-                $opacity = $this->get_mod( "background_opacity" );
-                $color_top = $this->get_mod( "background_color_top" );
-                $color_bottom = $this->get_mod( "background_color_bottom" );
-                $rgba_top = functions::get_rgb_from_hex($color_top).",".$opacity;
-                $rgba_bottom = functions::get_rgb_from_hex($color_bottom).",".$opacity;
+            } else {
+                $opacity = $this->get_mod("background_opacity");
+                $color_top = $this->get_mod("background_color_top");
+                $color_bottom = $this->get_mod("background_color_bottom");
+                $rgba_top = functions::get_rgb_from_hex($color_top) . "," . $opacity;
+                $rgba_bottom = functions::get_rgb_from_hex($color_bottom) . "," . $opacity;
 
                 $style .= <<<CSS
 body {
@@ -1425,102 +1512,141 @@ body {
 CSS;
             }
 
+            $image_src = wp_get_attachment_image_src($this->get_mod("background_nav_top_image"), "full");
+            if ($image_src[0]) {
+                $image = $image_src[0];
+                $size = $this->get_mod("background_nav_top_image_size");
+                $repeat = $this->get_mod("background_nav_top_image_repeat");
+                if ($repeat) {
+                    $repeat = "repeat";
+                } else {
+                    $repeat = "no-repeat";
+                }
+                $scroll = $this->get_mod("background_nav_top_image_scroll");
+                if ($scroll) {
+                    $scroll = "scroll";
+                } else {
+                    $scroll = "fixed";
+                }
+                $position_x = $this->get_mod("background_nav_top_image_position_x");
+                $position_y = $this->get_mod("background_nav_top_image_position_y");
+                $style .= <<<CSS
+#head-top-full-wrapper {
+	background-image: url('{$image}');
+	background-position: {$position_x} {$position_y};
+	background-size: {$size};
+	background-repeat: {$repeat};
+	background-attachment : {$scroll};
+}
+CSS;
+            } else {
+                $opacity = $this->get_mod("background_nav_top_opacity");
+                $color_top = $this->get_mod("background_nav_top_color_top");
+                $color_bottom = $this->get_mod("background_nav_top_color_bottom");
+                $rgba_top = functions::get_rgb_from_hex($color_top) . "," . $opacity;
+                $rgba_bottom = functions::get_rgb_from_hex($color_bottom) . "," . $opacity;
 
+                $style .= <<<CSS
+#head-top-full-wrapper {
+	background-image: linear-gradient(to bottom, rgba({$rgba_top}) 50%, rgba({$rgba_bottom}) 100%);
+}
+CSS;
+            }            
 
 
             echo "<style>" . $style . "</style>";
 
 
-			/*
-						$background_image2_id = get_theme_mod( 'fazzo_background_image2', "" );
-						if ( ! empty( $background_image2_id ) ) {
-							$background_image2_src = wp_get_attachment_image_src( $background_image2_id, "full" );
-							if ( $background_image2_src[0] ) {
-								$css_ar["body"][] = "background: url('" . $background_image2_src[0] . "') top left repeat fixed;";
-							}
-						} else {
-							$background_color_opacity = get_theme_mod( 'fazzo_background_opacity', static::$customizer_defaults["fazzo_background_opacity"] );
+            /*
+                        $background_image2_id = get_theme_mod( 'fazzo_background_image2', "" );
+                        if ( ! empty( $background_image2_id ) ) {
+                            $background_image2_src = wp_get_attachment_image_src( $background_image2_id, "full" );
+                            if ( $background_image2_src[0] ) {
+                                $css_ar["body"][] = "background: url('" . $background_image2_src[0] . "') top left repeat fixed;";
+                            }
+                        } else {
+                            $background_color_opacity = get_theme_mod( 'fazzo_background_opacity', static::$customizer_defaults["fazzo_background_opacity"] );
 
-							$background_color     = get_theme_mod( 'fazzo_background_color', static::$customizer_defaults["fazzo_background_color"] );
-							$background_color_rgb = functions::get_rgb_from_hex( $background_color );
+                            $background_color     = get_theme_mod( 'fazzo_background_color', static::$customizer_defaults["fazzo_background_color"] );
+                            $background_color_rgb = functions::get_rgb_from_hex( $background_color );
 
-							if ( $background_color_rgb ) {
-								$css_ar["body"][] = "background-color: rgba(" . $background_color_rgb["r"] . ", " . $background_color_rgb["g"] . ", " . $background_color_rgb["b"] . ", $background_color_opacity)";
-							}
-						}
-
-
-						$background_image_id = get_post_thumbnail_id( functions::get_id_by_url() );
-						if ( $background_image_id ) {
-							$background_image_src = wp_get_attachment_image_src( $background_image_id, "full" );
-						}
-
-						if ( functions::is_false( $background_image_src[0] ) ) {
-							$background_image_id = get_theme_mod( 'fazzo_background_image', "" );
-							if ( ! empty( $background_image_id ) ) {
-								$background_image_src = wp_get_attachment_image_src( $background_image_id, "full" );
-
-							}
-						}
-
-						if ( $background_image_src[0] ) {
-							$css_ar["html"][] = "background: url('" . $background_image_src[0] . "') no-repeat center center fixed;";
-							$css_ar["html"][] = "-webkit-background-size: cover;";
-							$css_ar["html"][] = "-moz-background-size: cover;";
-							$css_ar["html"][] = "-o-background-size: cover;";
-							$css_ar["html"][] = "background-size: cover;";
-						}
+                            if ( $background_color_rgb ) {
+                                $css_ar["body"][] = "background-color: rgba(" . $background_color_rgb["r"] . ", " . $background_color_rgb["g"] . ", " . $background_color_rgb["b"] . ", $background_color_opacity)";
+                            }
+                        }
 
 
-						$head_background_image_id = get_theme_mod( 'fazzo_head_background_image', "" );
-						if ( ! empty( $head_background_image_id ) ) {
-							$head_background_image_src = wp_get_attachment_image_src( $head_background_image_id, "full" );
+                        $background_image_id = get_post_thumbnail_id( functions::get_id_by_url() );
+                        if ( $background_image_id ) {
+                            $background_image_src = wp_get_attachment_image_src( $background_image_id, "full" );
+                        }
 
-						}
-						if ( $head_background_image_src[0] ) {
-							$css_ar["#head-full-wrapper"][] = "background: url('" . $head_background_image_src[0] . "') no-repeat center bottom;";
-							//$css_ar["#head-full-wrapper"][] = "-webkit-background-size: cover;";
-							//$css_ar["#head-full-wrapper"][] = "-moz-background-size: cover;";
-							//$css_ar["#head-full-wrapper"][] = "-o-background-size: cover;";
-							//$css_ar["#head-full-wrapper"][] = "background-size: cover;";
-						}
+                        if ( functions::is_false( $background_image_src[0] ) ) {
+                            $background_image_id = get_theme_mod( 'fazzo_background_image', "" );
+                            if ( ! empty( $background_image_id ) ) {
+                                $background_image_src = wp_get_attachment_image_src( $background_image_id, "full" );
 
-						$main_menu_color            = get_theme_mod( 'fazzo_main_menu_color', static::$customizer_defaults["fazzo_main_menu_color"] );
-						$main_menu_color_rgb        = functions::get_rgb_from_hex( $main_menu_color );
-						$main_menu_color2           = get_theme_mod( 'fazzo_main_menu_color2', static::$customizer_defaults["fazzo_main_menu_color2"] );
-						$main_menu_color2_rgb       = functions::get_rgb_from_hex( $main_menu_color2 );
-						$main_menu_border_color     = get_theme_mod( 'fazzo_main_menu_border_color', static::$customizer_defaults["fazzo_main_menu_border_color"] );
-						$main_menu_border_color_rgb = functions::get_rgb_from_hex( $main_menu_border_color );
-						$main_menu_opacity          = get_theme_mod( 'fazzo_main_menu_opacity', static::$customizer_defaults["fazzo_main_menu_opacity"] );
+                            }
+                        }
 
-						if ( $main_menu_color_rgb && $main_menu_color2_rgb ) {
-							$css_ar["#menu-frontpage"][]          = $css_ar["#menu-content"][] = $css_ar["#bottom-nav-wrapper"][] = $css_ar["#head-top-left-wrapper"][] = $css_ar["#head-bottom-wrapper"][]
-								= "background: linear-gradient(0deg,  rgba(" . $main_menu_color2_rgb["r"] . ", " . $main_menu_color2_rgb["g"] . ", " . $main_menu_color2_rgb["b"] . ", 1) 0%, rgba(" . $main_menu_color_rgb["r"] . ", " . $main_menu_color_rgb["g"] . ", " . $main_menu_color_rgb["b"] . ", 1) 100%);";
-							$css_ar["#menu-frontpage li:hover"][] = $css_ar["#menu-content li:hover"][] = $css_ar["#bottom-nav-wrapper nav ul li:hover"][] = $css_ar["#head-top-left-wrapper nav ul li:hover"][] = $css_ar["#meta-head-nav-wrapper nav ul li:hover"][] =
-							$css_ar["#menu-frontpage li.hover"][] = $css_ar["#menu-content li.hover"][] = $css_ar["#bottom-nav-wrapper nav ul li.hover"][] = $css_ar["#head-top-left-wrapper nav ul li.hover"][] = $css_ar["#meta-head-nav-wrapper nav ul li.hover"][]
-								= "background: linear-gradient(0deg,  rgba(" . $main_menu_color_rgb["r"] . ", " . $main_menu_color_rgb["g"] . ", " . $main_menu_color_rgb["b"] . ", 1) 0%, rgba(" . $main_menu_color2_rgb["r"] . ", " . $main_menu_color2_rgb["g"] . ", " . $main_menu_color2_rgb["b"] . ", 1) 100%);";
+                        if ( $background_image_src[0] ) {
+                            $css_ar["html"][] = "background: url('" . $background_image_src[0] . "') no-repeat center center fixed;";
+                            $css_ar["html"][] = "-webkit-background-size: cover;";
+                            $css_ar["html"][] = "-moz-background-size: cover;";
+                            $css_ar["html"][] = "-o-background-size: cover;";
+                            $css_ar["html"][] = "background-size: cover;";
+                        }
 
 
-						}
-						if ( $main_menu_border_color_rgb ) {
-							$css_ar["#head-bottom-wrapper"][] = $css_ar["#bottom-nav-wrapper"][]
-								= "border-top: 1px solid rgba(" . $main_menu_border_color_rgb["r"] . ", " . $main_menu_border_color_rgb["g"] . ", " . $main_menu_border_color_rgb["b"] . ",0.65);";
-							$css_ar["#bottom-nav-wrapper"][]  = $css_ar["#head-top-left-wrapper"][] = $css_ar["#head-bottom-wrapper"][]
-								= "border-bottom: 1px solid rgba(" . $main_menu_border_color_rgb["r"] . ", " . $main_menu_border_color_rgb["g"] . ", " . $main_menu_border_color_rgb["b"] . ", 1);";
-							$css_ar["#menu-frontpage"][]      = $css_ar["#menu-content"][]
-								= "border: 1px solid rgba(" . $main_menu_border_color_rgb["r"] . ", " . $main_menu_border_color_rgb["g"] . ", " . $main_menu_border_color_rgb["b"] . ", 1);";
-							$css_ar["#menu-frontpage"][]      = $css_ar["#menu-content"][]
-								= "border-left: none;";
-						}
-						if ( $main_menu_opacity ) {
-							$css_ar["#menu-frontpage"][] = $css_ar["#menu-content"][] = $css_ar["#bottom-nav-wrapper"][] = $css_ar["#head-top-left-wrapper"][] = $css_ar["#head-bottom-wrapper"][]
-								= "opacity: " . $main_menu_opacity . ";";
-						}
-			*/
+                        $head_background_image_id = get_theme_mod( 'fazzo_head_background_image', "" );
+                        if ( ! empty( $head_background_image_id ) ) {
+                            $head_background_image_src = wp_get_attachment_image_src( $head_background_image_id, "full" );
+
+                        }
+                        if ( $head_background_image_src[0] ) {
+                            $css_ar["#head-full-wrapper"][] = "background: url('" . $head_background_image_src[0] . "') no-repeat center bottom;";
+                            //$css_ar["#head-full-wrapper"][] = "-webkit-background-size: cover;";
+                            //$css_ar["#head-full-wrapper"][] = "-moz-background-size: cover;";
+                            //$css_ar["#head-full-wrapper"][] = "-o-background-size: cover;";
+                            //$css_ar["#head-full-wrapper"][] = "background-size: cover;";
+                        }
+
+                        $main_menu_color            = get_theme_mod( 'fazzo_main_menu_color', static::$customizer_defaults["fazzo_main_menu_color"] );
+                        $main_menu_color_rgb        = functions::get_rgb_from_hex( $main_menu_color );
+                        $main_menu_color2           = get_theme_mod( 'fazzo_main_menu_color2', static::$customizer_defaults["fazzo_main_menu_color2"] );
+                        $main_menu_color2_rgb       = functions::get_rgb_from_hex( $main_menu_color2 );
+                        $main_menu_border_color     = get_theme_mod( 'fazzo_main_menu_border_color', static::$customizer_defaults["fazzo_main_menu_border_color"] );
+                        $main_menu_border_color_rgb = functions::get_rgb_from_hex( $main_menu_border_color );
+                        $main_menu_opacity          = get_theme_mod( 'fazzo_main_menu_opacity', static::$customizer_defaults["fazzo_main_menu_opacity"] );
+
+                        if ( $main_menu_color_rgb && $main_menu_color2_rgb ) {
+                            $css_ar["#menu-frontpage"][]          = $css_ar["#menu-content"][] = $css_ar["#bottom-nav-wrapper"][] = $css_ar["#head-top-left-wrapper"][] = $css_ar["#head-bottom-wrapper"][]
+                                = "background: linear-gradient(0deg,  rgba(" . $main_menu_color2_rgb["r"] . ", " . $main_menu_color2_rgb["g"] . ", " . $main_menu_color2_rgb["b"] . ", 1) 0%, rgba(" . $main_menu_color_rgb["r"] . ", " . $main_menu_color_rgb["g"] . ", " . $main_menu_color_rgb["b"] . ", 1) 100%);";
+                            $css_ar["#menu-frontpage li:hover"][] = $css_ar["#menu-content li:hover"][] = $css_ar["#bottom-nav-wrapper nav ul li:hover"][] = $css_ar["#head-top-left-wrapper nav ul li:hover"][] = $css_ar["#meta-head-nav-wrapper nav ul li:hover"][] =
+                            $css_ar["#menu-frontpage li.hover"][] = $css_ar["#menu-content li.hover"][] = $css_ar["#bottom-nav-wrapper nav ul li.hover"][] = $css_ar["#head-top-left-wrapper nav ul li.hover"][] = $css_ar["#meta-head-nav-wrapper nav ul li.hover"][]
+                                = "background: linear-gradient(0deg,  rgba(" . $main_menu_color_rgb["r"] . ", " . $main_menu_color_rgb["g"] . ", " . $main_menu_color_rgb["b"] . ", 1) 0%, rgba(" . $main_menu_color2_rgb["r"] . ", " . $main_menu_color2_rgb["g"] . ", " . $main_menu_color2_rgb["b"] . ", 1) 100%);";
 
 
-		}
+                        }
+                        if ( $main_menu_border_color_rgb ) {
+                            $css_ar["#head-bottom-wrapper"][] = $css_ar["#bottom-nav-wrapper"][]
+                                = "border-top: 1px solid rgba(" . $main_menu_border_color_rgb["r"] . ", " . $main_menu_border_color_rgb["g"] . ", " . $main_menu_border_color_rgb["b"] . ",0.65);";
+                            $css_ar["#bottom-nav-wrapper"][]  = $css_ar["#head-top-left-wrapper"][] = $css_ar["#head-bottom-wrapper"][]
+                                = "border-bottom: 1px solid rgba(" . $main_menu_border_color_rgb["r"] . ", " . $main_menu_border_color_rgb["g"] . ", " . $main_menu_border_color_rgb["b"] . ", 1);";
+                            $css_ar["#menu-frontpage"][]      = $css_ar["#menu-content"][]
+                                = "border: 1px solid rgba(" . $main_menu_border_color_rgb["r"] . ", " . $main_menu_border_color_rgb["g"] . ", " . $main_menu_border_color_rgb["b"] . ", 1);";
+                            $css_ar["#menu-frontpage"][]      = $css_ar["#menu-content"][]
+                                = "border-left: none;";
+                        }
+                        if ( $main_menu_opacity ) {
+                            $css_ar["#menu-frontpage"][] = $css_ar["#menu-content"][] = $css_ar["#bottom-nav-wrapper"][] = $css_ar["#head-top-left-wrapper"][] = $css_ar["#head-bottom-wrapper"][]
+                                = "opacity: " . $main_menu_opacity . ";";
+                        }
+            */
 
 
-	}
+        }
+
+
+    }
 }
