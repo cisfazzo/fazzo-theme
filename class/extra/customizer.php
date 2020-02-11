@@ -125,7 +125,7 @@ if ( ! class_exists( '\fazzo\customizer' ) ) {
 			return $id;
 		}
 
-		public function add_control( $type, $id, $to_id, $title, $js = "", $array = [] ) {
+		public function add_control( $type, $id, $to_id, $title, $js = null, $array = [] ) {
 			$id = $this->prefix . $id;
 
 			switch ( $type ) {
@@ -155,16 +155,22 @@ if ( ! class_exists( '\fazzo\customizer' ) ) {
 						"transport" => $this->transport["instant"],
 					] );
 					break;
-                case "color":
-                    $this->wp_customize->add_setting( $id, [
-                        "default"   => fazzo::$customizer_elements[ $id ],
-                        "transport" => $this->transport["instant"],
-                    ] );
-                    $this->wp_customize->add_setting( $id."_transparent", [
-                        "default"   => fazzo::$customizer_elements[ $id."_transparent" ],
-                        "transport" => $this->transport["instant"],
-                    ] );
-                    break;
+				case "color":
+					$this->wp_customize->add_setting( $id, [
+						"default"   => fazzo::$customizer_elements[ $id ],
+						"transport" => $this->transport["instant"],
+					] );
+					$this->wp_customize->add_setting( $id . "_transparent", [
+						"default"   => fazzo::$customizer_elements[ $id . "_transparent" ],
+						"transport" => $this->transport["instant"],
+					] );
+					break;
+				case "checkbox":
+					$this->wp_customize->add_setting( $id, [
+						"default"   => fazzo::$customizer_elements[ $id ],
+						"transport" => $this->transport["reload"],
+					] );
+					break;
 				default:
 					$this->wp_customize->add_setting( $id, [
 						"default"   => fazzo::$customizer_elements[ $id ],
@@ -218,23 +224,23 @@ if ( ! class_exists( '\fazzo\customizer' ) ) {
 							'settings'  => $id,
 						] ) );
 
-                    $this->wp_customize->add_control( new \WP_Customize_Control( $this->wp_customize, $id. "_position_x",
-                        [
-                            'section'  => $to_id,
-                            'label'    => "position_x",
-                            'type'     => 'text',
-                            'settings' => $id . "_position_x" ,
-                        ] ) );
-                    $this->wp_customize->add_control( new \WP_Customize_Control( $this->wp_customize, $id. "_position_y",
-                        [
-                            'section'  => $to_id,
-                            'label'    => "position_y",
-                            'type'     => 'text',
-                            'settings' => $id . "_position_y" ,
-                        ] ) );
+					$this->wp_customize->add_control( new \WP_Customize_Control( $this->wp_customize, $id . "_position_x",
+						[
+							'section'  => $to_id,
+							'label'    => "position_x",
+							'type'     => 'text',
+							'settings' => $id . "_position_x",
+						] ) );
+					$this->wp_customize->add_control( new \WP_Customize_Control( $this->wp_customize, $id . "_position_y",
+						[
+							'section'  => $to_id,
+							'label'    => "position_y",
+							'type'     => 'text',
+							'settings' => $id . "_position_y",
+						] ) );
 
 
-                    new customizer_script($id);
+					new customizer_script( $id );
 
 					$this->wp_customize->add_control( new \WP_Customize_Control( $this->wp_customize, $id . "_size",
 						[
@@ -270,13 +276,13 @@ if ( ! class_exists( '\fazzo\customizer' ) ) {
 							'label'    => $title,
 							'settings' => $id,
 						] ) );
-                    $this->wp_customize->add_control( new \WP_Customize_Control( $this->wp_customize, $id."_transparent",
-                        [
-                            'section'  => $to_id,
-                            'label'    => $title." ".__("Transparent", FAZZO_THEME_TXT),
-                            'type'     => 'checkbox',
-                            'settings' => $id."_transparent",
-                        ] ) );
+					$this->wp_customize->add_control( new \WP_Customize_Control( $this->wp_customize, $id . "_transparent",
+						[
+							'section'  => $to_id,
+							'label'    => $title . " " . __( "Transparent", FAZZO_THEME_TXT ),
+							'type'     => 'checkbox',
+							'settings' => $id . "_transparent",
+						] ) );
 					break;
 				default:
 					// Do nothing
@@ -287,62 +293,302 @@ if ( ! class_exists( '\fazzo\customizer' ) ) {
 		}
 
 
+		/**
+		 * Get Theme Mod
+		 * @return mixed
+		 * @since  1.0.0
+		 * @access public
+		 */
+		public static function get_mod( $id ) {
+
+			if ( ! isset( fazzo::$customizer_elements[ fazzo::$prefix . $id ] ) ) {
+				return false;
+			}
+
+			return get_theme_mod( fazzo::$prefix . $id, fazzo::$customizer_elements[ fazzo::$prefix . $id ] );
+		}
+
+		/**
+		 */
+		public static function live_css_font( $element, $property, $css, $css_suffix = "" ) {
+			$style = "";
+			if ( isset( fazzo::$customizer_elements[ fazzo::$prefix . $element . "_color" ] ) ) {
+				$font_color             = false;
+				$font_color_transparent = static::get_mod( $element . "_color_transparent" );
+				if ( $font_color_transparent ) {
+					$font_color = "transparent";
+				} else {
+					$font_color = static::get_mod( $element . "_color" );
+
+				}
+				if ( $font_color !== false ) {
+
+					if ( is_array( $css ) ) {
+						foreach ( $css as $css_el ) {
+							$style .= <<<CSS
+
+{$css_el} {$css_suffix}{
+	{$property}: {$font_color};
+}
+CSS;
+
+						}
+					} else {
+
+						$style .= <<<CSS
+
+{$css} {$css_suffix}{
+	{$property}: {$font_color};
+}
+CSS;
+					}
+				}
+			}
+
+			return $style;
+		}
 
 
+		/**
+		 */
+		public static function live_css_border( $element, $property, $css, $element_opacity = false, $css_suffix = "")  {
+			$style = "";
+			if ( isset( fazzo::$customizer_elements[ fazzo::$prefix . $element . "_color" ] ) ) {
+				$font_color             = false;
+				$font_color_transparent = static::get_mod( $element . "_color_transparent" );
+				if ( $font_color_transparent ) {
+					$font_color = "transparent";
+				} else {
+
+					$font_color = static::get_mod( $element . "_color" );
+
+					if(!empty($element_opacity)) {
+						$opacity = static::get_mod( $element_opacity . "_opacity" );
+						$font_color = "rgba(" . functions::get_rgb_from_hex( $font_color ) . "," . $opacity . ")";
+					}
+
+
+				}
+				if ( $font_color !== false ) {
+
+					if ( is_array( $css ) ) {
+						foreach ( $css as $css_el ) {
+							$style .= <<<CSS
+
+{$css_el} {$css_suffix}{
+	{$property}: {$font_color};
+}
+CSS;
+
+						}
+					} else {
+
+						$style .= <<<CSS
+
+{$css} {$css_suffix}{
+	{$property}: {$font_color};
+}
+CSS;
+					}
+				}
+			}
+
+			return $style;
+		}
+
+		public static function live_border_color($element, $element_opacity = false)
+		{
+			$_nav_top_border_color = "transparent";
+			$transparent           = false;
+			if ( isset( static::$customizer_elements[ fazzo::$prefix . $element."_transparent" ] ) ) {
+				$transparent = static::get_mod( $element."_transparent" );
+			}
+			if ( empty( $transparent ) && isset( static::$customizer_elements[ fazzo::$prefix . $element  ] ) ) {
+
+				$border_color = static::get_mod( $element );
+				if ( $border_color !== false ) {
+
+					if(!empty($element_opacity)) {
+						$opacity = static::get_mod( $element_opacity . "_opacity" );
+						$_nav_top_border_color = "rgba(" . functions::get_rgb_from_hex( $border_color ) . "," . $opacity . ")";
+					}
+					else {
+						$_nav_top_border_color = $border_color;
+					}
+				}
+			}
+
+			return $_nav_top_border_color;
+		}
+
+		public static function live_css_background( $element, $css, $css_suffix = "", $breakpoint = false ) {
+			$style     = "";
+			$image_src = [ 0 => false ];
+			$css_pre   = "";
+			$css_suf   = "";
+			if ( ! empty( $breakpoint ) ) {
+				$css_pre = "@media screen and (max-width: " . $breakpoint . ") {";
+				$css_suf = "}";
+			}
+			if ( isset( fazzo::$customizer_elements[ fazzo::$prefix . $element . "_image" ] ) ) {
+				$image_src = \wp_get_attachment_image_src( static::get_mod( $element . "_image" ), "full" );
+			}
+			if ( $image_src[0] ) {
+				$image      = $image_src[0];
+				$size       = static::get_mod( $element . "_image_size" );
+				$repeat     = static::get_mod( $element . "_image_repeat" );
+				$scroll     = static::get_mod( $element . "_image_scroll" );
+				$position_x = static::get_mod( $element . "_image_position_x" );
+				$position_y = static::get_mod( $element . "_image_position_y" );
+
+				if ( ( $size || $repeat || $scroll || $position_x || $position_y ) === false ) {
+					return "";
+				}
+
+				if ( $repeat ) {
+					$repeat = "repeat";
+				} else {
+					$repeat = "no-repeat";
+				}
+				if ( $scroll ) {
+					$scroll = "scroll";
+				} else {
+					$scroll = "fixed";
+				}
+
+
+				if ( is_array( $css ) ) {
+					foreach ( $css as $css_el ) {
+						$style .= <<<CSS
+{$css_pre}
+{$css_el} {$css_suffix} {
+	background-image: url('{$image}');
+	background-position: {$position_x} {$position_y};
+	background-size: {$size};
+	background-repeat: {$repeat};
+	background-attachment : {$scroll};
+}
+{$css_suf}
+CSS;
+					}
+				} else {
+					$style .= <<<CSS
+{$css_pre}
+{$css} {$css_suffix} {
+	background-image: url('{$image}');
+	background-position: {$position_x} {$position_y};
+	background-size: {$size};
+	background-repeat: {$repeat};
+	background-attachment : {$scroll};
+}
+{$css_suf}
+CSS;
+				}
+			} elseif ( isset( fazzo::$customizer_elements[ fazzo::$prefix . $element . "_color_top" ] ) ) {
+				$opacity                  = static::get_mod( $element . "_opacity" );
+				$color_top                = static::get_mod( $element . "_color_top" );
+				$color_top_transparent    = static::get_mod( $element . "_color_top_transparent" );
+				$color_bottom             = static::get_mod( $element . "_color_bottom" );
+				$color_bottom_transparent = static::get_mod( $element . "_color_bottom_transparent" );
+
+				if ( ( $opacity || $color_top || $color_bottom ) === false ) {
+					return "";
+				}
+
+				if ( $color_top_transparent === true ) {
+					$rgba_top = "transparent";
+				} else {
+
+					$rgba_top = "rgba(" . functions::get_rgb_from_hex( $color_top ) . "," . $opacity . ")";
+				}
+
+				if ( $color_bottom_transparent === true ) {
+					$rgba_bottom = "transparent";
+				} else {
+					$rgba_bottom = "rgba(" . functions::get_rgb_from_hex( $color_bottom ) . "," . $opacity . ")";
+				}
+
+				if ( is_array( $css ) ) {
+					foreach ( $css as $css_el ) {
+						$style .= <<<CSS
+{$css_pre}
+{$css_el} {$css_suffix} {
+	background-image: linear-gradient(to bottom, {$rgba_top} 50%, {$rgba_bottom} 100%);
+	background-repeat: no-repeat;
+}
+{$css_suf}
+CSS;
+					}
+				} else {
+					$style .= <<<CSS
+{$css_pre}
+{$css} {$css_suffix} {
+	background-image: linear-gradient(to bottom, {$rgba_top} 50%, {$rgba_bottom} 100%);
+	background-repeat: no-repeat;
+}
+{$css_suf}
+CSS;
+				}
+
+			}
+
+			return $style;
+		}
 	}
+
+
 }
 
 if ( ! class_exists( '\fazzo\customizer_script' ) ) {
-    /**
-     * Funktionsklasse
-     * @since 1.0.0
-     */
-    class customizer_script
-    {
-        /**
-         * Die ID
-         * @since  1.0.0
-         * @access public
-         * @var string
-         */
-        public $id = null;
+	/**
+	 * Funktionsklasse
+	 * @since 1.0.0
+	 */
+	class customizer_script {
+		/**
+		 * Die ID
+		 * @since  1.0.0
+		 * @access public
+		 * @var string
+		 */
+		public $id = null;
 
-        /**
-         * PHP constructor.
-         * @since  1.0.0
-         * @access public
-         */
-        public function __construct( $id ) {
+		/**
+		 * PHP constructor.
+		 * @since  1.0.0
+		 * @access public
+		 */
+		public function __construct( $id ) {
 
-            $this->id = $id;
-            add_action( 'customize_controls_enqueue_scripts', [$this, "customizer_image_alignement"]);
-        }
+			$this->id = $id;
+			add_action( 'customize_controls_enqueue_scripts', [ $this, "customizer_image_alignement" ] );
+		}
 
-        /**
-         * Customizer Control enqueue Scripts and Styles
-         * @return void
-         * @since  1.0.0
-         * @access public
-         */
-        public function customizer_image_alignement() {
+		/**
+		 * Customizer Control enqueue Scripts and Styles
+		 * @return void
+		 * @since  1.0.0
+		 * @access public
+		 */
+		public function customizer_image_alignement() {
 
-            $id = $this->id;
+			$id = $this->id;
 
-            wp_register_script( 'fazzo-theme-'.$this->id, get_template_directory_uri() . '/js/customizer_image_alignement.js', [
-                'jquery',
-                'customize-preview',
-            ], fazzo::version, true );
+			wp_register_script( 'fazzo-theme-' . $this->id, get_template_directory_uri() . '/js/customizer_image_alignement.js', [
+				'jquery',
+				'customize-preview',
+			], fazzo::version, true );
 
 
-            $translation_array = array(
-                'publish' => __("Publish", FAZZO_THEME_TXT),
-            );
+			$translation_array = array(
+				'publish' => __( "Publish", FAZZO_THEME_TXT ),
+			);
 
-            wp_localize_script( 'fazzo-theme-'.$this->id, 'trans', $translation_array );
+			wp_localize_script( 'fazzo-theme-' . $this->id, 'trans', $translation_array );
 
-            wp_enqueue_script( 'fazzo-theme-'.$this->id);
+			wp_enqueue_script( 'fazzo-theme-' . $this->id );
 
-            $js_content = <<<JS
+			$js_content = <<<JS
 jQuery(document).ready(function($) {
     
     $("#customize-control-{$this->id}_position_x").css("display", "none");
@@ -367,10 +613,11 @@ jQuery(document).ready(function($) {
 
 
 JS;
-            wp_add_inline_script( 'fazzo-theme-'.$this->id, $js_content, 'after' );
+			wp_add_inline_script( 'fazzo-theme-' . $this->id, $js_content, 'after' );
 
 
-        }
+		}
 
-    }
+
+	}
 }

@@ -19,12 +19,10 @@ $GLOBALS["fazzo_breakpoint"] = "-sm";
 	<?php endif; ?>
 	<?php wp_head(); ?>
 </head>
-<body <?php body_class(); ?> data-spy="scroll" data-target=".nav-scroll" data-offset="260">
-<div id="body-wrapper">
-    <div id="z-index-counter" style="position:relative;display:none;"></div>
-    <div id="full-header-wrapper">
+<body <?php body_class(); ?>>
+<div id="body_overlay" class="wrap wrapper">
 
-		<?php
-		get_template_part( 'templ/sections/head' );
-		get_template_part( 'templ/sections/content', 'start' );
+<?php
+get_template_part( 'templ/sections/head' );
+get_template_part( 'templ/sections/content', 'head' );
 

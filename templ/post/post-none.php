@@ -1,8 +1,8 @@
 <?php
+
 namespace fazzo;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+$dir_root = dirname( __FILE__ ) . "/../../";
+require_once( $dir_root . "security.php" );
 
-require_once (FAZZO_THEME_ROOT."/404.php");
+require_once( $dir_root . "/404.php" );

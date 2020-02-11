@@ -9,40 +9,41 @@ if ( post_password_required() ) {
 	return;
 }
 
-?><div class="comments-full-wrapper">
-<?php if ( have_comments() ){ ?>
-    <div class="comment-title">
-		<?php
-		printf( esc_html__( _nx( 'One comment on &ldquo;%2$s&rdquo;', '%1$s comments on &ldquo;%2$s&rdquo;', get_comments_number(), 'comments title', FAZZO_THEME_TXT ) ), number_format_i18n( get_comments_number() ), '<span>' . get_the_title() . '</span>' );
-		?>
-    </div><!-- comment-title -->
-	<?php fazzo::get_comments_navigation(); ?>
-    <ol class="comment-list">
-		<?php
-		$args = [
-			'walker'            => null,
-			'max_depth'         => '',
-			'style'             => 'ol',
-			'callback'          => null,
-			'end-callback'      => null,
-			'type'              => 'all',
-			'reply_text'        => __( 'Reply', FAZZO_THEME_TXT ),
-			'page'              => '',
-			'per_page'          => '',
-			'avatar_size'       => 64,
-			'reverse_top_level' => null,
-			'reverse_children'  => '',
-			'format'            => 'html5',
-			'short_ping'        => false,
-			'echo'              => true,
-		];
-		wp_list_comments( $args );
-		?>
-    </ol><!-- comment-list -->
-	<?php fazzo::get_comments_navigation();
-	if ( ! comments_open() && get_comments_number() ) { ?>
-        <div class="no-comments"><?php esc_html_e( 'Comments are closed.', FAZZO_THEME_TXT ); ?></div><!-- no-comments -->
-	<?php }
+?>
+<div class="comments-full-wrapper">
+	<?php if ( have_comments() ) { ?>
+        <div class="comment-title">
+			<?php
+			printf( esc_html__( _nx( 'One comment on &ldquo;%2$s&rdquo;', '%1$s comments on &ldquo;%2$s&rdquo;', get_comments_number(), 'comments title', FAZZO_THEME_TXT ) ), number_format_i18n( get_comments_number() ), '<span>' . get_the_title() . '</span>' );
+			?>
+        </div><!-- comment-title -->
+		<?php fazzo::get_comments_navigation(); ?>
+        <ol class="comment-list">
+			<?php
+			$args = [
+				'walker'            => null,
+				'max_depth'         => '',
+				'style'             => 'ol',
+				'callback'          => null,
+				'end-callback'      => null,
+				'type'              => 'all',
+				'reply_text'        => __( 'Reply', FAZZO_THEME_TXT ),
+				'page'              => '',
+				'per_page'          => '',
+				'avatar_size'       => 64,
+				'reverse_top_level' => null,
+				'reverse_children'  => '',
+				'format'            => 'html5',
+				'short_ping'        => false,
+				'echo'              => true,
+			];
+			wp_list_comments( $args );
+			?>
+        </ol><!-- comment-list -->
+		<?php fazzo::get_comments_navigation();
+		if ( ! comments_open() && get_comments_number() ) { ?>
+            <div class="no-comments"><?php esc_html_e( 'Comments are closed.', FAZZO_THEME_TXT ); ?></div><!-- no-comments -->
+		<?php }
 	}
 	$fields = [
 		'author' => '<div class="form-group"><label for="author">' . __( 'Name', FAZZO_THEME_TXT ) . '</label> <span class="required">*</span> <input id="author" name="author" type="text" class="form-control" value="' . esc_attr( $commenter['comment_author'] ) . '" required="required" /></div>',

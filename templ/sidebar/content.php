@@ -1,4 +1,5 @@
 <?php
+
 namespace fazzo;
 
 if ( is_active_sidebar( 'fazzo-sidebar-content' ) ) {

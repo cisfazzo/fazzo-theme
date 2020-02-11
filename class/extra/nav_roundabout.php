@@ -40,13 +40,13 @@ if ( ! class_exists( '\fazzo\nav_roundabout' ) ) {
 
 
 				//var_dump($this->current_item);
-                if(functions::is_object_not_empty($this->current_item)) {
-                    if ($this->current_depth != $this->current_child_depth) {
-                        $this->current_parent = (int)$this->current_item->ID;
-                    } else {
-                        $this->current_parent = (int)$this->current_item->menu_item_parent;
-                    }
-                }
+				if ( functions::is_object_not_empty( $this->current_item ) ) {
+					if ( $this->current_depth != $this->current_child_depth ) {
+						$this->current_parent = (int) $this->current_item->ID;
+					} else {
+						$this->current_parent = (int) $this->current_item->menu_item_parent;
+					}
+				}
 
 				//var_dump($this->current_parent );
 
@@ -150,10 +150,10 @@ if ( ! class_exists( '\fazzo\nav_roundabout' ) ) {
 			$this->output = "";
 
 			if ( ! functions::is_empty_array( $this->items_flat ) ) {
-				$this->output .= "<div id='menu-roundabout-".strtolower($this->menu_name)."' class='menu-roundabout'>";
+				$this->output .= "<div id='menu-roundabout-" . strtolower( $this->menu_name ) . "' class='menu-roundabout'>";
 				foreach ( $this->items_flat as $item ) {
-					$classes      = "menu-roundabout-child";
-					if ( functions::is_object_not_empty($this->current_item->ID) && $this->current_item->ID == $item->ID ) {
+					$classes = "menu-roundabout-child";
+					if ( functions::is_object_not_empty( $this->current_item->ID ) && $this->current_item->ID == $item->ID ) {
 						$classes .= " active";
 					}
 					if ( functions::nav_item_has_childs( (int) $item->object_id ) ) {
@@ -166,8 +166,8 @@ if ( ! class_exists( '\fazzo\nav_roundabout' ) ) {
 						$class = "";
 					}
 
-					$background_image_id = get_post_thumbnail_id( $item->object_id);
-					$style = [];
+					$background_image_id = get_post_thumbnail_id( $item->object_id );
+					$style               = [];
 					if ( $background_image_id ) {
 						$background_image_src = wp_get_attachment_image_src( $background_image_id, "full" );
 						if ( $background_image_src[0] ) {
@@ -180,10 +180,10 @@ if ( ! class_exists( '\fazzo\nav_roundabout' ) ) {
 						}
 					}
 
-					$style_str = implode(" ", $style);
+					$style_str = implode( " ", $style );
 
 
-					$this->output .= "<div" . $class . " id='".strtolower($this->menu_name)."child-".$item->object_id."'><a href='" . $item->url . "'><div class='menu-roundabout-child-inner' style=\"".$style_str."\"><span>" . $item->title . "</span></div></a></div>";
+					$this->output .= "<div" . $class . " id='" . strtolower( $this->menu_name ) . "child-" . $item->object_id . "'><a href='" . $item->url . "'><div class='menu-roundabout-child-inner' style=\"" . $style_str . "\"><span>" . $item->title . "</span></div></a></div>";
 
 					$classes = "";
 				}

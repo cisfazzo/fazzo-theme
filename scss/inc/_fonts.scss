@@ -4,15 +4,18 @@
   src: url('../ext/fonts/Roboto-Bold-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
   url('../ext/fonts/Roboto-Bold-webfont.woff') format('woff'), /* Pretty Modern Browsers */
   url('../ext/fonts/Roboto-Bold-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
-  url('../ext/fonts/Roboto-Bold-webfont.svg#FontAwesome') format('svg'); /* Legacy iOS */
+  url('../ext/fonts/Roboto-Bold-webfont.svg') format('svg'); /* Legacy iOS */
   font-weight: bold;
 }
+
 @font-face {
   font-family: 'Roboto';
   src: url('../ext/fonts/Roboto-Regular-webfont.eot'); /* IE9 Compat Modes */
   src: url('../ext/fonts/Roboto-Regular-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
   url('../ext/fonts/Roboto-Regular-webfont.woff') format('woff'), /* Pretty Modern Browsers */
   url('../ext/fonts/Roboto-Regular-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
-  url('../ext/fonts/Roboto-Regular-webfont.svg#FontAwesome') format('svg'); /* Legacy iOS */
+  url('../ext/fonts/Roboto-Regular-webfont.svg') format('svg'); /* Legacy iOS */
   font-weight: normal;
 }
+
+@import '../../ext/fonts/fontawesome-free-5.9.0-web/scss/fontawesome';

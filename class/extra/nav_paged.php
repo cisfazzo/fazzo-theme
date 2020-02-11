@@ -39,13 +39,13 @@ if ( ! class_exists( '\fazzo\nav_paged' ) ) {
 
 				//var_dump($this->current_item);
 
-				if(functions::is_object_not_empty($this->current_item)) {
-                    if ($this->current_depth != $this->current_child_depth) {
-                        $this->current_parent = (int)$this->current_item->ID;
-                    } else {
-                        $this->current_parent = (int)$this->current_item->menu_item_parent;
-                    }
-                }
+				if ( functions::is_object_not_empty( $this->current_item ) ) {
+					if ( $this->current_depth != $this->current_child_depth ) {
+						$this->current_parent = (int) $this->current_item->ID;
+					} else {
+						$this->current_parent = (int) $this->current_item->menu_item_parent;
+					}
+				}
 
 				//var_dump($this->current_parent );
 
@@ -149,10 +149,10 @@ if ( ! class_exists( '\fazzo\nav_paged' ) ) {
 			$this->output = "";
 			$classes      = "";
 			if ( ! functions::is_empty_array( $this->items_flat ) ) {
-				$this->output .= "<ul>";
+				$this->output .= "<ul class='paged-menu'>";
 				foreach ( $this->items_flat as $item ) {
 
-					if ( functions::is_object_not_empty( $this->current_item) && $this->current_item->ID == $item->ID ) {
+					if ( functions::is_object_not_empty( $this->current_item ) && $this->current_item->ID == $item->ID ) {
 						$classes .= " active";
 					}
 					if ( functions::nav_item_has_childs( (int) $item->object_id ) ) {
@@ -164,6 +164,7 @@ if ( ! class_exists( '\fazzo\nav_paged' ) ) {
 					} else {
 						$class = "";
 					}
+
 					$this->output .= "<li" . $class . "><a href='" . $item->url . "'><span>" . $item->title . "</span></a></li>";
 
 					$classes = "";

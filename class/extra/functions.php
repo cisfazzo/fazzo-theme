@@ -422,7 +422,7 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 			$byline = sprintf( /* translators: %s: post author */
 				__( 'by %s', FAZZO_THEME_TXT ), '<span class="author vcard meta"><a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . get_the_author() . '</a></span>' );
 
-			$content = '<span class="posted-on meta">' . static::time() . '</span><span class="byline meta"> ' . $byline . '</span>';
+			$content = '<span class="posted-on meta">' . static::time( true ) . '</span><span class="byline meta"> ' . $byline . '</span>';
 
 			if ( $return_content ) {
 				return $content;
@@ -442,18 +442,26 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 		 * @static
 		 */
 		static public function time( $return_content = false ) {
-			$time_string = '<time class="entry-date published updated" datetime="%1$s">%2$s</time>';
-			if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) ) {
-				$time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time><time class="updated" datetime="%3$s">%4$s</time>';
+
+			$time_string = "";
+
+			$date_attr = get_the_date( DATE_W3C );
+			$date      = get_the_date();
+
+			$time_string .= "<time class=\"entry-date published\" datetime=\"" . $date_attr . "\">" . $date . "</time>";
+
+			if ( get_the_modified_time( 'U' ) - get_the_time( 'U' ) > 86400 ) {
+				$date_changed_attr = get_the_modified_date( DATE_W3C );
+				$date_changed      = get_the_modified_date();
+
+				$time_string .= " (" . __( 'Update', FAZZO_THEME_TXT ) . " <time class=\"entry-date updated\" datetime=\"" . $date_changed_attr . "\">" . $date_changed . "</time>)";
 			}
-			$time_string = sprintf( $time_string, get_the_date( DATE_W3C ), get_the_date() );
-			// Wrap the time string in a link, and preface it with 'Posted on'.
-			$content = sprintf( /* translators: %s: post date */ __( '<span class="screen-reader-text">Posted on</span> %s', FAZZO_THEME_TXT ), $time_string );
+
 
 			if ( $return_content ) {
-				return $content;
+				return $time_string;
 			} else {
-				echo $content;
+				echo $time_string;
 			}
 		}
 
@@ -468,33 +476,43 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 		 * @static
 		 */
 		static public function entry_footer( $return_content = false ) {
-			/* translators: used between list items, there is a space after the comma */
-			$separate_meta = __( ', ', FAZZO_THEME_TXT );
-			// Get Categories for posts.
-			$categories_list = get_the_category_list( $separate_meta );
-			// Get Tags for posts.
-			$tags_list = get_the_tag_list( '', $separate_meta );
-			// We don't want to output .entry-footer if it will be empty, so make sure its not.
+
 			$content = "";
-			if ( ( ( static::categorized_blog() && $categories_list ) || $tags_list ) || get_edit_post_link() ) {
-				$content .= '<footer>';
-				if ( 'post' === get_post_type() ) {
-					if ( ( $categories_list && static::categorized_blog() ) || $tags_list ) {
-						$content .= '<span class="cat-tag-links meta">';
 
-						// Make sure there's more than one category before displaying.
-						if ( $categories_list && static::categorized_blog() ) {
-							$content .= '<span class="cat-links meta"><span class="screen-reader-text">' . __( 'Categories', FAZZO_THEME_TXT ) . '</span>' . $categories_list . '</span>';
-						}
+			if ( static::categorized_blog() ) {
+				$separate_meta   = __( ', ', FAZZO_THEME_TXT );
+				$categories_list = get_the_category_list( $separate_meta );
+				$tags_list       = get_the_tag_list( '', $separate_meta );
 
-						if ( $tags_list && ! is_wp_error( $tags_list ) ) {
-							$content .= '<span class="tags-links meta"><span class="screen-reader-text">' . __( 'Tags', FAZZO_THEME_TXT ) . '</span>' . $tags_list . '</span>';
-						}
-						$content .= '</span>';
-					}
+				$category_size = sizeof( get_the_category() );
+				if ( $category_size > 1 ) {
+					$txt_cat  = __( 'Categories', FAZZO_THEME_TXT ) . ": ";
+					$txt_tags = __( 'Tags', FAZZO_THEME_TXT ) . ": ";
+				} elseif ( $category_size == 1 ) {
+					$txt_cat  = __( 'Category', FAZZO_THEME_TXT ) . ": ";
+					$txt_tags = __( 'Tag', FAZZO_THEME_TXT ) . ": ";
+				} else {
+					$txt_cat  = "";
+					$txt_tags = "";
 				}
-				$content .= '</footer>';
+
+				if ( 'post' === get_post_type() ) {
+
+					if ( $categories_list ) {
+						$content .= '<p class="cat-links meta">' . $txt_cat . $categories_list . '</p>';
+					}
+
+					if ( $tags_list && ! is_wp_error( $tags_list ) ) {
+						$content .= '<p class="tags-links meta">' . $txt_tags . $tags_list . '</p>';
+					}
+
+				}
 			}
+
+			if ( ! empty( $content ) ) {
+				$content = "<footer>" . $content . "</footer>";
+			}
+
 			if ( $return_content ) {
 				return $content;
 			} else {
@@ -516,7 +534,7 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 
 			$postet_on = static::posted_on( true );
 
-			$content = '<div class="article-details">' . $postet_on . '</div>';
+			$content = '<p class="article-details">' . $postet_on . '</p>';
 
 			if ( $return_content ) {
 				return $content;
@@ -612,27 +630,17 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 		 */
 		public static function categorized_blog() {
 
-			// Allow viewing case of 0 or 1 categories in post preview.
-			if ( is_preview() ) {
-				return true;
-			}
 
-			$category_count = get_transient( 'fazzo_categories' );
+			$categories = get_categories( [
+				'fields'     => 'ids',
+				'hide_empty' => 1,
+				// We only need to know if there is more than one category.
+				'number'     => 2,
+			] );
 
-			if ( static::is_false( $category_count, true ) ) {
-				// Create an array of all the categories that are attached to posts.
-				$categories = get_categories( [
-					'fields'     => 'ids',
-					'hide_empty' => 1,
-					// We only need to know if there is more than one category.
-					'number'     => 2,
-				] );
+			// Count the number of categories that are attached to the posts.
+			$category_count = static::count( $categories );
 
-				// Count the number of categories that are attached to the posts.
-				$category_count = static::count( $categories );
-
-				set_transient( 'fazzo_categories', $category_count );
-			}
 
 			return $category_count > 1;
 		}
@@ -1183,5 +1191,25 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 
 		}
 
+		public static function get_background_style( $post ) {
+			$options = get_post_meta( $post->ID, fazzo::option_name, true );
+			if ( ! isset( $options["background_color"] ) ) {
+				$options["background_color"] = "#000000";
+			}
+			if ( ! isset( $options["background_transparent"] ) ) {
+				$options["background_transparent"] = true;
+			}
+			$element_style = "";
+			if ( empty( $options["background_transparent"] ) ) {
+				$opacity       = fazzo::get_mod( "background_content_opacity" );
+				$rgba          = "rgba(" . functions::get_rgb_from_hex( $options["background_color"] ) . "," . $opacity . ")";
+				$element_style = "style=\"background-color: " . $rgba . "\"";
+			}
+
+			return $element_style;
+		}
+
 	}
+
+
 }

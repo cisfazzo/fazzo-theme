@@ -1,4 +1,5 @@
 <?php
+
 namespace fazzo;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,13 +11,13 @@ if ( have_posts() ) {
 	$fazzo_have_posts = true;
 
 	?>
-<header>
+    <header>
+		<?php
+		functions::the_archive_title( '<h1>', '</h1>' );
+		the_archive_description( '<div class="description">', '</div>' );
+		?>
+    </header>
 	<?php
-	functions::the_archive_title( '<h1>', '</h1>' );
-	the_archive_description( '<div class="description">', '</div>' );
-	?>
-</header>
-<?php
 
 
 	while ( have_posts() ) {

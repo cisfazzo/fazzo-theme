@@ -29,7 +29,6 @@ require_once( $dir_root . "security.php" );
 */
 
 
-
 /* Check if Class Exists. */
 if ( ! class_exists( '\fazzo\nav_walker' ) ) {
 	/**
@@ -58,13 +57,14 @@ if ( ! class_exists( '\fazzo\nav_walker' ) ) {
 		 * @access public
 		 *
 		 */
-		public function fazzo_too_deep(&$args, &$depth)
-		{
-			if($depth > $args->depth)
-				return true;
+		public function fazzo_too_deep( &$args, &$depth ) {
 
-			else
+
+			if ( $depth > $args->depth ) {
+				return true;
+			} else {
 				return false;
+			}
 
 		}
 
@@ -79,16 +79,15 @@ if ( ! class_exists( '\fazzo\nav_walker' ) ) {
 		 * @access public
 		 *
 		 */
-		public function fazzo_deep_hit(&$args, &$depth)
-		{
-			if($depth == $args->depth)
+		public function fazzo_deep_hit( &$args, &$depth ) {
+			if ( $depth == $args->depth ) {
 				return true;
-
-			else
+			} else {
 				return false;
+			}
 
 		}
-		
+
 
 		/**
 		 * Ermittle oberste Post ID in der Navigation
@@ -163,9 +162,9 @@ if ( ! class_exists( '\fazzo\nav_walker' ) ) {
 		 *
 		 */
 		public function start_lvl( &$output, $depth = 0, $args = [] ) {
-			if($this->fazzo_deep_hit($args, $depth))
+			if ( $this->fazzo_deep_hit( $args, $depth ) ) {
 				return;
-
+			}
 
 
 			$indent = str_repeat( "\t", $depth );
@@ -187,18 +186,21 @@ if ( ! class_exists( '\fazzo\nav_walker' ) ) {
 		 */
 		public function end_lvl( &$output, $depth = 0, $args = [] ) {
 
-			if($this->fazzo_deep_hit($args, $depth))
+			if ( $this->fazzo_deep_hit( $args, $depth ) ) {
 				return;
+			}
 
 
-			$content      = "";
-			$content      .= "\n</div>";
+			$content = "";
+			$content .= "\n</div>";
+			/*
 			$top_post_id  = $this->fazzo_get_top_post_id( $this->curItem );
 			$top_post_img = get_the_post_thumbnail( $top_post_id, "full" );
 			if ( ! empty( $top_post_img ) ) {
 				$top_post_url = esc_url( get_permalink( $top_post_id ) );
 				$content      .= "\n<div class='dropdown-menu-img p-2'><a href='$top_post_url'>$top_post_img</a></div>\n";
 			}
+			*/
 			$content .= "\n</div></div>";
 			$output  .= $content;
 		}
@@ -219,8 +221,9 @@ if ( ! class_exists( '\fazzo\nav_walker' ) ) {
 		 */
 		public function end_el( &$output, $object, $depth = 0, $args = [] ) {
 
-			if($this->fazzo_too_deep($args, $depth))
+			if ( $this->fazzo_too_deep( $args, $depth ) ) {
 				return;
+			}
 
 
 			$content = "";
@@ -255,16 +258,17 @@ if ( ! class_exists( '\fazzo\nav_walker' ) ) {
 			$str_nav_image       = "fazzo-nav-image";
 
 
-			if($this->fazzo_too_deep($args, $depth))
+			if ( $this->fazzo_too_deep( $args, $depth ) ) {
 				return;
+			}
 
 			$this->curItem = $item;
 
 			if ( $depth ) {
 				$indent = str_repeat( "\t", $depth );
+			} else {
+				$indent = "";
 			}
-			else
-			    $indent = "";
 
 			if ( functions::string_equal( $item->attr_title, $str_divider, true ) && $depth == 1 ) {
 				$output .= "\n" . $indent . '<li role="presentation" class="divider">';
@@ -290,7 +294,7 @@ if ( ! class_exists( '\fazzo\nav_walker' ) ) {
 				$wp_nav_menu_css_class = apply_filters( 'nav_menu_css_class', $ar_filter_classes, $item, $args );
 				$class_names           = join( ' ', $wp_nav_menu_css_class );
 
-				if ( $args->has_children && !$this->fazzo_deep_hit($args, $depth) ) {
+				if ( $args->has_children && ! $this->fazzo_deep_hit( $args, $depth ) ) {
 					$class_names .= ' dropdown';
 				}
 				if ( in_array( 'current-menu-item', $classes ) ) {
@@ -325,7 +329,7 @@ if ( ! class_exists( '\fazzo\nav_walker' ) ) {
 					$atts['rel'] = $item->xfn;
 				}
 				// If item has_children add atts to a.
-				if ( $args->has_children && $depth == 0 && !$this->fazzo_deep_hit($args, $depth) ) {
+				if ( $args->has_children && $depth == 0 && ! $this->fazzo_deep_hit( $args, $depth ) ) {
 					$atts['class']         = 'nav-link dropdown-toggle';
 					$atts['aria-haspopup'] = 'true';
 					$atts['id']            = 'navbarDropdown' . $item->ID;
@@ -379,24 +383,17 @@ if ( ! class_exists( '\fazzo\nav_walker' ) ) {
 				} else {
 					$item_output .= '<a' . $attributes . '>';
 				}
-				$inside_found = false;
 
 
-				if ( isset( $post->post_type ) && functions::string_equal( $post->post_type, $str_post_type_image ) ) {
-					$post_thumbnail_id = get_post_thumbnail_id( $item->object_id );
-					if ( $post_thumbnail_id ) {
-						$thisimage = wp_get_attachment_image_src( $post_thumbnail_id, $str_nav_image );
-						if ( isset( $thisimage[0] ) && ! empty( $thisimage[0] ) ) {
-							$imageurl     = $thisimage[0];
-							$inside       = '<img src="' . esc_url( $imageurl ) . '" alt="">';
-							$inside_found = true;
-						}
-					}
+				$options = get_post_meta( $post->ID, fazzo::option_name, true );
+				$icon    = "";
+				if ( isset( $options["icon"] ) && ! empty( $options["icon"] ) ) {
+					$icon = '<img src="' . esc_url( $options["icon"] ) . '" alt="">';
+
 				}
 
-				if ( ! $inside_found ) {
-					$inside = apply_filters( 'the_title', $item->title, $item->ID );
-				}
+				$inside = apply_filters( 'the_title', $icon . $item->title, $item->ID );
+
 				$item_output .= $args->link_before . $inside . $args->link_after;
 
 				$item_output .= '</a>';
@@ -426,13 +423,14 @@ if ( ! class_exists( '\fazzo\nav_walker' ) ) {
 		 *
 		 * @see    Walker::start_el()
 		 */
-		public function display_element($element, &$children_elements, $max_depth, $depth, $args, &$output) {
+		public function display_element( $element, &$children_elements, $max_depth, $depth, $args, &$output ) {
 			if ( ! $element ) {
 				return;
 			}
 
-			if(functions::is_set($args["depth"]) && $depth > $args["depth"])
+			if ( functions::is_set( $args["depth"] ) && $depth > $args["depth"] ) {
 				return;
+			}
 
 
 			$id_field = $this->db_fields['id'];
@@ -453,7 +451,7 @@ if ( ! class_exists( '\fazzo\nav_walker' ) ) {
 		 *
 		 * @param array $args passed from the wp_nav_menu function.
 		 */
-		public static function fallback($args) {
+		public static function fallback( $args ) {
 
 
 			if ( current_user_can( 'edit_theme_options' ) ) {

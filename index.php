@@ -1,4 +1,5 @@
 <?php
+
 namespace fazzo;
 
 if ( ! defined( 'ABSPATH' ) ) {

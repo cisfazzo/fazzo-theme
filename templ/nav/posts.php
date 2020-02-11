@@ -1,20 +1,20 @@
 <?php
+
 namespace fazzo;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+$dir_root = dirname( __FILE__ ) . "/../../";
+require_once( $dir_root . "security.php" );
 
-$post_nav_display = get_theme_mod( 'post_nav_display', fazzo::$customizer_defaults["post_nav_display"] );
+$post_nav_display = get_theme_mod( 'post_nav_display', 1 );
 
-if($post_nav_display) {
-?>
-<nav class="post-navigation leftright" role="navigation">
-	<div class="left post-link-nav">
-		<span><?php previous_post_link(); ?></span>
-	</div>
-	<div class="right post-link-nav">
-		<span><?php next_post_link(); ?></span>
-	</div>
-</nav>
+if ( $post_nav_display ) {
+	?>
+    <nav class="post-navigation row-flex" role="navigation">
+        <div class="post-link-nav row-1">
+            <p><?php previous_post_link(); ?></p>
+        </div>
+        <div class="post-link-nav row-2 text-right">
+            <p><?php next_post_link(); ?></p>
+        </div>
+    </nav>
 <?php }

@@ -15,14 +15,18 @@ $content .= "<div class='wrap'>
 			<input type='hidden' name='$nonce_input_key' id='$nonce_input_key' value='" . $nonce_value . "' />
 			<input type='hidden' id='todo_settings' name='todo' value='config'>
 			
-			<p><span>".__("Load Bootstrap", FAZZO_THEME_TXT)."</span> <select name='load_bootstrap'><option value='0'>".__("No", FAZZO_THEME_TXT)."</option><option value='1'";
-if(static::$options['load_bootstrap']) $content .= " selected=selected";
-$content .= ">".__("Yes", FAZZO_THEME_TXT)."</option></select></p>
+			<p><span>" . __( "Load Bootstrap", FAZZO_THEME_TXT ) . "</span> <select name='load_bootstrap'><option value='0'>" . __( "No", FAZZO_THEME_TXT ) . "</option><option value='1'";
+if ( static::$options['load_bootstrap'] ) {
+	$content .= " selected=selected";
+}
+$content .= ">" . __( "Yes", FAZZO_THEME_TXT ) . "</option></select></p>
 			
 
-			<p><span>".__("Use Paged Menu", FAZZO_THEME_TXT)."</span> <select name='paged_menu'><option value='0'>".__("No", FAZZO_THEME_TXT)."</option><option value='1'";
-if(static::$options['paged_menu']) $content .= " selected=selected";
-$content .= ">".__("Yes", FAZZO_THEME_TXT)."</option></select></p>
+			<p><span>" . __( "Use Paged Menu", FAZZO_THEME_TXT ) . "</span> <select name='paged_menu'><option value='0'>" . __( "No", FAZZO_THEME_TXT ) . "</option><option value='1'";
+if ( static::$options['paged_menu'] ) {
+	$content .= " selected=selected";
+}
+$content .= ">" . __( "Yes", FAZZO_THEME_TXT ) . "</option></select></p>
 
 			
 			<input type='submit' value='" . __( "Save", FAZZO_THEME_TXT ) . "'></form></div>\n";
