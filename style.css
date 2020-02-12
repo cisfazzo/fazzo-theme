@@ -1,5 +1,5 @@
 /*
-Theme Name: Fazzo
+Theme Name: Fazzo-Theme
 Theme URI: http://devfaz.xyz
 Author: Andreas Rex
 Author URI: https://www.eei.tf.fau.de/person/andreas-rex/
@@ -7,7 +7,7 @@ Description: Theme for Fazzo
 Version: 1.0.1
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: custom
+Tags: one-column, right-sidebar, flexible-header, custom-colors, custom-header, custom-menu, custom-logo, footer-widgets, theme-options, threaded-comments, translation-ready
 Text Domain: fazzotheme
 Domain Path: /lang/
 
@@ -28,3 +28,6 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
+
+.wp-caption, .wp-caption-text, .gallery-caption, .bypostauthor, .alignright, .alignleft, .aligncenter {
+}

@@ -23,14 +23,14 @@ if ( function_exists( "pll_current_language" ) ) {
     <div class="search-button-wrapper">
         <i class="fa fa-search" id="search-collapse"></i>
         <input type="submit" class="search-submit form-control"
-               value="<?php echo esc_attr_x( 'Search', 'submit button', FAZZO_THEME_TXT ) ?>"/>
+               value="<?php echo esc_attr_x( 'Search', 'submit button', "fazzotheme" ) ?>"/>
     </div><!-- search-button-wrapper -->
     <label>
-        <span class="screen-reader-text"><?php echo _x( 'Search for:', 'label', FAZZO_THEME_TXT ) ?></span>
+        <span class="screen-reader-text"><?php echo _x( 'Search for:', 'label', "fazzotheme" ) ?></span>
         <input class="form-control search-field"
                id="<?php echo $fazzo_unique_id; ?>"
                type="search"
-               placeholder="<?php echo esc_attr_x( 'Type text &hellip;', 'placeholder', FAZZO_THEME_TXT ) ?>"
+               placeholder="<?php echo esc_attr_x( 'Type text &hellip;', 'placeholder', "fazzotheme" ) ?>"
                value="<?php echo get_search_query() ?>"
                name="s"
                aria-label="Search"/>

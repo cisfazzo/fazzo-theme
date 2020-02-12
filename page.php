@@ -12,6 +12,7 @@ if ( have_posts() ) {
 		the_post();
 		get_template_part( 'templ/nav/pages' );
 		get_template_part( 'templ/page/page' );
+		wp_link_pages();
 		get_template_part( 'templ/nav/pages' );
 		if ( comments_open() || get_comments_number() ) {
 			comments_template();

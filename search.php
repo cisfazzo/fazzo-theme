@@ -12,9 +12,9 @@ if ( have_posts() ) {
 	$search_results_for = get_search_query();
 
 	if ( ! empty( $search_results_for ) ) {
-		echo "<h1>" . __( 'Search results for', FAZZO_THEME_TXT ) . " " . $search_results_for . '</h1>';
+		echo "<h1>" . __( 'Search results for', "fazzotheme" ) . " " . $search_results_for . '</h1>';
 	} else {
-		echo "<h1>" . __( 'Search results', FAZZO_THEME_TXT ) . '</h1>';
+		echo "<h1>" . __( 'Search results', "fazzotheme" ) . '</h1>';
 	}
 
 	while ( have_posts() ) {
@@ -34,7 +34,7 @@ if ( have_posts() ) {
 	};
 } else {
 	?>
-    <p><?php _e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords', FAZZO_THEME_TXT ); ?></p><?php
+    <p><?php _e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords', "fazzotheme" ); ?></p><?php
 }
 
 get_footer();

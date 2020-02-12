@@ -7,12 +7,16 @@ require_once( $dir_root . "security.php" );
 
 if ( ! post_password_required() ) {
 
+	if ( is_single() && comments_open() && get_option( 'thread_comments' ) ) {
+		wp_enqueue_script( 'comment-reply' );
+	}
+
 	?>
     <div class="comments-full-wrapper">
 		<?php if ( have_comments() ) { ?>
             <div class="comment-title">
 				<?php
-				printf( esc_html__( _nx( 'One comment on &ldquo;%2$s&rdquo;', '%1$s comments on &ldquo;%2$s&rdquo;', get_comments_number(), 'comments title', FAZZO_THEME_TXT ) ), number_format_i18n( get_comments_number() ), '<span>' . get_the_title() . '</span>' );
+				printf( esc_html__( _nx( 'One comment on &ldquo;%2$s&rdquo;', '%1$s comments on &ldquo;%2$s&rdquo;', get_comments_number(), 'comments title', "fazzotheme" ) ), number_format_i18n( get_comments_number() ), '<span>' . get_the_title() . '</span>' );
 				?>
             </div><!-- comment-title -->
 			<?php fazzo::get_comments_navigation(); ?>
@@ -25,7 +29,7 @@ if ( ! post_password_required() ) {
 					'callback'          => null,
 					'end-callback'      => null,
 					'type'              => 'all',
-					'reply_text'        => __( 'Reply', FAZZO_THEME_TXT ),
+					'reply_text'        => __( 'Reply', "fazzotheme" ),
 					'page'              => '',
 					'per_page'          => '',
 					'avatar_size'       => 64,
@@ -40,19 +44,19 @@ if ( ! post_password_required() ) {
             </ol><!-- comment-list -->
 			<?php fazzo::get_comments_navigation();
 			if ( ! comments_open() && get_comments_number() ) { ?>
-                <div class="no-comments"><?php esc_html_e( 'Comments are closed.', FAZZO_THEME_TXT ); ?></div><!-- no-comments -->
+                <div class="no-comments"><?php esc_html_e( 'Comments are closed.', "fazzotheme" ); ?></div><!-- no-comments -->
 			<?php }
 		}
 		$fields = [
-			'author' => '<div class="form-group"><label for="author">' . __( 'Name', FAZZO_THEME_TXT ) . '</label> <span class="required">*</span> <input id="author" name="author" type="text" class="form-control" value="' . esc_attr( $commenter['comment_author'] ) . '" required="required" /></div>',
-			'email'  => '<div class="form-group"><label for="email">' . __( 'Email', FAZZO_THEME_TXT ) . '</label> <span class="required">*</span><input id="email" name="email" class="form-control" type="text" value="' . esc_attr( $commenter['comment_author_email'] ) . '" required="required" /></div>',
-			'url'    => '<div class="form-group last-field"><label for="url">' . __( 'Website', FAZZO_THEME_TXT ) . '</label><input id="url" name="url" class="form-control" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) . '" /></div>',
+			'author' => '<div class="form-group"><label for="author">' . __( 'Name', "fazzotheme" ) . '</label> <span class="required">*</span> <input id="author" name="author" type="text" class="form-control" value="' . esc_attr( $commenter['comment_author'] ) . '" required="required" /></div>',
+			'email'  => '<div class="form-group"><label for="email">' . __( 'Email', "fazzotheme" ) . '</label> <span class="required">*</span><input id="email" name="email" class="form-control" type="text" value="' . esc_attr( $commenter['comment_author_email'] ) . '" required="required" /></div>',
+			'url'    => '<div class="form-group last-field"><label for="url">' . __( 'Website', "fazzotheme" ) . '</label><input id="url" name="url" class="form-control" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) . '" /></div>',
 		];
 
 		$args = [
 			'class_submit'  => 'btn btn-block btn-lg btn-primary',
-			'label_submit'  => __( 'Submit comment', FAZZO_THEME_TXT ),
-			'comment_field' => '<div class="form-group"><label for="comment-textarea">' . _x( 'Comment', 'noun', FAZZO_THEME_TXT ) . '</label> <span class="required">*</span><textarea id="comment-textarea" class="form-control" name="comment" required="required"></textarea></div>',
+			'label_submit'  => __( 'Submit comment', "fazzotheme" ),
+			'comment_field' => '<div class="form-group"><label for="comment-textarea">' . _x( 'Comment', 'noun', "fazzotheme" ) . '</label> <span class="required">*</span><textarea id="comment-textarea" class="form-control" name="comment" required="required"></textarea></div>',
 			'fields'        => apply_filters( 'comment_form_default_fields', $fields ),
 		];
 		comment_form( $args );

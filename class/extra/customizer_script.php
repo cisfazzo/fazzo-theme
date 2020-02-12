@@ -49,7 +49,7 @@ if ( ! class_exists( '\fazzo\customizer_script' ) ) {
 
 
 			$translation_array = array(
-				'publish' => __( "Publish", FAZZO_THEME_TXT ),
+				'publish' => __( "Publish", "fazzotheme" ),
 			);
 
 			wp_localize_script( 'fazzo-theme-' . $this->id, 'trans', $translation_array );

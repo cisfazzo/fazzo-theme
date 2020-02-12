@@ -29,7 +29,7 @@ if ( empty( $authorname ) ) {
 }
 
 if ( empty( $curauth->description ) ) {
-	$authordescription = "<p>" . __( "No further informations", MCC_THEME_TXT ) . "</p>";
+	$authordescription = "<p>" . __( "No further informations", "fazzotheme" ) . "</p>";
 } else {
 	$authordescription = wpautop( $curauth->description, true );
 }

@@ -26,7 +26,7 @@ if ( ! class_exists( '\fazzo\customizer_image_alignement' ) && class_exists( '\W
 		 * @since 3.0.0
 		 */
 		public function init() {
-			$page = add_theme_page( __( 'Background' ), __( 'Background' ), 'edit_theme_options', 'custom-background', array(
+			$page = add_theme_page( __( 'Background', "fazzotheme" ), __( 'Background', "fazzotheme" ), 'edit_theme_options', 'custom-background', array(
 				$this,
 				'admin_page'
 			) );
@@ -92,43 +92,43 @@ if ( ! class_exists( '\fazzo\customizer_image_alignement' ) && class_exists( '\W
 					$background_position_options = array(
 						array(
 							'left top'   => array(
-								'label' => __( 'Top Left' ),
+								'label' => __( 'Top Left', "fazzotheme" ),
 								'icon'  => 'dashicons dashicons-arrow-left-alt',
 							),
 							'center top' => array(
-								'label' => __( 'Top' ),
+								'label' => __( 'Top', "fazzotheme" ),
 								'icon'  => 'dashicons dashicons-arrow-up-alt',
 							),
 							'right top'  => array(
-								'label' => __( 'Top Right' ),
+								'label' => __( 'Top Right', "fazzotheme" ),
 								'icon'  => 'dashicons dashicons-arrow-right-alt',
 							),
 						),
 						array(
 							'left center'   => array(
-								'label' => __( 'Left' ),
+								'label' => __( 'Left', "fazzotheme" ),
 								'icon'  => 'dashicons dashicons-arrow-left-alt',
 							),
 							'center center' => array(
-								'label' => __( 'Center' ),
+								'label' => __( 'Center', "fazzotheme" ),
 								'icon'  => 'background-position-center-icon',
 							),
 							'right center'  => array(
-								'label' => __( 'Right' ),
+								'label' => __( 'Right', "fazzotheme" ),
 								'icon'  => 'dashicons dashicons-arrow-right-alt',
 							),
 						),
 						array(
 							'left bottom'   => array(
-								'label' => __( 'Bottom Left' ),
+								'label' => __( 'Bottom Left', "fazzotheme" ),
 								'icon'  => 'dashicons dashicons-arrow-left-alt',
 							),
 							'center bottom' => array(
-								'label' => __( 'Bottom' ),
+								'label' => __( 'Bottom', "fazzotheme" ),
 								'icon'  => 'dashicons dashicons-arrow-down-alt',
 							),
 							'right bottom'  => array(
-								'label' => __( 'Bottom Right' ),
+								'label' => __( 'Bottom Right', "fazzotheme" ),
 								'icon'  => 'dashicons dashicons-arrow-right-alt',
 							),
 						),
@@ -136,10 +136,11 @@ if ( ! class_exists( '\fazzo\customizer_image_alignement' ) && class_exists( '\W
 
 					?>
                     <tr>
-                        <th scope="row"><?php _e( 'Image Position' ); ?></th>
+                        <th scope="row"><?php _e( 'Image Position', "fazzotheme" ); ?></th>
                         <td>
                             <fieldset>
-                                <legend class="screen-reader-text"><span><?php _e( 'Image Position' ); ?></span>
+                                <legend class="screen-reader-text">
+                                    <span><?php _e( 'Image Position', "fazzotheme" ); ?></span>
                                 </legend>
                                 <div class="background-position-control">
 									<?php foreach ( $background_position_options as $group ) : ?>

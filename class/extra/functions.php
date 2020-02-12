@@ -396,7 +396,7 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 		 */
 		static public function edit_link() {
 			edit_post_link( sprintf( /* translators: %s: Name of current post */
-				__( 'Edit <span class="screen-reader-text">"%s"</span>', FAZZO_THEME_TXT ), get_the_title() ), '<span class="edit-link">', '</span>' );
+				__( 'Edit <span class="screen-reader-text">"%s"</span>', "fazzotheme" ), get_the_title() ), '<span class="edit-link">', '</span>' );
 		}
 
 		/**
@@ -412,7 +412,7 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 		static public function posted_on( $return_content = false ) {
 			// Get the author name; wrap it in a link.
 			$byline = sprintf( /* translators: %s: post author */
-				__( 'by %s', FAZZO_THEME_TXT ), '<span class="author vcard meta"><a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . get_the_author() . '</a></span>' );
+				__( 'by %s', "fazzotheme" ), '<span class="author vcard meta"><a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . get_the_author() . '</a></span>' );
 
 			$content = '<span class="posted-on meta">' . static::time( true ) . '</span><span class="byline meta"> ' . $byline . '</span>';
 
@@ -446,7 +446,7 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 				$date_changed_attr = get_the_modified_date( DATE_W3C );
 				$date_changed      = get_the_modified_date();
 
-				$time_string .= " (" . __( 'Update', FAZZO_THEME_TXT ) . " <time class=\"entry-date updated\" datetime=\"" . $date_changed_attr . "\">" . $date_changed . "</time>)";
+				$time_string .= " (" . __( 'Update', "fazzotheme" ) . " <time class=\"entry-date updated\" datetime=\"" . $date_changed_attr . "\">" . $date_changed . "</time>)";
 			}
 
 
@@ -472,17 +472,17 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 			$content = "";
 
 			if ( static::categorized_blog() ) {
-				$separate_meta   = __( ', ', FAZZO_THEME_TXT );
+				$separate_meta   = __( ', ', "fazzotheme" );
 				$categories_list = get_the_category_list( $separate_meta );
 				$tags_list       = get_the_tag_list( '', $separate_meta );
 
 				$category_size = sizeof( get_the_category() );
 				if ( $category_size > 1 ) {
-					$txt_cat  = __( 'Categories', FAZZO_THEME_TXT ) . ": ";
-					$txt_tags = __( 'Tags', FAZZO_THEME_TXT ) . ": ";
+					$txt_cat  = __( 'Categories', "fazzotheme" ) . ": ";
+					$txt_tags = __( 'Tags', "fazzotheme" ) . ": ";
 				} elseif ( $category_size == 1 ) {
-					$txt_cat  = __( 'Category', FAZZO_THEME_TXT ) . ": ";
-					$txt_tags = __( 'Tag', FAZZO_THEME_TXT ) . ": ";
+					$txt_cat  = __( 'Category', "fazzotheme" ) . ": ";
+					$txt_tags = __( 'Tag', "fazzotheme" ) . ": ";
 				} else {
 					$txt_cat  = "";
 					$txt_tags = "";
@@ -720,42 +720,42 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 				$title = '<span class="vcard">' . get_the_author() . '</span>';
 			} elseif ( is_year() ) {
 				/* translators: Yearly archive title. 1: Year */
-				$title = sprintf( __( 'Year: %s', FAZZO_THEME_TXT ), get_the_date( _x( 'Y', 'yearly archives date format', FAZZO_THEME_TXT ) ) );
+				$title = sprintf( __( 'Year: %s', "fazzotheme" ), get_the_date( _x( 'Y', 'yearly archives date format', "fazzotheme" ) ) );
 			} elseif ( is_month() ) {
 				/* translators: Monthly archive title. 1: Month name and year */
-				$title = sprintf( __( 'Month: %s', FAZZO_THEME_TXT ), get_the_date( _x( 'F Y', 'monthly archives date format', FAZZO_THEME_TXT ) ) );
+				$title = sprintf( __( 'Month: %s', "fazzotheme" ), get_the_date( _x( 'F Y', 'monthly archives date format', "fazzotheme" ) ) );
 			} elseif ( is_day() ) {
 				/* translators: Daily archive title. 1: Date */
-				$title = sprintf( __( 'Day: %s', FAZZO_THEME_TXT ), get_the_date( _x( 'F j, Y', 'daily archives date format', FAZZO_THEME_TXT ) ) );
+				$title = sprintf( __( 'Day: %s', "fazzotheme" ), get_the_date( _x( 'F j, Y', 'daily archives date format', "fazzotheme" ) ) );
 			} elseif ( is_tax( 'post_format' ) ) {
 				if ( is_tax( 'post_format', 'post-format-aside' ) ) {
-					$title = _x( 'Asides', 'post format archive title', FAZZO_THEME_TXT );
+					$title = _x( 'Asides', 'post format archive title', "fazzotheme" );
 				} elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) {
-					$title = _x( 'Galleries', 'post format archive title', FAZZO_THEME_TXT );
+					$title = _x( 'Galleries', 'post format archive title', "fazzotheme" );
 				} elseif ( is_tax( 'post_format', 'post-format-image' ) ) {
-					$title = _x( 'Images', 'post format archive title', FAZZO_THEME_TXT );
+					$title = _x( 'Images', 'post format archive title', "fazzotheme" );
 				} elseif ( is_tax( 'post_format', 'post-format-video' ) ) {
-					$title = _x( 'Videos', 'post format archive title', FAZZO_THEME_TXT );
+					$title = _x( 'Videos', 'post format archive title', "fazzotheme" );
 				} elseif ( is_tax( 'post_format', 'post-format-quote' ) ) {
-					$title = _x( 'Quotes', 'post format archive title', FAZZO_THEME_TXT );
+					$title = _x( 'Quotes', 'post format archive title', "fazzotheme" );
 				} elseif ( is_tax( 'post_format', 'post-format-link' ) ) {
-					$title = _x( 'Links', 'post format archive title', FAZZO_THEME_TXT );
+					$title = _x( 'Links', 'post format archive title', "fazzotheme" );
 				} elseif ( is_tax( 'post_format', 'post-format-status' ) ) {
-					$title = _x( 'Statuses', 'post format archive title', FAZZO_THEME_TXT );
+					$title = _x( 'Statuses', 'post format archive title', "fazzotheme" );
 				} elseif ( is_tax( 'post_format', 'post-format-audio' ) ) {
-					$title = _x( 'Audio', 'post format archive title', FAZZO_THEME_TXT );
+					$title = _x( 'Audio', 'post format archive title', "fazzotheme" );
 				} elseif ( is_tax( 'post_format', 'post-format-chat' ) ) {
-					$title = _x( 'Chats', 'post format archive title', FAZZO_THEME_TXT );
+					$title = _x( 'Chats', 'post format archive title', "fazzotheme" );
 				}
 			} elseif ( is_post_type_archive() ) {
 				/* translators: Post type archive title. 1: Post type name */
-				$title = sprintf( __( 'Archives: %s', FAZZO_THEME_TXT ), post_type_archive_title( '', false ) );
+				$title = sprintf( __( 'Archives: %s', "fazzotheme" ), post_type_archive_title( '', false ) );
 			} elseif ( is_tax() ) {
 				$tax = get_taxonomy( get_queried_object()->taxonomy );
 				/* translators: Taxonomy term archive title. 1: Taxonomy singular name, 2: Current taxonomy term */
-				$title = sprintf( __( '%1$s: %2$s', FAZZO_THEME_TXT ), $tax->labels->singular_name, single_term_title( '', false ) );
+				$title = sprintf( __( '%1$s: %2$s', "fazzotheme" ), $tax->labels->singular_name, single_term_title( '', false ) );
 			} else {
-				$title = __( 'Archives' );
+				$title = __( 'Archives', "fazzotheme" );
 			}
 
 			return apply_filters( 'get_the_archive_title', $title );

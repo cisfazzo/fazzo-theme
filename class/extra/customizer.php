@@ -268,26 +268,26 @@ if ( ! class_exists( '\fazzo\customizer' ) ) {
 					$this->wp_customize->add_control( new \WP_Customize_Control( $this->wp_customize, $id . "_size",
 						[
 							'section'  => $to_id,
-							'label'    => __( 'Image Size', FAZZO_THEME_TXT ),
+							'label'    => __( 'Image Size', "fazzotheme" ),
 							'type'     => 'select',
 							'settings' => $id . "_size",
 							'choices'  => [
-								'auto auto' => __( 'Original', FAZZO_THEME_TXT ),
-								'cover'     => __( 'Screen Fits', FAZZO_THEME_TXT ),
-								'contain'   => __( 'Full Screen', FAZZO_THEME_TXT ),
+								'auto auto' => __( 'Original', "fazzotheme" ),
+								'cover'     => __( 'Screen Fits', "fazzotheme" ),
+								'contain'   => __( 'Full Screen', "fazzotheme" ),
 							],
 						] ) );
 					$this->wp_customize->add_control( new \WP_Customize_Control( $this->wp_customize, $id . "_repeat",
 						[
 							'section'  => $to_id,
-							'label'    => __( 'Image Repeat', FAZZO_THEME_TXT ),
+							'label'    => __( 'Image Repeat', "fazzotheme" ),
 							'type'     => 'checkbox',
 							'settings' => $id . "_repeat",
 						] ) );
 					$this->wp_customize->add_control( new \WP_Customize_Control( $this->wp_customize, $id . "_scroll",
 						[
 							'section'  => $to_id,
-							'label'    => __( 'Image Scroll', FAZZO_THEME_TXT ),
+							'label'    => __( 'Image Scroll', "fazzotheme" ),
 							'type'     => 'checkbox',
 							'settings' => $id . "_scroll",
 						] ) );
@@ -302,7 +302,7 @@ if ( ! class_exists( '\fazzo\customizer' ) ) {
 					$this->wp_customize->add_control( new \WP_Customize_Control( $this->wp_customize, $id . "_transparent",
 						[
 							'section'  => $to_id,
-							'label'    => $title . " " . __( "Transparent", FAZZO_THEME_TXT ),
+							'label'    => $title . " " . __( "Transparent", "fazzotheme" ),
 							'type'     => 'checkbox',
 							'settings' => $id . "_transparent",
 						] ) );

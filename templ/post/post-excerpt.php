@@ -25,7 +25,7 @@ require_once( $dir_root . "security.php" );
     <div class="article-wrapper">
 		<?php
 		/* translators: %s: Name of current post */
-		the_content( sprintf( __( 'Continue reading <span class="screen-reader-text">"%s"</span>', FAZZO_THEME_TXT ), get_the_title() ) );
+		the_content( sprintf( __( 'Continue reading <span class="screen-reader-text">"%s"</span>', "fazzotheme" ), get_the_title() ) );
 		?>
     </div><!-- article-wrapper -->
 	<?php

@@ -5,6 +5,10 @@ namespace fazzo;
 $dir_root = dirname( __FILE__ ) . "/";
 require_once( $dir_root . "security.php" );
 
+if ( ! isset( $content_width ) ) {
+	$content_width = 1920;
+}
+
 /*
 * Absoluter Pfad zum Theme
 * string
@@ -21,13 +25,6 @@ if ( ! defined( 'FAZZO_THEME_URL' ) ) {
 	define( 'FAZZO_THEME_URL', get_template_directory_uri() );
 }
 
-/*
-* Textdomain für Übersetzungen
-* string
-*/
-if ( ! defined( 'FAZZO_THEME_TXT' ) ) {
-	define( 'FAZZO_THEME_TXT', "fazzotheme" );
-}
 
 /*
 * Füge Klassen hinzu

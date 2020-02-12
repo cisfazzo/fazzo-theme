@@ -14,6 +14,6 @@ if ( $start_year != date_i18n( "Y" ) ) {
 
 <div id="sec_foot_text" class="clear wrapper">
     <div id="wrap_foot_text" class="wrap_cm wrapper">
-		<?php echo __( "©", FAZZO_THEME_TXT ) . $start_year . " " . date_i18n( "Y" ) . " " . __( "by", FAZZO_THEME_TXT ) . " " . get_bloginfo( "name" ); ?>
+		<?php echo __( "©", "fazzotheme" ) . $start_year . " " . date_i18n( "Y" ) . " " . __( "by", "fazzotheme" ) . " " . get_bloginfo( "name" ); ?>
     </div>
 </div>
