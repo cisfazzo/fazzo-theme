@@ -838,7 +838,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 		 */
 		public function settings_page() {
 			// Argumente:
-			$menu_slug   = 'lnt';
+			$menu_slug   = 'fazzo';
 			$parent_slug = "admin.php?page=" . $menu_slug;
 			$page_title  = esc_html__( 'Page config', FAZZO_THEME_TXT );
 			$menu_title  = esc_html__( 'Config', FAZZO_THEME_TXT );

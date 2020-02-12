@@ -1,0 +1,638 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: Fazzo\n"
+"POT-Creation-Date: 2020-02-12 11:57+0100\n"
+"PO-Revision-Date: 2020-02-12 12:06+0100\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Last-Translator: \n"
+"Language: de_DE\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+
+#: 404.php:13
+msgid "Oops! That page can't be found."
+msgstr "Ups! Diese Seite kann nicht gefunden werden."
+
+#: 404.php:16
+msgid "It looks like nothing was found at this location. Maybe try a search?"
+msgstr "Wie es aussieht, wurde an dieser Stelle nichts gefunden."
+
+#: class/extra/customizer.php:271
+msgid "Image Size"
+msgstr "Bildgröße"
+
+#: class/extra/customizer.php:275
+msgid "Original"
+msgstr "Original"
+
+#: class/extra/customizer.php:276
+msgid "Screen Fits"
+msgstr "Angepasst"
+
+#: class/extra/customizer.php:277
+msgid "Full Screen"
+msgstr "Vollbild"
+
+#: class/extra/customizer.php:283
+msgid "Image Repeat"
+msgstr "Bildwiederholung"
+
+#: class/extra/customizer.php:290
+msgid "Image Scroll"
+msgstr "Scrollen"
+
+#: class/extra/customizer.php:305
+msgid "Transparent"
+msgstr "Transparent"
+
+#: class/extra/customizer_image_alignement.php:29
+msgid "Background"
+msgstr "Hintergrund"
+
+#: class/extra/customizer_image_alignement.php:95
+msgid "Top Left"
+msgstr "Oben links"
+
+#: class/extra/customizer_image_alignement.php:99 class/fazzo.php:633
+msgid "Top"
+msgstr "Oben"
+
+#: class/extra/customizer_image_alignement.php:103
+msgid "Top Right"
+msgstr "Oben rechts"
+
+#: class/extra/customizer_image_alignement.php:109
+msgid "Left"
+msgstr "Links"
+
+#: class/extra/customizer_image_alignement.php:113
+msgid "Center"
+msgstr "Zentriert"
+
+#: class/extra/customizer_image_alignement.php:117
+msgid "Right"
+msgstr "Rechts"
+
+#: class/extra/customizer_image_alignement.php:123
+msgid "Bottom Left"
+msgstr "Unten links"
+
+#: class/extra/customizer_image_alignement.php:127
+msgid "Bottom"
+msgstr "Unten"
+
+#: class/extra/customizer_image_alignement.php:131
+msgid "Bottom Right"
+msgstr "Unten rechts"
+
+#: class/extra/customizer_image_alignement.php:139
+#: class/extra/customizer_image_alignement.php:142
+msgid "Image Position"
+msgstr "Bild Position"
+
+#: class/extra/customizer_script.php:52
+msgid "Publish"
+msgstr "Veröffentlichen"
+
+#. translators: %s: Name of current post
+#: class/extra/functions.php:399
+#, php-format
+msgid "Edit <span class=\"screen-reader-text\">\"%s\"</span>"
+msgstr "Bearbeiten von <span class=\"screen-reader-text\">\"%s\"</span>"
+
+#. translators: %s: post author
+#: class/extra/functions.php:415
+#, php-format
+msgid "by %s"
+msgstr "von %s"
+
+#: class/extra/functions.php:449
+msgid "Update"
+msgstr "Aktualisieren"
+
+#: class/extra/functions.php:475
+msgid ", "
+msgstr ", "
+
+#: class/extra/functions.php:481
+msgid "Categories"
+msgstr "Kategorien"
+
+#: class/extra/functions.php:482
+msgid "Tags"
+msgstr "Schlagwörter"
+
+#: class/extra/functions.php:484
+msgid "Category"
+msgstr "Kategorie"
+
+#: class/extra/functions.php:485
+msgid "Tag"
+msgstr "Schlagwort"
+
+#. translators: Yearly archive title. 1: Year
+#: class/extra/functions.php:723
+#, php-format
+msgid "Year: %s"
+msgstr "Jahr: %s"
+
+#: class/extra/functions.php:723
+msgctxt "yearly archives date format"
+msgid "Y"
+msgstr "Y"
+
+#. translators: Monthly archive title. 1: Month name and year
+#: class/extra/functions.php:726
+#, php-format
+msgid "Month: %s"
+msgstr "Monat: %s"
+
+#: class/extra/functions.php:726
+msgctxt "monthly archives date format"
+msgid "F Y"
+msgstr "F Y"
+
+#. translators: Daily archive title. 1: Date
+#: class/extra/functions.php:729
+#, php-format
+msgid "Day: %s"
+msgstr "Tag: %s"
+
+#: class/extra/functions.php:729
+msgctxt "daily archives date format"
+msgid "F j, Y"
+msgstr "F j, Y"
+
+#: class/extra/functions.php:732
+msgctxt "post format archive title"
+msgid "Asides"
+msgstr "Seitenrand"
+
+#: class/extra/functions.php:734
+msgctxt "post format archive title"
+msgid "Galleries"
+msgstr "Galerien"
+
+#: class/extra/functions.php:736
+msgctxt "post format archive title"
+msgid "Images"
+msgstr "Bilder"
+
+#: class/extra/functions.php:738
+msgctxt "post format archive title"
+msgid "Videos"
+msgstr "Videos"
+
+#: class/extra/functions.php:740
+msgctxt "post format archive title"
+msgid "Quotes"
+msgstr "Zitate"
+
+#: class/extra/functions.php:742
+msgctxt "post format archive title"
+msgid "Links"
+msgstr "Links"
+
+#: class/extra/functions.php:744
+msgctxt "post format archive title"
+msgid "Statuses"
+msgstr "Status"
+
+#: class/extra/functions.php:746
+msgctxt "post format archive title"
+msgid "Audio"
+msgstr "Audio"
+
+#: class/extra/functions.php:748
+msgctxt "post format archive title"
+msgid "Chats"
+msgstr "Chats"
+
+#. translators: Post type archive title. 1: Post type name
+#: class/extra/functions.php:752
+#, php-format
+msgid "Archives: %s"
+msgstr "Archive: %s"
+
+#. translators: Taxonomy term archive title. 1: Taxonomy singular name, 2: Current taxonomy term
+#: class/extra/functions.php:756
+#, php-format
+msgid "%1$s: %2$s"
+msgstr "%1$s: %2$s"
+
+#: class/extra/functions.php:758
+msgid "Archives"
+msgstr "Archive"
+
+#: class/fazzo.php:454
+#, php-format
+msgid ""
+"FAZZO-Theme: Your server is running PHP version %s. Please upgrade at least "
+"to PHP version %s."
+msgstr ""
+"FAZZO-Theme: Auf Ihrem Server läuft die PHP-Version %s. Bitte aktualisieren "
+"Sie mindestens auf PHP Version %s."
+
+#: class/fazzo.php:458
+#, php-format
+msgid ""
+"FAZZO-Theme: Your Wordpress version is %s. Please upgrade at least to "
+"Wordpress version %s."
+msgstr ""
+"FAZZO-Theme: Ihre Wordpress-Version ist %s. Aktualisieren Sie mindestens "
+"auf Wordpress-Version %s."
+
+#: class/fazzo.php:575
+msgid "Bottom A"
+msgstr "Unten A"
+
+#: class/fazzo.php:577 class/fazzo.php:587 class/fazzo.php:597
+msgid "Bottom sidebar"
+msgstr "Untere Seitenleiste"
+
+#: class/fazzo.php:585
+msgid "Bottom B"
+msgstr "Unten B"
+
+#: class/fazzo.php:595
+msgid "Bottom C"
+msgstr "Unten C"
+
+#: class/fazzo.php:607 class/fazzo.php:1045
+msgid "Content"
+msgstr "Inhalt"
+
+#: class/fazzo.php:609
+msgid "Content sidebar"
+msgstr "Seitenleiste im Inhalt"
+
+#: class/fazzo.php:620
+msgid "Frontpage"
+msgstr "Startseite"
+
+#: class/fazzo.php:622
+msgid "Frontpage sidebar"
+msgstr "Seitenleiste auf Startseite"
+
+#: class/fazzo.php:635
+msgid "Top sidebar"
+msgstr "Top Menü"
+
+#: class/fazzo.php:658
+msgid "Select picture"
+msgstr "Bild auswählen"
+
+#: class/fazzo.php:843
+msgid "Page config"
+msgstr "Seitenkonfiguration"
+
+#: class/fazzo.php:844 class/templ/settings.php:12
+msgid "Config"
+msgstr "Konfiguration"
+
+#: class/fazzo.php:948
+msgid " No picture "
+msgstr " Kein Bild "
+
+#: class/fazzo.php:950
+msgid " Preview image "
+msgstr " Vorschaubild "
+
+#: class/fazzo.php:956 class/fazzo.php:957
+msgid "Upload image"
+msgstr "Bild hochladen"
+
+#: class/fazzo.php:960 class/fazzo.php:961
+msgid "Replace image"
+msgstr "Bild ersetzen"
+
+#: class/fazzo.php:963 class/fazzo.php:964
+msgid "Remove"
+msgstr "Entfernen"
+
+#: class/fazzo.php:1039
+msgid "Change style"
+msgstr "Design ändern"
+
+#: class/fazzo.php:1039
+msgid "Set specific styles"
+msgstr "Festlegen bestimmter Stile"
+
+#: class/fazzo.php:1040
+msgid "Site"
+msgstr "Seite"
+
+#: class/fazzo.php:1040
+msgid "Set specific site backgrounds"
+msgstr "Festlegen bestimmter Hintergründe"
+
+#: class/fazzo.php:1041
+msgid "Head"
+msgstr "Kopf"
+
+#: class/fazzo.php:1041
+msgid "Set specific head backgrounds"
+msgstr "Festlegen bestimmter Hintergründe"
+
+#: class/fazzo.php:1042
+msgid "Head top"
+msgstr "Obere Leiste"
+
+#: class/fazzo.php:1042
+msgid "Set specific top styles"
+msgstr "Festlegen bestimmter Stile"
+
+#: class/fazzo.php:1043
+msgid "Head content"
+msgstr "Textbereich oben"
+
+#: class/fazzo.php:1043
+msgid "Set specific head content styles"
+msgstr "Festlegen bestimmter Stile"
+
+#: class/fazzo.php:1044
+msgid "Head navigation"
+msgstr "Hauptnavigation"
+
+#: class/fazzo.php:1044
+msgid "Set specific head navigation styles"
+msgstr "Festlegen bestimmter Stile"
+
+#: class/fazzo.php:1045
+msgid "Set specific content styles"
+msgstr "Festlegen bestimmter Stile"
+
+#: class/fazzo.php:1046
+msgid "Content navigation"
+msgstr "Navigation im Inhaltsbereich"
+
+#: class/fazzo.php:1046
+msgid "Set specific navigation content styles"
+msgstr "Festlegen bestimmter Stile"
+
+#: class/fazzo.php:1047
+msgid "Footer navigation"
+msgstr "Footernavigation"
+
+#: class/fazzo.php:1047
+msgid "Set specific navigation footer styles"
+msgstr "Festlegen bestimmter Stile"
+
+#: class/fazzo.php:1048
+msgid "Footer"
+msgstr "Footer"
+
+#: class/fazzo.php:1048
+msgid "Set specific footer styles"
+msgstr "Festlegen bestimmter Stile"
+
+#: class/fazzo.php:1049
+msgid "Widgets"
+msgstr "Widgets"
+
+#: class/fazzo.php:1049
+msgid "Set specific widget styles"
+msgstr "Festlegen bestimmter Stile"
+
+#: class/fazzo.php:1050
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: class/fazzo.php:1050
+msgid "Set specific settings"
+msgstr "Festlegen bestimmter Einstellungen"
+
+#: class/fazzo.php:1055
+msgid "Image layer 1"
+msgstr "Bildebene 1"
+
+#: class/fazzo.php:1060 class/fazzo.php:1069 class/fazzo.php:1078
+#: class/fazzo.php:1102 class/fazzo.php:1114 class/fazzo.php:1126
+#: class/fazzo.php:1139 class/fazzo.php:1152 class/fazzo.php:1164
+msgid "Color top"
+msgstr "Farbe oben"
+
+#: class/fazzo.php:1061 class/fazzo.php:1070 class/fazzo.php:1079
+#: class/fazzo.php:1103 class/fazzo.php:1115 class/fazzo.php:1127
+#: class/fazzo.php:1140 class/fazzo.php:1153 class/fazzo.php:1165
+msgid "Color bottom"
+msgstr "Farbe unten"
+
+#: class/fazzo.php:1062 class/fazzo.php:1071 class/fazzo.php:1080
+#: class/fazzo.php:1104 class/fazzo.php:1116 class/fazzo.php:1128
+#: class/fazzo.php:1141 class/fazzo.php:1154 class/fazzo.php:1166
+msgid "Opacity"
+msgstr "Deckkraft"
+
+#: class/fazzo.php:1063
+msgid "Image layer 2"
+msgstr "Bildebene 2"
+
+#: class/fazzo.php:1072 class/fazzo.php:1084 class/fazzo.php:1108
+#: class/fazzo.php:1120 class/fazzo.php:1133 class/fazzo.php:1146
+#: class/fazzo.php:1158 class/fazzo.php:1170
+msgid "Image"
+msgstr "Bild"
+
+#: class/fazzo.php:1081 class/fazzo.php:1090 class/fazzo.php:1105
+#: class/fazzo.php:1117 class/fazzo.php:1130 class/fazzo.php:1143
+#: class/fazzo.php:1155
+msgid "Link color"
+msgstr "Linkfarbe"
+
+#: class/fazzo.php:1082 class/fazzo.php:1091 class/fazzo.php:1106
+#: class/fazzo.php:1118 class/fazzo.php:1131 class/fazzo.php:1144
+#: class/fazzo.php:1156
+msgid "Link hover color"
+msgstr "Linkfarbe (Hover)"
+
+#: class/fazzo.php:1083 class/fazzo.php:1096 class/fazzo.php:1107
+#: class/fazzo.php:1119 class/fazzo.php:1132 class/fazzo.php:1145
+#: class/fazzo.php:1157 class/fazzo.php:1168
+msgid "Border color"
+msgstr "Rahmenfarbe"
+
+#: class/fazzo.php:1095 class/fazzo.php:1129 class/fazzo.php:1142
+#: class/fazzo.php:1167
+msgid "Font color"
+msgstr "Schriftfarbe"
+
+#: class/fazzo.php:1169
+msgid "Start year"
+msgstr "Startjahr"
+
+#: class/fazzo.php:1175
+msgid "Search"
+msgstr "Suche"
+
+#: class/fazzo.php:1176
+msgid "Increase inner distance"
+msgstr "Inneren Abstand erhöhen"
+
+#: class/fazzo.php:1177
+msgid "Round borders"
+msgstr "Runde Ecken"
+
+#: class/fazzo.php:1178
+msgid "Radius"
+msgstr "Radius"
+
+#: class/fazzo.php:1179
+msgid "Content centered"
+msgstr "Inhalt zentrieren"
+
+#: class/fazzo.php:1180
+msgid "Show post navigation links"
+msgstr "Post-Navigationslinks anzeigen"
+
+#: class/fazzo.php:1181
+msgid "Show page navigation links"
+msgstr "Seitennavigationslinks anzeigen"
+
+#: class/templ/settings.php:18
+msgid "Load Bootstrap"
+msgstr "Bootstrap laden"
+
+#: class/templ/settings.php:18 class/templ/settings.php:25
+msgid "No"
+msgstr "Nein"
+
+#: class/templ/settings.php:22 class/templ/settings.php:29
+msgid "Yes"
+msgstr "Ja"
+
+#: class/templ/settings.php:25
+msgid "Use Paged Menu"
+msgstr "Paged Menü verwenden"
+
+#: class/templ/settings.php:32
+msgid "Save"
+msgstr "Speichern"
+
+#: comments.php:15
+#, php-format
+msgctxt "comments title"
+msgid "One comment on &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s comments on &ldquo;%2$s&rdquo;"
+msgstr[0] "Ein Kommentar bei &ldquo;%2$s&rdquo;"
+msgstr[1] "%1$s Kommentare zu &ldquo;%2$s&rdquo;"
+
+#: comments.php:28
+msgid "Reply"
+msgstr "Antworten"
+
+#: comments.php:43
+msgid "Comments are closed."
+msgstr "Kommentare sind geschlossen."
+
+#: comments.php:47
+msgid "Name"
+msgstr "Name"
+
+#: comments.php:48
+msgid "Email"
+msgstr "E-Mail"
+
+#: comments.php:49
+msgid "Website"
+msgstr "Webseite"
+
+#: comments.php:54
+msgid "Submit comment"
+msgstr "Kommentar absenden"
+
+#: comments.php:55
+msgctxt "noun"
+msgid "Comment"
+msgstr "Kommentar"
+
+#: search.php:15
+msgid "Search results for"
+msgstr "Suchergebnisse für"
+
+#: search.php:17
+msgid "Search results"
+msgstr "Suchergebnisse"
+
+#: search.php:37
+msgid ""
+"Sorry, but nothing matched your search terms. Please try again with some "
+"different keywords"
+msgstr ""
+"Es tut uns leid. Ihre Sucher ergab keinen Treffer, Bitte versuchen Sie es "
+"mit einem anderen Begriff"
+
+#: searchform.php:26
+msgctxt "submit button"
+msgid "Search"
+msgstr "Suche"
+
+#: searchform.php:29
+msgctxt "label"
+msgid "Search for:"
+msgstr "Suche nach:"
+
+#: searchform.php:33
+msgctxt "placeholder"
+msgid "Type text &hellip;"
+msgstr "Text eingeben &hellip;"
+
+#: templ/nav/comments.php:10
+msgid "Older Comments"
+msgstr "Ältere Kommentare"
+
+#: templ/nav/comments.php:13
+msgid "Newer Comments"
+msgstr "Neuere Kommentare"
+
+#: templ/page/author.php:32
+msgid "No further informations"
+msgstr "Keine weiteren Informationen"
+
+#. translators: %s: Name of current post
+#: templ/page/front-page.php:26 templ/post/post-audio.php:28
+#: templ/post/post-excerpt.php:28 templ/post/post-gallery.php:28
+#: templ/post/post-image.php:28 templ/post/post-video.php:28
+#, php-format
+msgid "Continue reading <span class=\"screen-reader-text\">\"%s\"</span>"
+msgstr "Weiterlesen<span class=\"screen-reader-text\"> \"%s\"</span>"
+
+#: templ/sections/footer-text.php:17
+msgid "©"
+msgstr "©"
+
+#: templ/sections/footer-text.php:17
+msgid "by"
+msgstr "von"
+
+#. Theme Name of the plugin/theme
+msgid "Fazzo"
+msgstr "Fazzo"
+
+#. Theme URI of the plugin/theme
+msgid "https://devfaz.xyz"
+msgstr "https://devfaz.xyz"
+
+#. Description of the plugin/theme
+msgid "Theme for Fazzo"
+msgstr "Theme für Fazzo"
+
+#. Author of the plugin/theme
+msgid "Andreas Rex"
+msgstr "Andreas Rex"
+
+#. Author URI of the plugin/theme
+msgid "https://www.eei.tf.fau.de/person/andreas-rex/"
+msgstr "https://www.eei.tf.fau.de/person/andreas-rex/"
