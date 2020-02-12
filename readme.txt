@@ -44,3 +44,6 @@ screenshot.png
 
 = 1.0.1 =
 * Some minor fixes
+
+= 1.0.2 =
+* Some minor fixes

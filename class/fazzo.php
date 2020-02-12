@@ -49,7 +49,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 		 * @access public
 		 * @var string
 		 */
-		const version = '1.0.1';
+		const version = '1.0.2';
 
 		/**
 		 * Minimal erforderliche PHP-Version.

@@ -77,8 +77,8 @@ if ( ! class_exists( '\fazzo\customizer_image_alignement' ) && class_exists( '\W
 
 			$background_position = sprintf(
 				'%s %s',
-				get_theme_mod( $this->id . '_x', fazzo::$customizer_elements[ $this->id . '_position_x' ] ),
-				get_theme_mod( $this->id . '_y', fazzo::$customizer_elements[ $this->id . '_position_y' ] )
+				get_theme_mod( $this->id . '_x', fazzo::$customizer_elements[ $this->id . '_x' ] ),
+				get_theme_mod( $this->id . '_y', fazzo::$customizer_elements[ $this->id . '_y' ] )
 			);
 
 			?>
