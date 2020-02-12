@@ -175,7 +175,7 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 		}
 
 		/**
-		 * Prüft, ob Variable ein Array ist
+		 * Parsed eine URL - Todo: Unfertig
 		 *
 		 * @param string $url URL
 		 * @param string &$mode Modus
@@ -302,14 +302,6 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 			return mb_strtolower( $string, static::$encoding );
 		}
 
-		/**
-		 * Leeres Dummy Callback
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function callback_dummy() {
-		}
 
 		/**
 		 * Liefert den Slug zu einem Post Typ
@@ -1149,7 +1141,7 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 		}
 
 		/**
-		 * Liefert ein Post ELement über dessen ID
+		 * Validiert eine URL
 		 *
 		 * @param $url string Die URL
 		 * @param $slash_after_domain bool Ob der Domainname ein Slash als Suffix haben MUSS
@@ -1191,12 +1183,26 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 
 		}
 
+		/**
+		 * Gibt die Background Settings eines Posts zurück
+		 *
+		 * @param $post Object Ein Post Objekt
+		 *
+		 * @return bool|int
+		 * @since  1.0.0
+		 * @access public
+		 * @static
+		 *
+		 */
 		public static function get_background_style( $post ) {
 			$options = get_post_meta( $post->ID, fazzo::option_name, true );
-			if ( ! isset( $options["background_color"] ) ) {
+			if ( ! self::is_array( $options ) ) {
+				$options = [];
+			}
+			if ( ! isset( $options["background_color"] ) || strlen( $options["background_color"] ) < 7 ) {
 				$options["background_color"] = "#000000";
 			}
-			if ( ! isset( $options["background_transparent"] ) ) {
+			if ( ! isset( $options["background_transparent"] ) || ( $options["background_transparent"] != "0" && $options["background_transparent"] != "1" && $options["background_transparent"] !== false && $options["background_transparent"] !== true ) ) {
 				$options["background_transparent"] = true;
 			}
 			$element_style = "";

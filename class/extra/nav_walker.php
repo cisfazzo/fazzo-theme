@@ -10,24 +10,6 @@ require_once( $dir_root . "security.php" );
 // Walker nav class
 // Thanks to https://github.com/wp-bootstrap/wp-bootstrap-navwalker/blob/master/wp-bootstrap-navwalker.php
 
-/**
- * WP Bootstrap Navwalker
- * @package WP-Bootstrap-Navwalker
- */
-/*
- * Class Name: WP_Bootstrap_Navwalker
- * Plugin Name: WP Bootstrap Navwalker
- * Plugin URI:  https://github.com/wp-bootstrap/wp-bootstrap-navwalker
- * Description: A custom WordPress nav walker class to implement the Bootstrap 3 navigation style in a custom theme using the WordPress built in menu manager.
- * Author: Edward McIntyre - @twittem, WP Bootstrap
- * Version: 2.0.5
- * Author URI: https://github.com/wp-bootstrap
- * GitHub Plugin URI: https://github.com/wp-bootstrap/wp-bootstrap-navwalker
- * GitHub Branch: master
- * License: GPL-3.0+
- * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
-*/
-
 
 /* Check if Class Exists. */
 if ( ! class_exists( '\fazzo\nav_walker' ) ) {
@@ -193,7 +175,7 @@ if ( ! class_exists( '\fazzo\nav_walker' ) ) {
 
 			$content = "";
 			$content .= "\n</div>";
-			/*
+			/* Fügt ein Bild im Dropdown Menü ein von übergordneter Seite
 			$top_post_id  = $this->fazzo_get_top_post_id( $this->curItem );
 			$top_post_img = get_the_post_thumbnail( $top_post_id, "full" );
 			if ( ! empty( $top_post_img ) ) {

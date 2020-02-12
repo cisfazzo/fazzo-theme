@@ -4,19 +4,12 @@
 $body-font: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
 $color: #000000;
-$color-grad: #474747;
 $color-neg: #ddd;
-$color-neg-darker: #bbb;
-$color-neg-link: #aed4f3;
-$color-neg-link-hover: #eaf5ff;
 $color-back: rgba(255, 255, 255, 1);
-
 $font-padding: .5rem 1rem;
 $font-size: 1rem;
 $font-height: 1.5;
-
 $space: 12px;
-
 
 /* */
 /* Hard coded Elements: */
@@ -144,7 +137,6 @@ a.dropdown-item:hover {
   background-color: transparent;
 }
 
-/* Content Alignment */
 
 #wrap_top_widget, #wrap_foot_text, #wrap_foot_widget_b {
   text-align: center;
@@ -178,13 +170,18 @@ a.dropdown-item:hover {
 }
 
 .widget {
-  margin: 0 12px;
+  margin: 0 $space;
 }
 
 .nav-link img, .dropdown-item img {
   height: 20px;
   margin-right: 6px;
 }
+
+.fa-search::before {
+  content: "\f002";
+}
+
 
 /* */
 /* Elements for Customizer: */

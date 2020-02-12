@@ -1,8 +1,10 @@
 jQuery(document).ready(function ($) {
 
-
+    // Color picker
     $('.color-field').wpColorPicker();
 
+
+    // Media Upload
     var mediaUploader
 
     $('#fazzo-upload-button').on('click', function (e) {

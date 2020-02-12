@@ -2,6 +2,9 @@
 
 namespace fazzo;
 
+$dir_root = dirname( __FILE__ ) . "/../../";
+require_once( $dir_root . "security.php" );
+
 if ( is_active_sidebar( 'fazzo-sidebar-content' ) ) {
 	ob_start();
 	dynamic_sidebar( 'fazzo-sidebar-content' );

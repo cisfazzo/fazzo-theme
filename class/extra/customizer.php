@@ -7,20 +7,6 @@ use Exception;
 $dir_root = dirname( __FILE__ ) . "/../../";
 require_once( $dir_root . "security.php" );
 
-// ID(Name)/Titel/Description, Typ(Panel, Section), [Zugehörigkeit zu Panel]
-// ID(Name)/Titel/Description, Typ(Select, Choice, Image, Text), Zugehörigkeit zu Section, Default_Value, CSS Element(e), Select_Array, Javascript
-//          Rückgabewert: ID
-// CSS Abhängigkeiten definieren() {}
-
-// Create CSS
-// Todo: die CSS Elemente, sinnvolle Sturktur zur sinnvollen Bearbeitung
-// CSS:
-//   Element(e): CSS Eigenschaft(en) (Mit Abhängigkeiten, Ausschließungen)
-// z.B: body {background-image: linear-gradient(to bottom, rgba($rgb,$opacity) 50%, rgba($rgb2,$opacity) 100%);}
-// $rgb2 von anderer Eingabe und opacity von anderer Eingabe
-//  array(rgb_1 => this,
-//
-
 
 if ( ! class_exists( '\fazzo\customizer' ) ) {
 	/**
@@ -96,6 +82,17 @@ if ( ! class_exists( '\fazzo\customizer' ) ) {
 			$this->prefix       = fazzo::$prefix;
 		}
 
+		/**
+		 * Fügt ein Panel hinzu
+		 *
+		 * @param string $id Eindeutige ID
+		 * @param string $title Titel
+		 * @param string $description Beschreibung
+		 *
+		 * @return string
+		 * @since  1.0.0
+		 * @access public
+		 */
 		public function add_panel( $id, $title, $description = "" ) {
 			$id = $this->prefix . $id;
 			$this->wp_customize->add_panel( $id, [
@@ -110,6 +107,18 @@ if ( ! class_exists( '\fazzo\customizer' ) ) {
 			return $id;
 		}
 
+		/**
+		 * Fügt eine Sektion hinzu
+		 *
+		 * @param string $id Eindeutige ID
+		 * @param string $to_id Übergeordnetes Panel
+		 * @param string $title Titel
+		 * @param string $description Beschreibung
+		 *
+		 * @return string
+		 * @since  1.0.0
+		 * @access public
+		 */
 		public function add_section( $id, $to_id, $title, $description = "" ) {
 			$id = $this->prefix . $id;
 			$this->wp_customize->add_section( $id, [
@@ -125,6 +134,20 @@ if ( ! class_exists( '\fazzo\customizer' ) ) {
 			return $id;
 		}
 
+		/**
+		 * Fügt ein Kontroll Element hinzu
+		 *
+		 * @param string $type Typ (z.B. image, text)
+		 * @param string $id Eindeutige ID
+		 * @param string $to_id Übergeordnete Sektion
+		 * @param string $title Titel
+		 * @param null $js Deprecated
+		 * @param array $array Choices für Select Felder
+		 *
+		 * @return string
+		 * @since  1.0.0
+		 * @access public
+		 */
 		public function add_control( $type, $id, $to_id, $title, $js = null, $array = [] ) {
 			$id = $this->prefix . $id;
 
@@ -295,6 +318,9 @@ if ( ! class_exists( '\fazzo\customizer' ) ) {
 
 		/**
 		 * Get Theme Mod
+		 *
+		 * @param string $id Das Element
+		 *
 		 * @return mixed
 		 * @since  1.0.0
 		 * @access public
@@ -309,6 +335,16 @@ if ( ! class_exists( '\fazzo\customizer' ) ) {
 		}
 
 		/**
+		 * CSS Generierung für Schriftfarbe
+		 *
+		 * @param string $element Das Element
+		 * @param string $property Die CSS Property
+		 * @param string $css Das CSS Element
+		 * @param string $css_suffix Suffic für CSS Element
+		 *
+		 * @return mixed
+		 * @since  1.0.0
+		 * @access public
 		 */
 		public static function live_css_font( $element, $property, $css, $css_suffix = "" ) {
 			$style = "";
@@ -350,11 +386,22 @@ CSS;
 
 
 		/**
+		 * CSS Generierung für Randfarbe (Komplex)
+		 *
+		 * @param string $element Das Element
+		 * @param string $property Die CSS Property
+		 * @param string $css Das CSS Element
+		 * @param string $element_opacity Das Element, welches die Opacity beinhaltet
+		 * @param string $css_suffix Suffic für CSS Element
+		 *
+		 * @return mixed
+		 * @since  1.0.0
+		 * @access public
 		 */
-		public static function live_css_border( $element, $property, $css, $element_opacity = false, $css_suffix = "")  {
+		public static function live_css_border( $element, $property, $css, $element_opacity = false, $css_suffix = "" ) {
 			$style = "";
 			if ( isset( fazzo::$customizer_elements[ fazzo::$prefix . $element . "_color" ] ) ) {
-				$font_color             = false;
+
 				$font_color_transparent = static::get_mod( $element . "_color_transparent" );
 				if ( $font_color_transparent ) {
 					$font_color = "transparent";
@@ -362,9 +409,11 @@ CSS;
 
 					$font_color = static::get_mod( $element . "_color" );
 
-					if(!empty($element_opacity)) {
+					if ( ! empty( $element_opacity ) ) {
 						$opacity = static::get_mod( $element_opacity . "_opacity" );
-						$font_color = "rgba(" . functions::get_rgb_from_hex( $font_color ) . "," . $opacity . ")";
+						if ( ! empty( $opacity ) ) {
+							$font_color = "rgba(" . functions::get_rgb_from_hex( $font_color ) . "," . $opacity . ")";
+						}
 					}
 
 
@@ -396,23 +445,31 @@ CSS;
 			return $style;
 		}
 
-		public static function live_border_color($element, $element_opacity = false)
-		{
+		/**
+		 * CSS Generierung für Randfarbe (Einfach)
+		 *
+		 * @param string $element Das Element
+		 * @param string $element_opacity Das Element, welches die Opacity beinhaltet
+		 *
+		 * @return mixed
+		 * @since  1.0.0
+		 * @access public
+		 */
+		public static function live_border_color( $element, $element_opacity = false ) {
 			$_nav_top_border_color = "transparent";
 			$transparent           = false;
-			if ( isset( static::$customizer_elements[ fazzo::$prefix . $element."_transparent" ] ) ) {
-				$transparent = static::get_mod( $element."_transparent" );
+			if ( isset( static::$customizer_elements[ fazzo::$prefix . $element . "_transparent" ] ) ) {
+				$transparent = static::get_mod( $element . "_transparent" );
 			}
-			if ( empty( $transparent ) && isset( static::$customizer_elements[ fazzo::$prefix . $element  ] ) ) {
+			if ( empty( $transparent ) && isset( static::$customizer_elements[ fazzo::$prefix . $element ] ) ) {
 
 				$border_color = static::get_mod( $element );
 				if ( $border_color !== false ) {
 
-					if(!empty($element_opacity)) {
-						$opacity = static::get_mod( $element_opacity . "_opacity" );
+					if ( ! empty( $element_opacity ) ) {
+						$opacity               = static::get_mod( $element_opacity . "_opacity" );
 						$_nav_top_border_color = "rgba(" . functions::get_rgb_from_hex( $border_color ) . "," . $opacity . ")";
-					}
-					else {
+					} else {
 						$_nav_top_border_color = $border_color;
 					}
 				}
@@ -421,6 +478,19 @@ CSS;
 			return $_nav_top_border_color;
 		}
 
+
+		/**
+		 * CSS Generierung für Hintergrundfarbe
+		 *
+		 * @param string $element Das Element
+		 * @param string $css_suffix Suffic für CSS Element
+		 * @param string $css Das CSS Element
+		 * @param boolean|string $breakpoint CSS Media Query Breakpoint max-width
+		 *
+		 * @return mixed
+		 * @since  1.0.0
+		 * @access public
+		 */
 		public static function live_css_background( $element, $css, $css_suffix = "", $breakpoint = false ) {
 			$style     = "";
 			$image_src = [ 0 => false ];
@@ -539,85 +609,3 @@ CSS;
 
 }
 
-if ( ! class_exists( '\fazzo\customizer_script' ) ) {
-	/**
-	 * Funktionsklasse
-	 * @since 1.0.0
-	 */
-	class customizer_script {
-		/**
-		 * Die ID
-		 * @since  1.0.0
-		 * @access public
-		 * @var string
-		 */
-		public $id = null;
-
-		/**
-		 * PHP constructor.
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function __construct( $id ) {
-
-			$this->id = $id;
-			add_action( 'customize_controls_enqueue_scripts', [ $this, "customizer_image_alignement" ] );
-		}
-
-		/**
-		 * Customizer Control enqueue Scripts and Styles
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function customizer_image_alignement() {
-
-			$id = $this->id;
-
-			wp_register_script( 'fazzo-theme-' . $this->id, get_template_directory_uri() . '/js/customizer_image_alignement.js', [
-				'jquery',
-				'customize-preview',
-			], fazzo::version, true );
-
-
-			$translation_array = array(
-				'publish' => __( "Publish", FAZZO_THEME_TXT ),
-			);
-
-			wp_localize_script( 'fazzo-theme-' . $this->id, 'trans', $translation_array );
-
-			wp_enqueue_script( 'fazzo-theme-' . $this->id );
-
-			$js_content = <<<JS
-jQuery(document).ready(function($) {
-    
-    $("#customize-control-{$this->id}_position_x").css("display", "none");
-    $("#customize-control-{$this->id}_position_y").css("display", "none");
-
-    $("#{$this->id}_position-wrapper .fazzo-back-pos").click(function() {
-        $( ".background-position-control input" ).attr('checked', false);
-        $(this).prev( "input" ).attr('checked', true);
-        
-        var value = $(this).prev( "input" ).val();
-        var arr = value.split(" ");
-
-        $("#_customize-input-{$this->id}_position_x").val(arr[0]);
-        $("#_customize-input-{$this->id}_position_x").trigger("change");
-        $("#_customize-input-{$this->id}_position_y").val(arr[1]);
-        $("#_customize-input-{$this->id}_position_y").trigger("change");
-
-
-
-    });
-});
-
-
-JS;
-			wp_add_inline_script( 'fazzo-theme-' . $this->id, $js_content, 'after' );
-
-
-		}
-
-
-	}
-}

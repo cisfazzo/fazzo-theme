@@ -10,6 +10,6 @@ function hexToRgbA(hex, opacity) {
         return 'rgba(' + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',') +
             ',' + opacity + ')'
     }
-    throw new Error('Bad Hex')
+    throw new Error('Bad Hex: ' + hex)
 }
 

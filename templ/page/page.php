@@ -3,9 +3,7 @@ namespace fazzo;
 
 $dir_root = dirname( __FILE__ ) . "/../../";
 require_once( $dir_root . "security.php" );
-
 $element_style = functions::get_background_style( $post );
-
 
 ?>
 <article <?php echo $element_style ?> id="post-<?php the_ID(); ?>" <?php post_class( 'thumbnail-article' ); ?> >

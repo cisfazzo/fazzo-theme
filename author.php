@@ -2,9 +2,8 @@
 
 namespace fazzo;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+$dir_root = dirname( __FILE__ ) . "/";
+require_once( $dir_root . "security.php" );
 
 get_header();
 

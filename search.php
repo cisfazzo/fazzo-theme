@@ -2,27 +2,20 @@
 
 namespace fazzo;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+$dir_root = dirname( __FILE__ ) . "/";
+require_once( $dir_root . "security.php" );
 
 get_header();
 
 if ( have_posts() ) {
-	$fazzo_have_posts = true;
-
-	?>
-    <p><?php
 
 	$search_results_for = get_search_query();
 
 	if ( ! empty( $search_results_for ) ) {
-		echo "<h1>" . __( 'Search Results for', FAZZO_THEME_TXT ) . " " . $search_results_for . '</h1>';
+		echo "<h1>" . __( 'Search results for', FAZZO_THEME_TXT ) . " " . $search_results_for . '</h1>';
 	} else {
-		echo "<h1>" . __( 'Search Results', FAZZO_THEME_TXT ) . '</h1>';
+		echo "<h1>" . __( 'Search results', FAZZO_THEME_TXT ) . '</h1>';
 	}
-
-	?></p><?php
 
 	while ( have_posts() ) {
 		the_post();

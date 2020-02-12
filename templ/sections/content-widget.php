@@ -9,12 +9,12 @@ if ( ( is_home() || is_front_page() ) && is_active_sidebar( 'fazzo-sidebar-front
 
 	?>
     <div id="wrap_content_widget" class="block_line row-3 wrapper">
-	<?php get_template_part( 'templ/sidebar/frontpage' ); ?>
+		<?php get_template_part( 'templ/sidebar/frontpage' ); ?>
     </div>
 <?php } elseif ( ! ( is_home() || is_front_page() ) && is_active_sidebar( 'fazzo-sidebar-content' ) ) {
 
 	?>
     <div id="wrap_content_widget" class="block_line row-3 wrapper">
-	<?php get_template_part( 'templ/sidebar/content' ); ?>
+		<?php get_template_part( 'templ/sidebar/content' ); ?>
     </div>
 <?php }

@@ -36,9 +36,6 @@ if ( ! class_exists( '\fazzo\nav_paged' ) ) {
 				$this->current_child_depth = functions::get_menu_depth_of_child();
 				$this->current_item        = functions::get_nav_item_to_object_id( $this->current_id );
 
-
-				//var_dump($this->current_item);
-
 				if ( functions::is_object_not_empty( $this->current_item ) ) {
 					if ( $this->current_depth != $this->current_child_depth ) {
 						$this->current_parent = (int) $this->current_item->ID;
@@ -47,7 +44,6 @@ if ( ! class_exists( '\fazzo\nav_paged' ) ) {
 					}
 				}
 
-				//var_dump($this->current_parent );
 
 				$this->create_tree();
 				$this->build_flat();

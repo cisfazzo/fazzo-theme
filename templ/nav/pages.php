@@ -5,11 +5,11 @@ namespace fazzo;
 $dir_root = dirname( __FILE__ ) . "/../../";
 require_once( $dir_root . "security.php" );
 
-$page_nav_display = get_theme_mod( 'page_nav_display', 1 );
+$page_nav_display = get_theme_mod(fazzo::$prefix . 'show_page_nav', 1 );
 
 if ( $page_nav_display ) {
 	?>
-    <nav class="post-navigation row-flex" role="navigation">
+    <nav class="post-navigation row-flex">
         <div class="post-link-nav row-1">
             <p><?php previous_post_link(); ?></p>
         </div>

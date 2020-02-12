@@ -2,13 +2,13 @@
 
 namespace fazzo;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+$dir_root = dirname( __FILE__ ) . "/";
+require_once( $dir_root . "security.php" );
+
 
 get_header();
 if ( have_posts() ) {
-	$fazzo_have_posts = true;
+
 	while ( have_posts() ) {
 		the_post();
 		get_template_part( 'templ/nav/posts' );

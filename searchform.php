@@ -1,9 +1,8 @@
 <?php
 namespace fazzo;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+$dir_root = dirname( __FILE__ ) . "/";
+require_once( $dir_root . "security.php" );
 
 $fazzo_unique_id = esc_attr( uniqid( 'search-form-' ) ); ?>
 

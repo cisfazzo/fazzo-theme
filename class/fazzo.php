@@ -7,26 +7,13 @@ use Exception;
 $dir_root = dirname( __FILE__ ) . "/../";
 require_once( $dir_root . "security.php" );
 
+require_once( $dir_root . "class/extra/functions.php" );
+require_once( $dir_root . "class/extra/customizer.php" );
+require_once( $dir_root . "class/extra/customizer_image_alignement.php" );
+require_once( $dir_root . "class/extra/customizer_script.php" );
+require_once( $dir_root . "class/extra/nav_paged.php" );
+require_once( $dir_root . "class/extra/nav_walker.php" );
 
-$fazzo_require_subdirs = [ "widgets", "customizer", "extra" ];
-
-foreach ( $fazzo_require_subdirs as $fazzo_require_subdir ) {
-
-	$path = dirname( __FILE__ ) . "/" . $fazzo_require_subdir . "/";
-	if ( is_dir( $path ) ) {
-		$files = scandir( $path );
-		if ( ! empty( $files ) && is_array( $files ) ) {
-			foreach ( $files as $filename ) {
-				$path = dirname( __FILE__ ) . "/" . $fazzo_require_subdir . '/' . $filename;
-
-				if ( is_file( $path ) ) {
-
-					require_once $path;
-				}
-			}
-		}
-	}
-}
 
 // Aktionen, wenn das Plugin aktiviert, bzw. deaktiviert wird:
 register_activation_hook( __FILE__, [ 'fazzo', 'activation' ] );
@@ -41,7 +28,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 	class fazzo {
 
 		/**
-		 * Name der Variable unter der die Einstellungen des Plugins gespeichert werden.
+		 * Name der Variable unter der die Einstellungen des Plugins oder Posts/Pages gespeichert werden.
 		 * @since  1.0.0
 		 * @access public
 		 * @var string
@@ -62,7 +49,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 		 * @access public
 		 * @var string
 		 */
-		const version = '1.0.0';
+		const version = '1.0.1';
 
 		/**
 		 * Minimal erforderliche PHP-Version.
@@ -78,7 +65,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 		 * @access public
 		 * @var string
 		 */
-		const wp_version = '5.2.3';
+		const wp_version = '5.3.2';
 
 		/**
 		 * Optionen des Plugins
@@ -136,24 +123,9 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 		 */
 		private function __construct() {
 
-
-			$prefix = static::$prefix;
-
-			$color_top    = "#666666";
-			$color_bottom = "#000000";
-
-			$color_font     = "#fefefe";
-			$color_font_dec = "#dedede";
-			$color_border   = "#adadad";
-
-			$color_link       = "#a4d9db";
-			$color_link_hover = "#fefefe";
-
-			$opacity = "1";
-
-
+			// Customizer Default Values
+			$prefix                      = static::$prefix;
 			static::$customizer_elements = [
-
 
 				$prefix . "background_body_image"            => "",
 				$prefix . "background_body_image_position_x" => "center",
@@ -175,7 +147,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 				$prefix . "background_image_scroll"             => 1,
 
 				$prefix . "background_head_color_top"                => "#0a0a0a",
-				$prefix . "background_head_color_bottom"             => "##7a7a7a",
+				$prefix . "background_head_color_bottom"             => "#7a7a7a",
 				$prefix . "background_head_color_top_transparent"    => 0,
 				$prefix . "background_head_color_bottom_transparent" => 0,
 				$prefix . "background_head_opacity"                  => "1",
@@ -267,7 +239,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 				$prefix . "link_hover_font_content_color"               => "#fefefe",
 				$prefix . "link_font_content_color_transparent"         => 0,
 				$prefix . "link_hover_font_content_color_transparent"   => 0,
-				$prefix . "border_content_color"                        => "adadad",
+				$prefix . "border_content_color"                        => "#adadad",
 				$prefix . "border_content_color_transparent"            => 0,
 
 				$prefix . "background_widget_color_top"                => "#a3a3a3",
@@ -308,7 +280,6 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 				$prefix . "border_nav_footer_color"                        => "#000000",
 				$prefix . "border_nav_footer_color_transparent"            => 0,
 
-
 				$prefix . "background_foot_text_color_top"                => "#666666",
 				$prefix . "background_foot_text_color_bottom"             => "#000000",
 				$prefix . "background_foot_text_color_top_transparent"    => 0,
@@ -331,15 +302,19 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 				$prefix . "round_corners"  => 0,
 				$prefix . "border_radius"  => "16px",
 				$prefix . "center_content" => 1,
+				$prefix . "show_post_nav"  => 1,
+				$prefix . "show_page_nav"  => 1,
 
 			];
 
-			/* For Debugging:
-						\remove_theme_mods();
-						foreach ( static::$customizer_elements as $mod => $value ) {
-								\set_theme_mod($mod, $value);
-						}
-			*/
+			/* For debugging, reset default values for customizer:
+
+									\remove_theme_mods();
+									foreach ( static::$customizer_elements as $mod => $value ) {
+											\set_theme_mod($mod, $value);
+									}
+*/
+
 			// Sprachdateien werden eingebunden:
 			self::load_textdomain();
 
@@ -411,9 +386,6 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 
 			// Metaboxen
 			add_action( "add_meta_boxes", [ $this, "register_meta_boxes" ] );
-
-			// Bugfix:
-			//add_filter( ‘big_image_size_threshold’, ‘__return_false’ );
 
 			// Funktionen beim Speichern
 			add_action( 'save_post', [ $this, 'save_post' ] );
@@ -519,6 +491,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 		protected static function delete_options() {
 			delete_option( static::option_name );
 			delete_option( self::version_option_name );
+			// Todo: Settings der einzelnen Pages/Posts löschen
 		}
 
 
@@ -568,9 +541,6 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 		 */
 		protected static function set_class_properties() {
 
-			if ( isset( static::$options["customizer_elements"] ) && ! empty( static::$options["customizer_elements"] ) ) {
-				static::$customizer_elements = static::$options["customizer_elements"];
-			}
 		}
 
 
@@ -581,11 +551,11 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 		 * @access public
 		 */
 		public function register_menus() {
-			register_nav_menu( "meta-bottom-nav", "Bottom-Menu" );
-			register_nav_menu( "meta-content-nav", "Content-Menu" );
-			register_nav_menu( "meta-frontpage-nav", "Frontpage-Menu" );
-			register_nav_menu( "meta-head-nav", "Head-Menu" );
-			register_nav_menu( "meta-top-nav", "Top-Menu" );
+			register_nav_menu( "meta-bottom-nav", "Bottom menu" );
+			register_nav_menu( "meta-content-nav", "Content menu" );
+			register_nav_menu( "meta-frontpage-nav", "Frontpage menu" );
+			register_nav_menu( "meta-head-nav", "Main menu" );
+			register_nav_menu( "meta-top-nav", "Top menu" );
 
 
 		}
@@ -604,7 +574,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			register_sidebar( [
 				'name'          => __( 'Bottom A', FAZZO_THEME_TXT ),
 				'id'            => 'fazzo-sidebar-bottom-a',
-				'description'   => __( 'Bottom Sidebar', FAZZO_THEME_TXT ),
+				'description'   => __( 'Bottom sidebar', FAZZO_THEME_TXT ),
 				'before_widget' => '<div id="%1$s" class="widget sidebar-bottom %2$s">',
 				'after_widget'  => '</div>',
 				'before_title'  => '<h1 class="widget-title">',
@@ -614,7 +584,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			register_sidebar( [
 				'name'          => __( 'Bottom B', FAZZO_THEME_TXT ),
 				'id'            => 'fazzo-sidebar-bottom-b',
-				'description'   => __( 'Bottom Sidebar', FAZZO_THEME_TXT ),
+				'description'   => __( 'Bottom sidebar', FAZZO_THEME_TXT ),
 				'before_widget' => '<div id="%1$s" class="widget sidebar-bottom %2$s">',
 				'after_widget'  => '</div>',
 				'before_title'  => '<h1 class="widget-title">',
@@ -624,7 +594,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			register_sidebar( [
 				'name'          => __( 'Bottom C', FAZZO_THEME_TXT ),
 				'id'            => 'fazzo-sidebar-bottom-c',
-				'description'   => __( 'Bottom Sidebar', FAZZO_THEME_TXT ),
+				'description'   => __( 'Bottom sidebar', FAZZO_THEME_TXT ),
 				'before_widget' => '<div id="%1$s" class="widget sidebar-bottom %2$s">',
 				'after_widget'  => '</div>',
 				'before_title'  => '<h1 class="widget-title">',
@@ -636,7 +606,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			register_sidebar( [
 				'name'          => __( 'Content', FAZZO_THEME_TXT ),
 				'id'            => 'fazzo-sidebar-content',
-				'description'   => __( 'Content Sidebar', FAZZO_THEME_TXT ),
+				'description'   => __( 'Content sidebar', FAZZO_THEME_TXT ),
 				'before_widget' => '<div id="%1$s" class="widget sidebar-content %2$s">',
 				'after_widget'  => '</div>',
 				'before_title'  => '<h1 class="widget-title">',
@@ -649,7 +619,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			register_sidebar( [
 				'name'          => __( 'Frontpage', FAZZO_THEME_TXT ),
 				'id'            => 'fazzo-sidebar-frontpage',
-				'description'   => __( 'Frontpage Sidebar', FAZZO_THEME_TXT ),
+				'description'   => __( 'Frontpage sidebar', FAZZO_THEME_TXT ),
 				'before_widget' => '<div id="%1$s" class="widget sidebar-frontpage %2$s">',
 				'after_widget'  => '</div>',
 				'before_title'  => '<h1 class="widget-title">',
@@ -662,7 +632,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			register_sidebar( [
 				'name'          => __( 'Top', FAZZO_THEME_TXT ),
 				'id'            => 'fazzo-sidebar-top',
-				'description'   => __( 'Top Sidebar', FAZZO_THEME_TXT ),
+				'description'   => __( 'Top sidebar', FAZZO_THEME_TXT ),
 				'before_widget' => '<div id="%1$s" class="widget sidebar-top %2$s">',
 				'after_widget'  => '</div>',
 				'before_title'  => '<h1 class="widget-title">',
@@ -685,8 +655,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			wp_enqueue_script( 'wp-color-picker' );
 			wp_enqueue_script( "fazzo-admin-js", get_template_directory_uri() . "/js/admin.js", [ "wp-color-picker" ], static::version, true );
 			wp_localize_script( 'fazzo-admin-js', 'js_localize_fazzo', [
-				'select_picture' => __( "Bild wählen", LNT_THM_TEXT ),
-				'remove'         => __( "Wollen Sie das Bild wirklich entfernen?", LNT_THM_TEXT ),
+				'select_picture' => __( "Select picture", FAZZO_THEME_TXT ),
 			] );
 		}
 
@@ -712,8 +681,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 				wp_enqueue_script( "fazzo-js", get_template_directory_uri() . "/js/page.js", [ "fazzo-jquery" ], static::version, true );
 			}
 
-			wp_enqueue_style( "fazzo-font-awesome", get_template_directory_uri() . "/ext/fonts/fontawesome-free-5.9.0-web/css/all.min.css", [], "5.9.0", 'all' );
-			wp_enqueue_style( "fazzo-jquery-ui-css", get_template_directory_uri() . "/ext/jquery/jquery-ui-1.12.1.custom/jquery-ui.min.css", [ "fazzo-font-awesome" ], '1.12.1', 'all' );
+			wp_enqueue_style( "fazzo-jquery-ui-css", get_template_directory_uri() . "/ext/jquery/jquery-ui-1.12.1.custom/jquery-ui.min.css", [], '1.12.1', 'all' );
 
 			if ( functions::is_true( static::$options["load_bootstrap"] ) ) {
 				wp_enqueue_style( "fazzo-bootstrap-css", get_template_directory_uri() . "/ext/bootstrap/bootstrap-4.3.1-dist/css/bootstrap.min.css", [ "fazzo-jquery-ui-css" ], '4.4.1', 'all' );
@@ -828,18 +796,9 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 		 * @access public
 		 */
 		public function register_widgets() {
-			//register_widget( 'fazzo_widget_tax_menu' );
+			//register_widget();
 		}
 
-
-		/**
-		 * Dummy Funktion
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function dummy_callback() {
-		}
 
 		/**
 		 * Speichert die Plugin Optionen und frischt die Klassen Eigenschaften auf
@@ -870,19 +829,6 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			}
 		}
 
-		/**
-		 * Bindet das Navigationstemplate ein
-		 * @return void
-		 * @since  1.0.0
-		 * @access public
-		 */
-		public function get_posts_navigation() {
-			if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) {
-
-				get_template_part( 'templ/nav', 'posts' );
-
-			}
-		}
 
 		/**
 		 * Füge eine Optionsseite hinzu
@@ -894,7 +840,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			// Argumente:
 			$menu_slug   = 'lnt';
 			$parent_slug = "admin.php?page=" . $menu_slug;
-			$page_title  = esc_html__( 'Page Config', FAZZO_THEME_TXT );
+			$page_title  = esc_html__( 'Page config', FAZZO_THEME_TXT );
 			$menu_title  = esc_html__( 'Config', FAZZO_THEME_TXT );
 			$capability  = 'manage_options';
 			$post_type   = "toplevel";
@@ -963,9 +909,13 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 
 		/**
 		 * Zeige Meta Box
+		 *
+		 * @param object $post Das Post Object
+		 * @param object $metabox Die Metabox
+		 *
+		 * @access public
 		 * @return void
 		 * @since  1.0.0
-		 * @access public
 		 */
 		public function display_meta_boxes_options( $post, $metabox ) {
 
@@ -995,20 +945,20 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 
 				if ( ! isset( $options["icon"] ) ) {
 					$options["icon"] = false;
-					$img_alt         = __( ' No Picture ', FAZZO_THEME_TXT );
+					$img_alt         = __( ' No picture ', FAZZO_THEME_TXT );
 				} else {
-					$img_alt = __( ' Preview Image ', FAZZO_THEME_TXT );
+					$img_alt = __( ' Preview image ', FAZZO_THEME_TXT );
 				}
 
 				$content .= "<br /><hr><h3>Icon</h3><p><img id=\"fazzo-image-preview\" src=\"" . $options["icon"] . "\" alt=\"" . $img_alt . "\"></p>";
 
 				if ( empty( $options["icon"] ) ) {
-					$content .= '<p><button type="button" class="button button-secondary" value="' . __( 'Upload Image', FAZZO_THEME_TXT ) . '" id="fazzo-upload-button">
-		<span class="sunset-icon-button dashicons-before dashicons-format-image"></span> ' . __( 'Upload Image', FAZZO_THEME_TXT ) . '</button>
+					$content .= '<p><button type="button" class="button button-secondary" value="' . __( 'Upload image', FAZZO_THEME_TXT ) . '" id="fazzo-upload-button">
+		<span class="sunset-icon-button dashicons-before dashicons-format-image"></span> ' . __( 'Upload image', FAZZO_THEME_TXT ) . '</button>
 		<input type="hidden" id="fazzo-image" name="fazzo_options[icon]" value="" /></p>';
 				} else {
-					$content .= '<p><button type="button" class="button button-secondary" value="' . __( 'Replace Image', FAZZO_THEME_TXT ) . '" id="fazzo-upload-button">
-		<span class="sunset-icon-button dashicons-before dashicons-format-image"></span> ' . __( 'Replace Image', FAZZO_THEME_TXT ) . '</button>
+					$content .= '<p><button type="button" class="button button-secondary" value="' . __( 'Replace image', FAZZO_THEME_TXT ) . '" id="fazzo-upload-button">
+		<span class="sunset-icon-button dashicons-before dashicons-format-image"></span> ' . __( 'Replace image', FAZZO_THEME_TXT ) . '</button>
 		<input type="hidden" id="fazzo-image" name="fazzo_options[icon]" value="' . $options["icon"] . '" /> 
 		<button type="button" class="button button-secondary" value="' . __( 'Remove', FAZZO_THEME_TXT ) . '" id="fazzo-remove-picture">
 		<span class="sunset-icon-button dashicons-before dashicons-no"></span> ' . __( 'Remove', FAZZO_THEME_TXT ) . '</button></p>';
@@ -1083,57 +1033,54 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 		 */
 		public function customizer_register( $wp_customize ) {
 
-			$prefix = static::$prefix;
-
 			$customizer_set = [];
 
 			$customizer                 = new customizer( $wp_customize );
-			$panel_style                = $customizer->add_panel( "style", __( 'Homepage Style', FAZZO_THEME_TXT ), __( 'Set specific styles', FAZZO_THEME_TXT ) );
-			$section_background_style   = $customizer->add_section( "background_style", $panel_style, __( 'Background Site', FAZZO_THEME_TXT ), __( 'Set specific backgrounds', FAZZO_THEME_TXT ) );
-			$section_head_style         = $customizer->add_section( "background_head_style", $panel_style, __( 'Background Head', FAZZO_THEME_TXT ), __( 'Set specific backgrounds', FAZZO_THEME_TXT ) );
-			$section_nav_top_style      = $customizer->add_section( "nav_top_style", $panel_style, __( 'Navigation Top', FAZZO_THEME_TXT ), __( 'Set specific styles', FAZZO_THEME_TXT ) );
-			$section_head_content_style = $customizer->add_section( "head_content_style", $panel_style, __( 'Head Content', FAZZO_THEME_TXT ), __( 'Set specific styles', FAZZO_THEME_TXT ) );
-			$section_nav_head_style     = $customizer->add_section( "nav_head_style", $panel_style, __( 'Navigation Head', FAZZO_THEME_TXT ), __( 'Set specific styles', FAZZO_THEME_TXT ) );
-			$section_nav_content_style  = $customizer->add_section( "nav_content_style", $panel_style, __( 'Navigation Content', FAZZO_THEME_TXT ), __( 'Set specific styles', FAZZO_THEME_TXT ) );
-			$section_content_style      = $customizer->add_section( "content_style", $panel_style, __( 'Content', FAZZO_THEME_TXT ), __( 'Set specific styles', FAZZO_THEME_TXT ) );
-			$section_nav_footer_style   = $customizer->add_section( "nav_footer_style", $panel_style, __( 'Navigation Footer', FAZZO_THEME_TXT ), __( 'Set specific styles', FAZZO_THEME_TXT ) );
-			$section_text_footer_style  = $customizer->add_section( "text_footer_style", $panel_style, __( 'Footer Content', FAZZO_THEME_TXT ), __( 'Set specific styles', FAZZO_THEME_TXT ) );
-			$section_widget_style       = $customizer->add_section( "widget_style", $panel_style, __( 'Widgets', FAZZO_THEME_TXT ), __( 'Set specific styles', FAZZO_THEME_TXT ) );
+			$panel_style                = $customizer->add_panel( "style", __( 'Change style', FAZZO_THEME_TXT ), __( 'Set specific styles', FAZZO_THEME_TXT ) );
+			$section_background_style   = $customizer->add_section( "background_style", $panel_style, __( 'Site', FAZZO_THEME_TXT ), __( 'Set specific site backgrounds', FAZZO_THEME_TXT ) );
+			$section_head_style         = $customizer->add_section( "background_head_style", $panel_style, __( 'Head', FAZZO_THEME_TXT ), __( 'Set specific head backgrounds', FAZZO_THEME_TXT ) );
+			$section_nav_top_style      = $customizer->add_section( "nav_top_style", $panel_style, __( 'Head top', FAZZO_THEME_TXT ), __( 'Set specific top styles', FAZZO_THEME_TXT ) );
+			$section_head_content_style = $customizer->add_section( "head_content_style", $panel_style, __( 'Head content', FAZZO_THEME_TXT ), __( 'Set specific head content styles', FAZZO_THEME_TXT ) );
+			$section_nav_head_style     = $customizer->add_section( "nav_head_style", $panel_style, __( 'Head navigation', FAZZO_THEME_TXT ), __( 'Set specific head navigation styles', FAZZO_THEME_TXT ) );
+			$section_content_style      = $customizer->add_section( "content_style", $panel_style, __( 'Content', FAZZO_THEME_TXT ), __( 'Set specific content styles', FAZZO_THEME_TXT ) );
+			$section_nav_content_style  = $customizer->add_section( "nav_content_style", $panel_style, __( 'Content navigation', FAZZO_THEME_TXT ), __( 'Set specific navigation content styles', FAZZO_THEME_TXT ) );
+			$section_nav_footer_style   = $customizer->add_section( "nav_footer_style", $panel_style, __( 'Footer navigation', FAZZO_THEME_TXT ), __( 'Set specific navigation footer styles', FAZZO_THEME_TXT ) );
+			$section_text_footer_style  = $customizer->add_section( "text_footer_style", $panel_style, __( 'Footer', FAZZO_THEME_TXT ), __( 'Set specific footer styles', FAZZO_THEME_TXT ) );
+			$section_widget_style       = $customizer->add_section( "widget_style", $panel_style, __( 'Widgets', FAZZO_THEME_TXT ), __( 'Set specific widget styles', FAZZO_THEME_TXT ) );
 			$section_settings           = $customizer->add_section( "settings", $panel_style, __( 'Settings', FAZZO_THEME_TXT ), __( 'Set specific settings', FAZZO_THEME_TXT ) );
-
 
 			// Background Site
 			$customizer_collect            = [];
 			$customizer_collect["element"] = "body";
-			$customizer_collect["image"]   = $customizer->add_control( "image", "background_body_image", $section_background_style, __( 'Image Layer 1', FAZZO_THEME_TXT ) );
+			$customizer_collect["image"]   = $customizer->add_control( "image", "background_body_image", $section_background_style, __( 'Image layer 1', FAZZO_THEME_TXT ) );
 			$customizer_set[]              = $customizer_collect;
 
 			$customizer_collect                 = [];
 			$customizer_collect["element"]      = "#body_overlay";
-			$customizer_collect["color_top"]    = $customizer->add_control( "color", "background_color_top", $section_background_style, __( 'Color Top', FAZZO_THEME_TXT ) );
-			$customizer_collect["color_bottom"] = $customizer->add_control( "color", "background_color_bottom", $section_background_style, __( 'Color Bottom', FAZZO_THEME_TXT ) );
+			$customizer_collect["color_top"]    = $customizer->add_control( "color", "background_color_top", $section_background_style, __( 'Color top', FAZZO_THEME_TXT ) );
+			$customizer_collect["color_bottom"] = $customizer->add_control( "color", "background_color_bottom", $section_background_style, __( 'Color bottom', FAZZO_THEME_TXT ) );
 			$customizer_collect["opacity"]      = $customizer->add_control( "text", "background_opacity", $section_background_style, __( 'Opacity', FAZZO_THEME_TXT ) );
-			$customizer_collect["image"]        = $customizer->add_control( "image", "background_image", $section_background_style, __( 'Image Layer 2', FAZZO_THEME_TXT ) );
+			$customizer_collect["image"]        = $customizer->add_control( "image", "background_image", $section_background_style, __( 'Image layer 2', FAZZO_THEME_TXT ) );
 			$customizer_set[]                   = $customizer_collect;
 
 			// Background Head
 			$customizer_collect                 = [];
 			$customizer_collect["element"]      = "#sec_head";
-			$customizer_collect["color_top"]    = $customizer->add_control( "color", "background_head_color_top", $section_head_style, __( 'Color Top', FAZZO_THEME_TXT ) );
-			$customizer_collect["color_bottom"] = $customizer->add_control( "color", "background_head_color_bottom", $section_head_style, __( 'Color Bottom', FAZZO_THEME_TXT ) );
+			$customizer_collect["color_top"]    = $customizer->add_control( "color", "background_head_color_top", $section_head_style, __( 'Color top', FAZZO_THEME_TXT ) );
+			$customizer_collect["color_bottom"] = $customizer->add_control( "color", "background_head_color_bottom", $section_head_style, __( 'Color bottom', FAZZO_THEME_TXT ) );
 			$customizer_collect["opacity"]      = $customizer->add_control( "text", "background_head_opacity", $section_head_style, __( 'Opacity', FAZZO_THEME_TXT ) );
 			$customizer_collect["image"]        = $customizer->add_control( "image", "background_head_image", $section_head_style, __( 'Image', FAZZO_THEME_TXT ) );
 			$customizer_set[]                   = $customizer_collect;
 
-			// Head Top
+			// Head top
 			$customizer_collect                          = [];
 			$customizer_collect["element"]               = "#sec_head_meta";
-			$customizer_collect["color_top"]             = $customizer->add_control( "color", "background_nav_top_color_top", $section_nav_top_style, __( 'Color Top', FAZZO_THEME_TXT ) );
-			$customizer_collect["color_bottom"]          = $customizer->add_control( "color", "background_nav_top_color_bottom", $section_nav_top_style, __( 'Color Bottom', FAZZO_THEME_TXT ) );
-			$customizer_collect["opacity"]               = $customizer->add_control( "text", "background_nav_top_opacity", $section_nav_top_style, __( 'BOpacity', FAZZO_THEME_TXT ) );
-			$customizer_collect["link_font_color"]       = $customizer->add_control( "color", "link_font_nav_top_color", $section_nav_top_style, __( 'Link Color', FAZZO_THEME_TXT ) );
-			$customizer_collect["link_hover_font_color"] = $customizer->add_control( "color", "link_hover_font_nav_top_color", $section_nav_top_style, __( 'Link Hover Color', FAZZO_THEME_TXT ) );
-			$customizer_collect["border_color"]          = $customizer->add_control( "color", "border_nav_top_color", $section_nav_top_style, __( 'Border Color', FAZZO_THEME_TXT ) );
+			$customizer_collect["color_top"]             = $customizer->add_control( "color", "background_nav_top_color_top", $section_nav_top_style, __( 'Color top', FAZZO_THEME_TXT ) );
+			$customizer_collect["color_bottom"]          = $customizer->add_control( "color", "background_nav_top_color_bottom", $section_nav_top_style, __( 'Color bottom', FAZZO_THEME_TXT ) );
+			$customizer_collect["opacity"]               = $customizer->add_control( "text", "background_nav_top_opacity", $section_nav_top_style, __( 'Opacity', FAZZO_THEME_TXT ) );
+			$customizer_collect["link_font_color"]       = $customizer->add_control( "color", "link_font_nav_top_color", $section_nav_top_style, __( 'Link color', FAZZO_THEME_TXT ) );
+			$customizer_collect["link_hover_font_color"] = $customizer->add_control( "color", "link_hover_font_nav_top_color", $section_nav_top_style, __( 'Link hover color', FAZZO_THEME_TXT ) );
+			$customizer_collect["border_color"]          = $customizer->add_control( "color", "border_nav_top_color", $section_nav_top_style, __( 'Border color', FAZZO_THEME_TXT ) );
 			$customizer_collect["image"]                 = $customizer->add_control( "image", "background_nav_top_image", $section_nav_top_style, __( 'Image', FAZZO_THEME_TXT ) );
 			$customizer_set[]                            = $customizer_collect;
 
@@ -1141,95 +1088,97 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			$customizer_collect                          = [];
 			$customizer_collect["element"]               = "#head-title";
 			$customizer_collect["link_font_color"]       = $customizer->add_control( "color", "link_font_content_head_color", $section_head_content_style, __( 'Link color', FAZZO_THEME_TXT ) );
-			$customizer_collect["link_hover_font_color"] = $customizer->add_control( "color", "link_hover_font_content_head_color", $section_head_content_style, __( 'Link Hover Color', FAZZO_THEME_TXT ) );
+			$customizer_collect["link_hover_font_color"] = $customizer->add_control( "color", "link_hover_font_content_head_color", $section_head_content_style, __( 'Link hover color', FAZZO_THEME_TXT ) );
 			$customizer_set[]                            = $customizer_collect;
 			$customizer_collect                          = [];
 			$customizer_collect["element"]               = "#head-description span";
-			$customizer_collect["font_color"]            = $customizer->add_control( "color", "font_content_head_description_color", $section_head_content_style, __( 'Font Color', FAZZO_THEME_TXT ) );
-			$customizer_collect["border_color"]          = $customizer->add_control( "color", "border_content_head_description_color", $section_head_content_style, __( 'Border Color', FAZZO_THEME_TXT ) );
+			$customizer_collect["font_color"]            = $customizer->add_control( "color", "font_content_head_description_color", $section_head_content_style, __( 'Font color', FAZZO_THEME_TXT ) );
+			$customizer_collect["border_color"]          = $customizer->add_control( "color", "border_content_head_description_color", $section_head_content_style, __( 'Border color', FAZZO_THEME_TXT ) );
 			$customizer_set[]                            = $customizer_collect;
 
 			// Head Nav
 			$customizer_collect                          = [];
 			$customizer_collect["element"]               = "#sec_head_nav";
-			$customizer_collect["color_top"]             = $customizer->add_control( "color", "background_nav_head_color_top", $section_nav_head_style, __( 'Color Top', FAZZO_THEME_TXT ) );
-			$customizer_collect["color_bottom"]          = $customizer->add_control( "color", "background_nav_head_color_bottom", $section_nav_head_style, __( 'Color Bottom', FAZZO_THEME_TXT ) );
+			$customizer_collect["color_top"]             = $customizer->add_control( "color", "background_nav_head_color_top", $section_nav_head_style, __( 'Color top', FAZZO_THEME_TXT ) );
+			$customizer_collect["color_bottom"]          = $customizer->add_control( "color", "background_nav_head_color_bottom", $section_nav_head_style, __( 'Color bottom', FAZZO_THEME_TXT ) );
 			$customizer_collect["opacity"]               = $customizer->add_control( "text", "background_nav_head_opacity", $section_nav_head_style, __( 'Opacity', FAZZO_THEME_TXT ) );
-			$customizer_collect["link_font_color"]       = $customizer->add_control( "color", "link_font_nav_head_color", $section_nav_head_style, __( 'Link Color', FAZZO_THEME_TXT ) );
-			$customizer_collect["link_hover_font_color"] = $customizer->add_control( "color", "link_hover_font_nav_head_color", $section_nav_head_style, __( 'Link Hover Color', FAZZO_THEME_TXT ) );
-			$customizer_collect["border_color"]          = $customizer->add_control( "color", "border_nav_head_color", $section_nav_head_style, __( 'Border Color', FAZZO_THEME_TXT ) );
+			$customizer_collect["link_font_color"]       = $customizer->add_control( "color", "link_font_nav_head_color", $section_nav_head_style, __( 'Link color', FAZZO_THEME_TXT ) );
+			$customizer_collect["link_hover_font_color"] = $customizer->add_control( "color", "link_hover_font_nav_head_color", $section_nav_head_style, __( 'Link hover color', FAZZO_THEME_TXT ) );
+			$customizer_collect["border_color"]          = $customizer->add_control( "color", "border_nav_head_color", $section_nav_head_style, __( 'Border color', FAZZO_THEME_TXT ) );
 			$customizer_collect["image"]                 = $customizer->add_control( "image", "background_nav_head_image", $section_nav_head_style, __( 'Image', FAZZO_THEME_TXT ) );
 			$customizer_set[]                            = $customizer_collect;
 
 			// Content Nav
 			$customizer_collect                          = [];
 			$customizer_collect["element"]               = "#wrap_content_nav header";
-			$customizer_collect["color_top"]             = $customizer->add_control( "color", "background_nav_content_color_top", $section_nav_content_style, __( 'Color Top', FAZZO_THEME_TXT ) );
-			$customizer_collect["color_bottom"]          = $customizer->add_control( "color", "background_nav_content_color_bottom", $section_nav_content_style, __( 'Color Bottom', FAZZO_THEME_TXT ) );
+			$customizer_collect["color_top"]             = $customizer->add_control( "color", "background_nav_content_color_top", $section_nav_content_style, __( 'Color top', FAZZO_THEME_TXT ) );
+			$customizer_collect["color_bottom"]          = $customizer->add_control( "color", "background_nav_content_color_bottom", $section_nav_content_style, __( 'Color bottom', FAZZO_THEME_TXT ) );
 			$customizer_collect["opacity"]               = $customizer->add_control( "text", "background_nav_content_opacity", $section_nav_content_style, __( 'Opacity', FAZZO_THEME_TXT ) );
-			$customizer_collect["link_font_color"]       = $customizer->add_control( "color", "link_font_nav_content_color", $section_nav_content_style, __( 'Link Color', FAZZO_THEME_TXT ) );
-			$customizer_collect["link_hover_font_color"] = $customizer->add_control( "color", "link_hover_font_nav_content_color", $section_nav_content_style, __( 'Link Hover Color', FAZZO_THEME_TXT ) );
-			$customizer_collect["border_color"]          = $customizer->add_control( "color", "border_nav_content_color", $section_nav_content_style, __( 'Border Color', FAZZO_THEME_TXT ) );
+			$customizer_collect["link_font_color"]       = $customizer->add_control( "color", "link_font_nav_content_color", $section_nav_content_style, __( 'Link color', FAZZO_THEME_TXT ) );
+			$customizer_collect["link_hover_font_color"] = $customizer->add_control( "color", "link_hover_font_nav_content_color", $section_nav_content_style, __( 'Link hover color', FAZZO_THEME_TXT ) );
+			$customizer_collect["border_color"]          = $customizer->add_control( "color", "border_nav_content_color", $section_nav_content_style, __( 'Border color', FAZZO_THEME_TXT ) );
 			$customizer_collect["image"]                 = $customizer->add_control( "image", "background_nav_content_image", $section_nav_content_style, __( 'Image', FAZZO_THEME_TXT ) );
 			$customizer_set[]                            = $customizer_collect;
 
 			// Content
 			$customizer_collect                          = [];
 			$customizer_collect["element"]               = "article";
-			$customizer_collect["color_top"]             = $customizer->add_control( "color", "background_content_color_top", $section_content_style, __( 'Color Top', FAZZO_THEME_TXT ) );
-			$customizer_collect["color_bottom"]          = $customizer->add_control( "color", "background_content_color_bottom", $section_content_style, __( 'Color Bottom', FAZZO_THEME_TXT ) );
+			$customizer_collect["color_top"]             = $customizer->add_control( "color", "background_content_color_top", $section_content_style, __( 'Color top', FAZZO_THEME_TXT ) );
+			$customizer_collect["color_bottom"]          = $customizer->add_control( "color", "background_content_color_bottom", $section_content_style, __( 'Color bottom', FAZZO_THEME_TXT ) );
 			$customizer_collect["opacity"]               = $customizer->add_control( "text", "background_content_opacity", $section_content_style, __( 'Opacity', FAZZO_THEME_TXT ) );
-			$customizer_collect["font_color"]            = $customizer->add_control( "color", "font_content_color", $section_content_style, __( 'Font Color', FAZZO_THEME_TXT ) );
-			$customizer_collect["link_font_color"]       = $customizer->add_control( "color", "link_font_content_color", $section_content_style, __( 'Link Color', FAZZO_THEME_TXT ) );
-			$customizer_collect["link_hover_font_color"] = $customizer->add_control( "color", "link_hover_font_content_color", $section_content_style, __( 'Link Hover Color', FAZZO_THEME_TXT ) );
-			$customizer_collect["border_color"]          = $customizer->add_control( "color", "border_content_color", $section_content_style, __( 'Border Color', FAZZO_THEME_TXT ) );
+			$customizer_collect["font_color"]            = $customizer->add_control( "color", "font_content_color", $section_content_style, __( 'Font color', FAZZO_THEME_TXT ) );
+			$customizer_collect["link_font_color"]       = $customizer->add_control( "color", "link_font_content_color", $section_content_style, __( 'Link color', FAZZO_THEME_TXT ) );
+			$customizer_collect["link_hover_font_color"] = $customizer->add_control( "color", "link_hover_font_content_color", $section_content_style, __( 'Link hover color', FAZZO_THEME_TXT ) );
+			$customizer_collect["border_color"]          = $customizer->add_control( "color", "border_content_color", $section_content_style, __( 'Border color', FAZZO_THEME_TXT ) );
 			$customizer_collect["image"]                 = $customizer->add_control( "image", "background_content_image", $section_content_style, __( 'Image', FAZZO_THEME_TXT ) );
 			$customizer_set[]                            = $customizer_collect;
 
 			// Widgets
 			$customizer_collect                          = [];
 			$customizer_collect["element"]               = ".widget";
-			$customizer_collect["color_top"]             = $customizer->add_control( "color", "background_widget_color_top", $section_widget_style, __( 'Color Top', FAZZO_THEME_TXT ) );
-			$customizer_collect["color_bottom"]          = $customizer->add_control( "color", "background_widget_color_bottom", $section_widget_style, __( 'Color Bottom', FAZZO_THEME_TXT ) );
+			$customizer_collect["color_top"]             = $customizer->add_control( "color", "background_widget_color_top", $section_widget_style, __( 'Color top', FAZZO_THEME_TXT ) );
+			$customizer_collect["color_bottom"]          = $customizer->add_control( "color", "background_widget_color_bottom", $section_widget_style, __( 'Color bottom', FAZZO_THEME_TXT ) );
 			$customizer_collect["opacity"]               = $customizer->add_control( "text", "background_widget_opacity", $section_widget_style, __( 'Opacity', FAZZO_THEME_TXT ) );
-			$customizer_collect["font_color"]            = $customizer->add_control( "color", "font_widget_color", $section_widget_style, __( 'Font Color', FAZZO_THEME_TXT ) );
-			$customizer_collect["link_font_color"]       = $customizer->add_control( "color", "link_font_widget_color", $section_widget_style, __( 'Link Color', FAZZO_THEME_TXT ) );
-			$customizer_collect["link_hover_font_color"] = $customizer->add_control( "color", "link_hover_font_widget_color", $section_widget_style, __( 'Link Hover Color', FAZZO_THEME_TXT ) );
-			$customizer_collect["border_color"]          = $customizer->add_control( "color", "border_widget_color", $section_widget_style, __( 'Border Color', FAZZO_THEME_TXT ) );
+			$customizer_collect["font_color"]            = $customizer->add_control( "color", "font_widget_color", $section_widget_style, __( 'Font color', FAZZO_THEME_TXT ) );
+			$customizer_collect["link_font_color"]       = $customizer->add_control( "color", "link_font_widget_color", $section_widget_style, __( 'Link color', FAZZO_THEME_TXT ) );
+			$customizer_collect["link_hover_font_color"] = $customizer->add_control( "color", "link_hover_font_widget_color", $section_widget_style, __( 'Link hover color', FAZZO_THEME_TXT ) );
+			$customizer_collect["border_color"]          = $customizer->add_control( "color", "border_widget_color", $section_widget_style, __( 'Border color', FAZZO_THEME_TXT ) );
 			$customizer_collect["image"]                 = $customizer->add_control( "image", "background_widget_image", $section_widget_style, __( 'Image', FAZZO_THEME_TXT ) );
 			$customizer_set[]                            = $customizer_collect;
 
 			// Footer Nav
 			$customizer_collect                          = [];
 			$customizer_collect["element"]               = "#sec_foot_nav";
-			$customizer_collect["color_top"]             = $customizer->add_control( "color", "background_nav_footer_color_top", $section_nav_footer_style, __( 'Color Top', FAZZO_THEME_TXT ) );
-			$customizer_collect["color_bottom"]          = $customizer->add_control( "color", "background_nav_footer_color_bottom", $section_nav_footer_style, __( 'Color Bottom', FAZZO_THEME_TXT ) );
+			$customizer_collect["color_top"]             = $customizer->add_control( "color", "background_nav_footer_color_top", $section_nav_footer_style, __( 'Color top', FAZZO_THEME_TXT ) );
+			$customizer_collect["color_bottom"]          = $customizer->add_control( "color", "background_nav_footer_color_bottom", $section_nav_footer_style, __( 'Color bottom', FAZZO_THEME_TXT ) );
 			$customizer_collect["opacity"]               = $customizer->add_control( "text", "background_nav_footer_opacity", $section_nav_footer_style, __( 'Opacity', FAZZO_THEME_TXT ) );
-			$customizer_collect["link_font_color"]       = $customizer->add_control( "color", "link_font_nav_footer_color", $section_nav_footer_style, __( 'Link Color', FAZZO_THEME_TXT ) );
-			$customizer_collect["link_hover_font_color"] = $customizer->add_control( "color", "link_hover_font_nav_footer_color", $section_nav_footer_style, __( 'Link Hover Color', FAZZO_THEME_TXT ) );
-			$customizer_collect["border_color"]          = $customizer->add_control( "color", "border_nav_footer_color", $section_nav_footer_style, __( 'Border Color', FAZZO_THEME_TXT ) );
+			$customizer_collect["link_font_color"]       = $customizer->add_control( "color", "link_font_nav_footer_color", $section_nav_footer_style, __( 'Link color', FAZZO_THEME_TXT ) );
+			$customizer_collect["link_hover_font_color"] = $customizer->add_control( "color", "link_hover_font_nav_footer_color", $section_nav_footer_style, __( 'Link hover color', FAZZO_THEME_TXT ) );
+			$customizer_collect["border_color"]          = $customizer->add_control( "color", "border_nav_footer_color", $section_nav_footer_style, __( 'Border color', FAZZO_THEME_TXT ) );
 			$customizer_collect["image"]                 = $customizer->add_control( "image", "background_nav_footer_image", $section_nav_footer_style, __( 'Image', FAZZO_THEME_TXT ) );
 			$customizer_set[]                            = $customizer_collect;
 
 			// Footer Text
 			$customizer_collect                 = [];
 			$customizer_collect["element"]      = "#sec_foot_text";
-			$customizer_collect["color_top"]    = $customizer->add_control( "color", "background_foot_text_color_top", $section_text_footer_style, __( 'Color Top', FAZZO_THEME_TXT ) );
-			$customizer_collect["color_bottom"] = $customizer->add_control( "color", "background_foot_text_color_bottom", $section_text_footer_style, __( 'Color Bottom', FAZZO_THEME_TXT ) );
+			$customizer_collect["color_top"]    = $customizer->add_control( "color", "background_foot_text_color_top", $section_text_footer_style, __( 'Color top', FAZZO_THEME_TXT ) );
+			$customizer_collect["color_bottom"] = $customizer->add_control( "color", "background_foot_text_color_bottom", $section_text_footer_style, __( 'Color bottom', FAZZO_THEME_TXT ) );
 			$customizer_collect["opacity"]      = $customizer->add_control( "text", "background_foot_text_opacity", $section_text_footer_style, __( 'Opacity', FAZZO_THEME_TXT ) );
-			$customizer_collect["font_color"]   = $customizer->add_control( "color", "font_foot_text_color", $section_text_footer_style, __( 'Font Color', FAZZO_THEME_TXT ) );
-			$customizer_collect["border_color"] = $customizer->add_control( "color", "border_foot_text_color", $section_text_footer_style, __( 'Border Color', FAZZO_THEME_TXT ) );
-			$customizer_collect["text_year"]    = $customizer->add_control( "text", "foot_text_year", $section_text_footer_style, __( 'Start Year', FAZZO_THEME_TXT ) );
+			$customizer_collect["font_color"]   = $customizer->add_control( "color", "font_foot_text_color", $section_text_footer_style, __( 'Font color', FAZZO_THEME_TXT ) );
+			$customizer_collect["border_color"] = $customizer->add_control( "color", "border_foot_text_color", $section_text_footer_style, __( 'Border color', FAZZO_THEME_TXT ) );
+			$customizer_collect["text_year"]    = $customizer->add_control( "text", "foot_text_year", $section_text_footer_style, __( 'Start year', FAZZO_THEME_TXT ) );
 			$customizer_collect["image"]        = $customizer->add_control( "image", "background_foot_text_image", $section_text_footer_style, __( 'Image', FAZZO_THEME_TXT ) );
 			$customizer_set[]                   = $customizer_collect;
 
 			// Settings
 			$customizer_settings                   = [];
 			$customizer_settings["show_search"]    = $customizer->add_control( "checkbox", "show_search", $section_settings, __( 'Search', FAZZO_THEME_TXT ) );
-			$customizer_settings["add_space"]      = $customizer->add_control( "checkbox", "add_space", $section_settings, __( 'Erhöhe inneren Abstand', FAZZO_THEME_TXT ) );
-			$customizer_settings["round_corners"]  = $customizer->add_control( "checkbox", "round_corners", $section_settings, __( 'Runde Ecken', FAZZO_THEME_TXT ) );
+			$customizer_settings["add_space"]      = $customizer->add_control( "checkbox", "add_space", $section_settings, __( 'Increase inner distance', FAZZO_THEME_TXT ) );
+			$customizer_settings["round_corners"]  = $customizer->add_control( "checkbox", "round_corners", $section_settings, __( 'Round borders', FAZZO_THEME_TXT ) );
 			$customizer_settings["border_radius"]  = $customizer->add_control( "text", "border_radius", $section_settings, __( 'Radius', FAZZO_THEME_TXT ) );
-			$customizer_settings["center_content"] = $customizer->add_control( "checkbox", "center_content", $section_settings, __( 'Inhalt zentriert', FAZZO_THEME_TXT ) );
+			$customizer_settings["center_content"] = $customizer->add_control( "checkbox", "center_content", $section_settings, __( 'Content centered', FAZZO_THEME_TXT ) );
+			$customizer_settings["show_post_nav"]  = $customizer->add_control( "checkbox", "show_post_nav", $section_settings, __( 'Show post navigation links', FAZZO_THEME_TXT ) );
+			$customizer_settings["show_page_nav"]  = $customizer->add_control( "checkbox", "show_page_nav", $section_settings, __( 'Show page navigation links', FAZZO_THEME_TXT ) );
 
 			$js_content = <<<JS
 
@@ -1320,12 +1269,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			
 JS;
 
-			$js_content .= <<<JS
-			// CODE FOR {$customizer_settings["show_search"]}:
-			wp.customize('{$customizer_settings["show_search"]}', function (value) { value.bind(function (value_set) {
-                fazzo_hide(value_set, "#wrap_top_search");
-			})})
-JS;
+
 			foreach ( $customizer_set as $cus_sec ) {
 
 				if ( isset( $cus_sec["color_top"], $cus_sec["image"], $cus_sec["opacity"], $cus_sec["color_bottom"] ) ) {
@@ -1447,6 +1391,9 @@ JS;
 
 		/**
 		 * Get Theme Mod
+		 *
+		 * @param string $id Der Keyname
+		 *
 		 * @return mixed
 		 * @since  1.0.0
 		 * @access public
@@ -1461,7 +1408,7 @@ JS;
 		}
 
 		/**
-		 * Customizer Preview
+		 * Customizer Live CSS generation
 		 * @return void
 		 * @since  1.0.0
 		 * @access public
@@ -1486,14 +1433,12 @@ JS;
 				"_content_head_description" => "#head-description span",
 				"_foot_text"                => "#sec_foot_text",
 				"_widget"                   => ".widget",
-				"_content"                  => ["article", "#sec_content h1", "#sec_content h2", "#sec_content h3"],
+				"_content"                  => [ "article", "#sec_content h1", "#sec_content h2", "#sec_content h3" ],
 			];
 
 			foreach ( $elements as $element => $css ) {
 
 				$style .= customizer::live_css_font( "font" . $element, "color", $css );
-				//Todo: Überschriften Farbe fehlt
-				//$style .= customizer::live_css( "font" . $element, "color", $css, "h1" );
 				$style .= customizer::live_css_font( "link_font" . $element, "color", $css, "a" );
 				$style .= customizer::live_css_font( "link_hover_font" . $element, "color", $css, "a:hover" );
 				$style .= customizer::live_css_border( "border" . $element, "border-color", $css, "background" . $element );
@@ -1501,6 +1446,8 @@ JS;
 				$style .= customizer::live_css_background( "background" . $element, $css );
 			}
 
+			$style .= customizer::live_css_font( "link_font_nav_top", "color", "#wrap_top_search", "i::before" );
+			$style .= customizer::live_css_font( "link_hover_font_nav_top", "color", "#wrap_top_search", ".search-button-wrapper:hover i::before" );
 			$style .= customizer::live_css_background( "background_nav_head", ".offcanvas-collapse", "", "576px" );
 
 			if ( isset( static::$customizer_elements[ $prefix . "add_space" ] ) ) {
