@@ -395,6 +395,12 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 		 * @static
 		 */
 		static public function edit_link() {
+
+			$show_edit_link = get_theme_mod( fazzo::$prefix . 'show_edit_link', 1 );
+			if ( empty( $show_edit_link ) ) {
+				return;
+			}
+
 			edit_post_link( sprintf( /* translators: %s: Name of current post */
 				__( 'Edit <span class="screen-reader-text">"%s"</span>', "fazzotheme" ), get_the_title() ), '<span class="edit-link">', '</span>' );
 		}
@@ -410,11 +416,17 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 		 * @static
 		 */
 		static public function posted_on( $return_content = false ) {
-			// Get the author name; wrap it in a link.
-			$byline = sprintf( /* translators: %s: post author */
-				__( 'by %s', "fazzotheme" ), '<span class="author vcard meta"><a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . get_the_author() . '</a></span>' );
 
-			$content = '<span class="posted-on meta">' . static::time( true ) . '</span><span class="byline meta"> ' . $byline . '</span>';
+			$show_author_link = get_theme_mod( fazzo::$prefix . 'show_author_link', 1 );
+			if ( empty( $show_author_link ) ) {
+				$byline = "";
+			} else {
+
+				// Get the author name; wrap it in a link.
+				$byline = '</span><span class="byline meta"> ' . sprintf( /* translators: %s: post author */
+						__( 'by %s', "fazzotheme" ), '<span class="author vcard meta"><a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . get_the_author() . '</a></span>' ) . '</span>';
+			}
+			$content = '<span class="posted-on meta">' . static::time( true ) . $byline;
 
 			if ( $return_content ) {
 				return $content;
@@ -471,7 +483,9 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 
 			$content = "";
 
-			if ( static::categorized_blog() ) {
+			$show_categories = get_theme_mod( fazzo::$prefix . 'show_categories', 1 );
+
+			if ( static::categorized_blog() && !empty($show_categories)) {
 				$separate_meta   = __( ', ', "fazzotheme" );
 				$categories_list = get_the_category_list( $separate_meta );
 				$tags_list       = get_the_tag_list( '', $separate_meta );
@@ -522,7 +536,17 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 		 * @access public
 		 * @static
 		 */
-		static public function entry_details( $return_content = false ) {
+		static public function entry_details( $return_content = false, $type = "page" ) {
+
+			if ( $type == "page" ) {
+				$show_date = get_theme_mod( fazzo::$prefix . 'show_page_date', 1 );
+			} else {
+				$show_date = get_theme_mod( fazzo::$prefix . 'show_post_date', 1 );
+			}
+
+			if ( empty( $show_date ) ) {
+				return "";
+			}
 
 			$postet_on = static::posted_on( true );
 

@@ -12,12 +12,35 @@ Highly customizable theme.
 
 == Description ==
 
-*   Different Background Colors, Pictures, Opacity and Font/Border Colors divided along locations, like complete site, head, content, footer. Easy to use with the wordpress customizer.
-*   Every single post or page can have a different background color.
-*   Menu Items can have a icon. The layout is responsive.
-*   Bootstrap and jquery used.
-*   Language English and German.
-*   Font Awesome 5 Free used.
+= Customizer =
+
+* Set different background images or gradients with position, repeat, scroll, opacity and transparent options for "site", "head", "meta top", "head content", "main navigation", "dropdown", "content", "content navigation", "footer navigation", "footer", "widgets"
+* Set different padding and font sizes of many elements
+* Settings: "Display search", "Round borders", "Content centered", "Show post navigation links", "Show page navigation links", "Show post date and author", "Show author", "Show categories", "Disable comments"
+
+= Pages and Posts =
+
+*   Every single post or page can have a different background color and a Icon for the navigation menu
+
+= Theme Settings =
+
+*   Load Bootrap
+*   Use Paged Menu (Special main navigation menu, a little tricky. The menu items change and it has no depth limit)
+
+= Layout =
+
+* The layout is fully responsive.
+
+= Language =
+
+*   English and German.
+
+= Sources used =
+
+*   Font Awesome 5 Free
+*   Bootstrap
+*   jquery
+*   jquery ui
 
 == Installation ==
 
@@ -27,6 +50,8 @@ Highly customizable theme.
 == Screenshots ==
 
 screenshot.png
+
+screenshot2.png
 
 == Changelog ==
 

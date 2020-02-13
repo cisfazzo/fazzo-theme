@@ -20,7 +20,7 @@ require_once( $dir_root . "security.php" );
 		<?php functions::edit_link(); ?>
     </header>
 	<?php
-	functions::entry_details();
+	functions::entry_details(true, "post");
 	?>
     <div class="article-wrapper">
 		<?php

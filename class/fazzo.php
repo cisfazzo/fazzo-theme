@@ -349,6 +349,12 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 				$prefix . "center_content" => 1,
 				$prefix . "show_post_nav"  => 1,
 				$prefix . "show_page_nav"  => 1,
+				$prefix . "show_post_date" => 1,
+				$prefix . "show_author_link" => 1,
+				$prefix . "show_page_date" => 1,
+				$prefix . "show_categories" => 1,
+				$prefix . "show_edit_link" => 1,
+				$prefix . "disable_comments" => 0,
 
 			];
 
@@ -356,13 +362,9 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 									\remove_theme_mods();
 
 			foreach ( static::$customizer_elements as $mod => $value ) {
-
-				$mod_check = get_theme_mod( $mod );
-				if ( $mod_check === false ) {
-					\set_theme_mod( $mod, $value );
-				}
+				\set_theme_mod( $mod, $value );
 			}
-*/
+			*/
 
 			// Sprachdateien werden eingebunden:
 			self::load_textdomain();
@@ -1295,6 +1297,12 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			$customizer_settings["center_content"] = $customizer->add_control( "checkbox", "center_content", $section_settings, __( 'Content centered', "fazzotheme" ) );
 			$customizer_settings["show_post_nav"]  = $customizer->add_control( "checkbox", "show_post_nav", $section_settings, __( 'Show post navigation links', "fazzotheme" ) );
 			$customizer_settings["show_page_nav"]  = $customizer->add_control( "checkbox", "show_page_nav", $section_settings, __( 'Show page navigation links', "fazzotheme" ) );
+			$customizer_settings["show_post_date"] = $customizer->add_control( "checkbox", "show_post_date", $section_settings, __( 'Show post date and author', "fazzotheme" ) );
+			$customizer_settings["show_author_link"] = $customizer->add_control( "checkbox", "show_author_link", $section_settings, __( 'Show author link', "fazzotheme" ) );
+			$customizer_settings["show_page_date"] = $customizer->add_control( "checkbox", "show_page_date", $section_settings, __( 'Show page date and author', "fazzotheme" ) );
+			$customizer_settings["show_categories"] = $customizer->add_control( "checkbox", "show_categories", $section_settings, __( 'Show categories', "fazzotheme" ) );
+			$customizer_settings["show_edit_link"] = $customizer->add_control( "checkbox", "show_edit_link", $section_settings, __( 'Show edit link', "fazzotheme" ) );
+			$customizer_settings["disable_comments"] = $customizer->add_control( "checkbox", "disable_comments", $section_settings, __( 'Disable Comments', "fazzotheme" ) );
 
 			$js_content = <<<JS
 

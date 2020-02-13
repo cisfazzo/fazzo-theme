@@ -27,7 +27,7 @@ $element_style = functions::get_background_style( $post );
 		<?php functions::edit_link(); ?>
     </header>
 	<?php
-	functions::entry_details();
+	functions::entry_details(true, "post");
 	?>
     <div class="article-wrapper">
 		<?php
