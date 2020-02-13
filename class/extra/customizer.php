@@ -462,10 +462,11 @@ CSS;
 		public static function live_border_color( $element, $element_opacity = false ) {
 			$_nav_top_border_color = "transparent";
 			$transparent           = false;
-			if ( isset( static::$customizer_elements[ fazzo::$prefix . $element . "_transparent" ] ) ) {
+			if ( isset( fazzo::$customizer_elements[ fazzo::$prefix . $element . "_transparent" ] ) ) {
 				$transparent = static::get_mod( $element . "_transparent" );
 			}
-			if ( empty( $transparent ) && isset( static::$customizer_elements[ fazzo::$prefix . $element ] ) ) {
+
+			if ( empty( $transparent ) && isset( fazzo::$customizer_elements[ fazzo::$prefix . $element ] ) ) {
 
 				$border_color = static::get_mod( $element );
 				if ( $border_color !== false ) {

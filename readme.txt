@@ -45,3 +45,6 @@ screenshot.png
 = 1.1.0 =
 * User can change font size and padding of several elements in customizer
 * Some minor fixes
+
+= 1.1.1 =
+* Customizer border color fix
