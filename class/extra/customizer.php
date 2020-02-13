@@ -141,14 +141,14 @@ if ( ! class_exists( '\fazzo\customizer' ) ) {
 		 * @param string $id Eindeutige ID
 		 * @param string $to_id Übergeordnete Sektion
 		 * @param string $title Titel
-		 * @param null $js Deprecated
+		 * @param null|string $transport Not for image, color, checkbox
 		 * @param array $array Choices für Select Felder
 		 *
 		 * @return string
 		 * @since  1.0.0
 		 * @access public
 		 */
-		public function add_control( $type, $id, $to_id, $title, $js = null, $array = [] ) {
+		public function add_control( $type, $id, $to_id, $title, $transport = null, $array = [] ) {
 			$id = $this->prefix . $id;
 
 			switch ( $type ) {
@@ -195,9 +195,13 @@ if ( ! class_exists( '\fazzo\customizer' ) ) {
 					] );
 					break;
 				default:
+
+					if(is_null($transport))
+						$transport = $this->transport["instant"];
+
 					$this->wp_customize->add_setting( $id, [
 						"default"   => fazzo::$customizer_elements[ $id ],
-						"transport" => $this->transport["instant"],
+						"transport" => $transport,
 					] );
 					break;
 			}
@@ -476,6 +480,129 @@ CSS;
 			}
 
 			return $_nav_top_border_color;
+		}
+
+		/**
+		 * CSS Generierung für min. Höhe
+		 *
+		 * @param string $element Das Element
+		 *
+		 * @return mixed
+		 * @since  1.0.0
+		 * @access public
+		 */
+		public static function live_css_height( $element, $css ) {
+
+			$height = static::get_mod( $element );
+			$style = "";
+			$style .= <<<CSS
+{$css}  {
+	min-height: {$height};
+}
+CSS;
+			return $style;
+		}
+
+		/**
+		 * CSS Generierung für Padding Vertical
+		 *
+		 * @param string $element Das Element
+		 *
+		 * @return mixed
+		 * @since  1.0.0
+		 * @access public
+		 */
+		public static function live_css_padding_v( $element, $css ) {
+
+			$padding = static::get_mod( $element );
+			$style = "";
+			$style .= <<<CSS
+{$css}  {
+	padding-top: {$padding};
+	padding-bottom: {$padding};
+}
+CSS;
+			return $style;
+		}
+
+		/**
+		 * CSS Generierung für Text Größe
+		 *
+		 * @param string $element Das Element
+		 *
+		 * @return mixed
+		 * @since  1.0.0
+		 * @access public
+		 */
+		public static function live_css_font_size( $element, $css ) {
+
+			$font_size = static::get_mod( $element );
+			$style = "";
+			$style .= <<<CSS
+{$css} {
+	font-size: {$font_size};
+}
+CSS;
+			return $style;
+		}
+
+		/**
+		 * CSS Generierung für Text Größe ohne Überschriften
+		 *
+		 * @param string $element Das Element
+		 *
+		 * @return mixed
+		 * @since  1.0.0
+		 * @access public
+		 */
+		public static function live_css_font_size_text( $element, $css ) {
+
+			$font_size = static::get_mod( $element );
+			$style = "";
+			$style .= <<<CSS
+{$css} p {
+	font-size: {$font_size};
+}
+{$css} a {
+	font-size: {$font_size};
+}
+{$css} span {
+	font-size: {$font_size};
+}
+{$css} input {
+	font-size: {$font_size};
+}
+{$css} label {
+	font-size: {$font_size};
+}
+{$css} i {
+	font-size: {$font_size};
+}
+CSS;
+			return $style;
+		}
+
+
+		/**
+		 * CSS Generierung für Padding Horizontal
+		 *
+		 * @param string $element Das Element
+		 *
+		 * @return mixed
+		 * @since  1.0.0
+		 * @access public
+		 */
+		public static function live_css_padding_h( $element, $css ) {
+
+			$padding = static::get_mod( $element );
+			$style = "";
+			$style .= <<<CSS
+{$css}  {
+	padding-left: {$padding};
+	padding-right: {$padding};
+}
+CSS;
+			return $style;
 		}
 
 

@@ -5,8 +5,7 @@ $dir_root = dirname( __FILE__ ) . "/../../";
 require_once( $dir_root . "security.php" );
 
 ?>
-<header class="clearfix navbar-light">
-    <nav class="navbar navbar-expand<?php echo $GLOBALS["fazzo_breakpoint"]; ?>" id="meta-content-nav">
+    <nav class="navbar navbar-expand<?php echo $GLOBALS["fazzo_breakpoint"]; ?> navbar-light" id="meta-content-nav">
         <div class="container-fluid">
 			<?php
 
@@ -24,4 +23,3 @@ require_once( $dir_root . "security.php" );
 			?>
         </div><!-- container-fluid -->
     </nav><!-- meta-content-nav -->
-</header>

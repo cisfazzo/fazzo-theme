@@ -49,7 +49,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 		 * @access public
 		 * @var string
 		 */
-		const version = '1.0.2';
+		const version = '1.1.0';
 
 		/**
 		 * Minimal erforderliche PHP-Version.
@@ -204,6 +204,24 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 				$prefix . "border_nav_head_color"                        => "#8e8e8e",
 				$prefix . "border_nav_head_color_transparent"            => 0,
 
+				$prefix . "background_nav_head_dropdown_color_top"                => "#757575",
+				$prefix . "background_nav_head_dropdown_color_bottom"             => "#000000",
+				$prefix . "background_nav_head_dropdown_color_top_transparent"    => 0,
+				$prefix . "background_nav_head_dropdown_color_bottom_transparent" => 0,
+				$prefix . "background_nav_head_dropdown_opacity"                  => "0.8",
+				$prefix . "background_nav_head_dropdown_image"                    => "",
+				$prefix . "background_nav_head_dropdown_image_position_x"         => "center",
+				$prefix . "background_nav_head_dropdown_image_position_y"         => "center",
+				$prefix . "background_nav_head_dropdown_image_size"               => "auto auto",
+				$prefix . "background_nav_head_dropdown_image_repeat"             => 1,
+				$prefix . "background_nav_head_dropdown_image_scroll"             => 1,
+				$prefix . "link_font_nav_head_dropdown_color"                     => "#ffffff",
+				$prefix . "link_hover_font_nav_head_dropdown_color"               => "#00a3f4",
+				$prefix . "link_font_nav_head_dropdown_color_transparent"         => 0,
+				$prefix . "link_hover_font_nav_head_dropdown_color_transparent"   => 0,
+				$prefix . "border_nav_head_dropdown_color"                        => "#8e8e8e",
+				$prefix . "border_nav_head_dropdown_color_transparent"            => 0,
+
 				$prefix . "background_nav_content_color_top"                => "#757575",
 				$prefix . "background_nav_content_color_bottom"             => "#000000",
 				$prefix . "background_nav_content_color_top_transparent"    => 0,
@@ -221,6 +239,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 				$prefix . "link_hover_font_nav_content_color_transparent"   => 0,
 				$prefix . "border_nav_content_color"                        => "#8e8e8e",
 				$prefix . "border_nav_content_color_transparent"            => 0,
+				$prefix . "background_nav_content_dropdown_opacity"         => "1",
 
 				$prefix . "background_content_color_top"                => "#757575",
 				$prefix . "background_content_color_bottom"             => "#000000",
@@ -297,6 +316,32 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 				$prefix . "border_foot_text_color_transparent"            => 0,
 				$prefix . "foot_text_year"                                => "1975",
 
+				$prefix . "head_height"    => "200px",
+				$prefix . "content_height" => "200px",
+				$prefix . "footer_height"  => "200px",
+
+				$prefix . "top_padding_h"         => ".5rem",
+				$prefix . "top_padding_v"         => "1rem",
+				$prefix . "main_nav_padding_h"    => ".5rem",
+				$prefix . "main_nav_padding_v"    => "1rem",
+				$prefix . "footer_nav_padding_h"  => ".5rem",
+				$prefix . "footer_nav_padding_v"  => "1rem",
+				$prefix . "footer_text_padding_v" => "1rem",
+
+				$prefix . "top_font_size" => "1rem",
+				$prefix . "head_content_header_font_size" => "2.5rem",
+				$prefix . "head_content_font_size" => "1rem",
+				$prefix . "main_nav_font_size" => "1rem",
+				$prefix . "content_nav_font_size" => "1rem",
+				$prefix . "content_font_size" => "1rem",
+				$prefix . "content_h1_font_size" => "2.5rem",
+				$prefix . "content_h2_font_size" => "2rem",
+				$prefix . "content_h3_font_size" => "1.5rem",
+				$prefix . "foot_nav_font_size" => "1rem",
+				$prefix . "widget_font_size" => "1rem",
+				$prefix . "widget_header_font_size" => "2.5rem",
+				$prefix . "footer_text_font_size" => "1rem",
+
 				$prefix . "show_search"    => 1,
 				$prefix . "add_space"      => 1,
 				$prefix . "round_corners"  => 0,
@@ -308,12 +353,16 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			];
 
 			/* For debugging, reset default values for customizer:
-
 									\remove_theme_mods();
-									foreach ( static::$customizer_elements as $mod => $value ) {
-											\set_theme_mod($mod, $value);
-									}
-*/
+			*/
+			foreach ( static::$customizer_elements as $mod => $value ) {
+
+				$mod_check = get_theme_mod( $mod );
+				if ( $mod_check === false ) {
+					\set_theme_mod( $mod, $value );
+				}
+			}
+
 
 			// Sprachdateien werden eingebunden:
 			self::load_textdomain();
@@ -805,7 +854,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			$capability  = 'manage_options';
 			$post_type   = "toplevel";
 			$function    = [ $this, 'settings_page_display' ];
-			$position = 80;
+			$position    = 80;
 
 			// Definiere Einstellungen zu dieser Seite für spätere Verwendung:
 			define( 'FAZZO_SETTINGS_PAGE', $parent_slug );
@@ -998,13 +1047,16 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			$section_background_style   = $customizer->add_section( "background_style", $panel_style, __( 'Site', "fazzotheme" ), __( 'Set specific site backgrounds', "fazzotheme" ) );
 			$section_head_style         = $customizer->add_section( "background_head_style", $panel_style, __( 'Head', "fazzotheme" ), __( 'Set specific head backgrounds', "fazzotheme" ) );
 			$section_nav_top_style      = $customizer->add_section( "nav_top_style", $panel_style, __( 'Head top', "fazzotheme" ), __( 'Set specific top styles', "fazzotheme" ) );
+
 			$section_head_content_style = $customizer->add_section( "head_content_style", $panel_style, __( 'Head content', "fazzotheme" ), __( 'Set specific head content styles', "fazzotheme" ) );
 			$section_nav_head_style     = $customizer->add_section( "nav_head_style", $panel_style, __( 'Head navigation', "fazzotheme" ), __( 'Set specific head navigation styles', "fazzotheme" ) );
+			$section_nav_head_dropdown_style      = $customizer->add_section( "nav_head_dropdown_style", $panel_style, __( 'Head navigation dropdown', "fazzotheme" ), __( 'Set specific top styles', "fazzotheme" ) );
 			$section_content_style      = $customizer->add_section( "content_style", $panel_style, __( 'Content', "fazzotheme" ), __( 'Set specific content styles', "fazzotheme" ) );
 			$section_nav_content_style  = $customizer->add_section( "nav_content_style", $panel_style, __( 'Content navigation', "fazzotheme" ), __( 'Set specific navigation content styles', "fazzotheme" ) );
 			$section_nav_footer_style   = $customizer->add_section( "nav_footer_style", $panel_style, __( 'Footer navigation', "fazzotheme" ), __( 'Set specific navigation footer styles', "fazzotheme" ) );
 			$section_text_footer_style  = $customizer->add_section( "text_footer_style", $panel_style, __( 'Footer', "fazzotheme" ), __( 'Set specific footer styles', "fazzotheme" ) );
 			$section_widget_style       = $customizer->add_section( "widget_style", $panel_style, __( 'Widgets', "fazzotheme" ), __( 'Set specific widget styles', "fazzotheme" ) );
+			$section_sizes_spaces       = $customizer->add_section( "sizes_spaces", $panel_style, __( 'Sizes and Spaces', "fazzotheme" ), __( 'Set specific sizes and spaces', "fazzotheme" ) );
 			$section_settings           = $customizer->add_section( "settings", $panel_style, __( 'Settings', "fazzotheme" ), __( 'Set specific settings', "fazzotheme" ) );
 
 			// Background Site
@@ -1066,9 +1118,23 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			$customizer_collect["image"]                 = $customizer->add_control( "image", "background_nav_head_image", $section_nav_head_style, __( 'Image', "fazzotheme" ) );
 			$customizer_set[]                            = $customizer_collect;
 
+			// Head Nav Dropdown
+			$customizer_collect                          = [];
+			$customizer_collect["element"]               = "#sec_head_nav  .dropdown-menu";
+			$customizer_collect["color_top"]             = $customizer->add_control( "color", "background_nav_head_dropdown_color_top", $section_nav_head_dropdown_style, __( 'Color top', "fazzotheme" ) );
+			$customizer_collect["color_bottom"]          = $customizer->add_control( "color", "background_nav_head_dropdown_color_bottom", $section_nav_head_dropdown_style, __( 'Color bottom', "fazzotheme" ) );
+			$customizer_collect["opacity"]               = $customizer->add_control( "text", "background_nav_head_dropdown_opacity", $section_nav_head_dropdown_style, __( 'Opacity', "fazzotheme" ) );
+			$customizer_collect["link_font_color"]       = $customizer->add_control( "color", "link_font_nav_head_dropdown_color", $section_nav_head_dropdown_style, __( 'Link color', "fazzotheme" ) );
+			$customizer_collect["link_hover_font_color"] = $customizer->add_control( "color", "link_hover_font_nav_head_dropdown_color", $section_nav_head_dropdown_style, __( 'Link hover color', "fazzotheme" ) );
+			$customizer_collect["border_color"]          = $customizer->add_control( "color", "border_nav_head_dropdown_color", $section_nav_head_dropdown_style, __( 'Border color', "fazzotheme" ) );
+			$customizer_collect["image"]                 = $customizer->add_control( "image", "background_nav_head_dropdown_image", $section_nav_head_dropdown_style, __( 'Image', "fazzotheme" ) );
+			$customizer_set[]                            = $customizer_collect;
+
+
+
 			// Content Nav
 			$customizer_collect                          = [];
-			$customizer_collect["element"]               = "#wrap_content_nav header";
+			$customizer_collect["element"]               = "#wrap_content_nav";
 			$customizer_collect["color_top"]             = $customizer->add_control( "color", "background_nav_content_color_top", $section_nav_content_style, __( 'Color top', "fazzotheme" ) );
 			$customizer_collect["color_bottom"]          = $customizer->add_control( "color", "background_nav_content_color_bottom", $section_nav_content_style, __( 'Color bottom', "fazzotheme" ) );
 			$customizer_collect["opacity"]               = $customizer->add_control( "text", "background_nav_content_opacity", $section_nav_content_style, __( 'Opacity', "fazzotheme" ) );
@@ -1077,6 +1143,8 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			$customizer_collect["border_color"]          = $customizer->add_control( "color", "border_nav_content_color", $section_nav_content_style, __( 'Border color', "fazzotheme" ) );
 			$customizer_collect["image"]                 = $customizer->add_control( "image", "background_nav_content_image", $section_nav_content_style, __( 'Image', "fazzotheme" ) );
 			$customizer_set[]                            = $customizer_collect;
+			$customizer_collect                          = [];
+
 
 			// Content
 			$customizer_collect                          = [];
@@ -1127,6 +1195,94 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			$customizer_collect["text_year"]    = $customizer->add_control( "text", "foot_text_year", $section_text_footer_style, __( 'Start year', "fazzotheme" ) );
 			$customizer_collect["image"]        = $customizer->add_control( "image", "background_foot_text_image", $section_text_footer_style, __( 'Image', "fazzotheme" ) );
 			$customizer_set[]                   = $customizer_collect;
+
+			// Sizes / Spaces
+			$customizer_collect             = [];
+			$customizer_collect["element"]   = "#sec_head_content";
+			$customizer_collect["height"]    = $customizer->add_control( "text", "head_height", $section_sizes_spaces, __( 'Head min. height', "fazzotheme" ) );
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect             = [];
+			$customizer_collect["element"]   = "#wrap_content_output";
+			$customizer_collect["height"]    = $customizer->add_control( "text", "content_height", $section_sizes_spaces, __( 'Content min. height', "fazzotheme" ) );
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect             = [];
+			$customizer_collect["element"]   = "#wrap_foot_widget";
+			$customizer_collect["height"]    = $customizer->add_control( "text", "footer_height", $section_sizes_spaces, __( 'Footer widget min. height', "fazzotheme" ) );
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect             = [];
+			$customizer_collect["element"]   = "#menu-meta-top li a";
+			$customizer_collect["padding_h"] = $customizer->add_control( "text", "top_padding_h", $section_sizes_spaces, __( 'Top navigation padding horiz', "fazzotheme" ) );
+			$customizer_collect["padding_v"] = $customizer->add_control( "text", "top_padding_v", $section_sizes_spaces, __( 'Top navigation padding vert.', "fazzotheme" ) );
+			$customizer_collect             = [];
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect["element"]   = "#meta-head-nav ul li a";
+			$customizer_collect["padding_h"] = $customizer->add_control( "text", "main_nav_padding_h", $section_sizes_spaces, __( 'Main navigation padding horiz.', "fazzotheme" ) );
+			$customizer_collect["padding_v"] = $customizer->add_control( "text", "main_nav_padding_v", $section_sizes_spaces, __( 'Main navigation padding vert.', "fazzotheme" ) );
+			$customizer_collect             = [];
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect["element"]   = "#meta-bottom-nav ul li a";
+			$customizer_collect["padding_h"] = $customizer->add_control( "text", "footer_nav_padding_h", $section_sizes_spaces, __( 'Footer navigation padding horiz.', "fazzotheme" ) );
+			$customizer_collect["padding_v"] = $customizer->add_control( "text", "footer_nav_padding_v", $section_sizes_spaces, __( 'Footer navigation padding vert.', "fazzotheme" ) );
+			$customizer_collect             = [];
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect["element"]   = "#wrap_foot_text";
+			$customizer_collect["padding_v"] = $customizer->add_control( "text", "footer_text_padding_v", $section_sizes_spaces, __( 'Footer text padding vert.', "fazzotheme" ) );
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect             = [];
+			// Todo: Padding Widgets
+
+			$customizer_collect["element"]   = "#sec_head_meta";
+			$customizer_collect["font_size_text"]    = $customizer->add_control( "text", "top_font_size", $section_sizes_spaces, __( 'Top font size', "fazzotheme" ) );
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect             = [];
+			$customizer_collect["element"]   = "#head-title";
+			$customizer_collect["font_size_text"]    = $customizer->add_control( "text", "head_content_header_font_size", $section_sizes_spaces, __( 'Head header font size', "fazzotheme" ) );
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect             = [];
+			$customizer_collect["element"]   = "#head-description";
+			$customizer_collect["font_size_text"]    = $customizer->add_control( "text", "head_content_font_size", $section_sizes_spaces, __( 'Head text font size', "fazzotheme" ) );
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect             = [];
+			$customizer_collect["element"]   = "#sec_head_nav";
+			$customizer_collect["font_size_text"]    = $customizer->add_control( "text", "main_nav_font_size", $section_sizes_spaces, __( 'Main navigation font size', "fazzotheme" ) );
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect             = [];
+			$customizer_collect["element"]   = "#wrap_content_nav";
+			$customizer_collect["font_size_text"]    = $customizer->add_control( "text", "content_nav_font_size", $section_sizes_spaces, __( 'Content navigation font size', "fazzotheme" ) );
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect             = [];
+			$customizer_collect["element"]   = "#wrap_content_output";
+			$customizer_collect["font_size_text"]    = $customizer->add_control( "text", "content_font_size", $section_sizes_spaces, __( 'Content font size', "fazzotheme" ) );
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect             = [];
+			$customizer_collect["element"]   = "#wrap_content_output h1";
+			$customizer_collect["font_size"]    = $customizer->add_control( "text", "content_h1_font_size", $section_sizes_spaces, __( 'Content header 1 font size', "fazzotheme" ) );
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect             = [];
+			$customizer_collect["element"]   = "#wrap_content_output h2";
+			$customizer_collect["font_size"]    = $customizer->add_control( "text", "content_h2_font_size", $section_sizes_spaces, __( 'Content header 2 font size', "fazzotheme" ) );
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect             = [];
+			$customizer_collect["element"]   = "#wrap_content_output h3";
+			$customizer_collect["font_size"]    = $customizer->add_control( "text", "content_h3_font_size", $section_sizes_spaces, __( 'Content header 3 font size', "fazzotheme" ) );
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect             = [];
+			$customizer_collect["element"]   = "#wrap_foot_nav";
+			$customizer_collect["font_size_text"]    = $customizer->add_control( "text", "foot_nav_font_size", $section_sizes_spaces, __( 'Footer navigation font size', "fazzotheme" ) );
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect             = [];
+			$customizer_collect["element"]   = ".widget";
+			$customizer_collect["font_size_text"]    = $customizer->add_control( "text", "widget_font_size", $section_sizes_spaces, __( 'Widget font size', "fazzotheme" ) );
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect             = [];
+			$customizer_collect["element"]   = ".widget h1";
+			$customizer_collect["font_size"]    = $customizer->add_control( "text", "widget_header_font_size", $section_sizes_spaces, __( 'Widget header font size', "fazzotheme" ) );
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect             = [];
+			$customizer_collect["element"]   = "#wrap_foot_text";
+			$customizer_collect["font_size"]    = $customizer->add_control( "text", "footer_text_font_size", $section_sizes_spaces, __( 'Footer text font size', "fazzotheme" ) );
+			$customizer_set[]                = $customizer_collect;
+			$customizer_collect             = [];
 
 			// Settings
 			$customizer_settings                   = [];
@@ -1215,20 +1371,94 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
     }  
     function fazzo_hide(status, element)
     {
-    	
-        
         if(status)
     		$(element).css('display', 'none');
         else
             $(element).css('display', 'inline-block');
-            
     }
+    function fazzo_height(height, element)
+    {
+        		var height = wp.customize(height).get();    
+        		$(element).css('min-height', height);
+    }  
     
+    function fazzo_padding_h(padding, element)
+    {
+        		var padding = wp.customize(padding).get();    
+        		$(element).css('padding-left', padding);
+        		$(element).css('padding-right', padding);
+    }  
+    function fazzo_padding_v(padding, element)
+    {
+        		var padding = wp.customize(padding).get();    
+        		$(element).css('padding-top', padding);
+        		$(element).css('padding-bottom', padding);
+    }   
+    function fazzo_font_size(size, element)
+    {
+        		var size = wp.customize(size).get();    
+        		$(element).css('font-size', size);
+    }  
+    
+        function fazzo_font_size_text(size, element)
+    {
+        		var size = wp.customize(size).get();    
+        		$(element + ' p').css('font-size', size);
+        		$(element + ' span').css('font-size', size);
+        		$(element + ' a').css('font-size', size);
+        		$(element + ' input').css('font-size', size);
+        		$(element + ' label').css('font-size', size);
+        		$(element + ' i').css('font-size', size);        		
+    }  
 			
 JS;
 
 
 			foreach ( $customizer_set as $cus_sec ) {
+
+				if ( isset( $cus_sec["height"] ) ) {
+					$js_content .= <<<JS
+			// CODE FOR {$cus_sec["height"]}:
+			wp.customize('{$cus_sec["height"]}', function (value) { value.bind(function (value_set) {
+                fazzo_height('{$cus_sec["height"]}','{$cus_sec["element"]}');
+			})})
+JS;
+				}
+
+				if ( isset( $cus_sec["padding_v"] ) ) {
+					$js_content .= <<<JS
+			// CODE FOR {$cus_sec["padding_v"]}:
+			wp.customize('{$cus_sec["padding_v"]}', function (value) { value.bind(function (value_set) {
+                fazzo_padding_v('{$cus_sec["padding_v"]}','{$cus_sec["element"]}');
+			})})
+JS;
+				}
+				if ( isset( $cus_sec["padding_h"] ) ) {
+					$js_content .= <<<JS
+			// CODE FOR {$cus_sec["padding_h"]}:
+			wp.customize('{$cus_sec["padding_h"]}', function (value) { value.bind(function (value_set) {
+                fazzo_padding_h('{$cus_sec["padding_h"]}','{$cus_sec["element"]}');
+			})})
+JS;
+				}
+
+				if ( isset( $cus_sec["font_size"] ) ) {
+					$js_content .= <<<JS
+			// CODE FOR {$cus_sec["font_size"]}:
+			wp.customize('{$cus_sec["font_size"]}', function (value) { value.bind(function (value_set) {
+                fazzo_font_size('{$cus_sec["font_size"]}','{$cus_sec["element"]}');
+			})})
+JS;
+				}
+
+				if ( isset( $cus_sec["font_size_text"] ) ) {
+					$js_content .= <<<JS
+			// CODE FOR {$cus_sec["font_size_text"]}:
+			wp.customize('{$cus_sec["font_size_text"]}', function (value) { value.bind(function (value_set) {
+                fazzo_font_size_text('{$cus_sec["font_size_text"]}','{$cus_sec["element"]}');
+			})})
+JS;
+				}
 
 				if ( isset( $cus_sec["color_top"], $cus_sec["image"], $cus_sec["opacity"], $cus_sec["color_bottom"] ) ) {
 					$js_content .= <<<JS
@@ -1383,8 +1613,9 @@ JS;
 				"_head" => "#sec_head",
 
 				"_nav_top"     => [ "#sec_head_meta", "#sec_head_meta .dropdown-menu" ],
-				"_nav_head"    => [ "#sec_head_nav", "#sec_head_nav .dropdown-menu" ],
-				"_nav_content" => [ "#wrap_content_nav header", "#wrap_content_nav .dropdown-menu" ],
+				"_nav_head"    => "#sec_head_nav",
+				"_nav_head_dropdown"    => ["#sec_head_nav .dropdown-menu"],
+				"_nav_content" => [ "#wrap_content_nav", "#wrap_content_nav .dropdown-menu" ],
 				"_nav_footer"  => [ "#sec_foot_nav", "#sec_foot_nav .dropdown-menu" ],
 
 				"_content_head"             => "#head-title",
@@ -1397,6 +1628,7 @@ JS;
 			foreach ( $elements as $element => $css ) {
 
 				$style .= customizer::live_css_font( "font" . $element, "color", $css );
+				$style .= customizer::live_css_font( "font" . $element, "color", $css, "caption" );
 				$style .= customizer::live_css_font( "link_font" . $element, "color", $css, "a" );
 				$style .= customizer::live_css_font( "link_hover_font" . $element, "color", $css, "a:hover" );
 				$style .= customizer::live_css_border( "border" . $element, "border-color", $css, "background" . $element );
@@ -1406,7 +1638,31 @@ JS;
 
 			$style .= customizer::live_css_font( "link_font_nav_top", "color", "#wrap_top_search", "i::before" );
 			$style .= customizer::live_css_font( "link_hover_font_nav_top", "color", "#wrap_top_search", ".search-button-wrapper:hover i::before" );
-			$style .= customizer::live_css_background( "background_nav_head", ".offcanvas-collapse", "", "576px" );
+			$style .= customizer::live_css_background( "background_nav_head_dropdown", ".offcanvas-collapse", "", "576px" );
+			$style .= customizer::live_css_height( "head_height", "#sec_head_content" );
+			$style .= customizer::live_css_height( "content_height", "#wrap_content_output" );
+			$style .= customizer::live_css_height( "footer_height", "#wrap_foot_widget" );
+
+			$style .= customizer::live_css_padding_h( "top_padding_h", "#menu-meta-top li a" );
+			$style .= customizer::live_css_padding_v( "top_padding_v", "#menu-meta-top li a" );
+			$style .= customizer::live_css_padding_h( "main_nav_padding_h", "#meta-head-nav ul li a" );
+			$style .= customizer::live_css_padding_v( "main_nav_padding_v", "#meta-head-nav ul li a" );
+			$style .= customizer::live_css_padding_h( "footer_nav_padding_h", "#meta-bottom-nav ul li a" );
+			$style .= customizer::live_css_padding_v( "footer_nav_padding_v", "#meta-bottom-nav ul li a" );
+			$style .= customizer::live_css_padding_v( "footer_text_padding_v", "#wrap_foot_text" );
+
+			$style .= customizer::live_css_font_size_text( "top_font_size", "#sec_head_meta" );
+			$style .= customizer::live_css_font_size_text( "head_content_header_font_size", "#head-title" );
+			$style .= customizer::live_css_font_size_text( "head_content_font_size", "#head-description" );
+			$style .= customizer::live_css_font_size_text( "main_nav_font_size", "#sec_head_nav" );
+			$style .= customizer::live_css_font_size_text( "content_nav_font_size", "#wrap_content_nav" );
+			$style .= customizer::live_css_font_size_text( "content_font_size", "#wrap_content_output" );
+			$style .= customizer::live_css_font_size( "content_h1_font_size", "#wrap_content_output h1" );
+			$style .= customizer::live_css_font_size( "content_h2_font_size", "#wrap_content_output h2" );
+			$style .= customizer::live_css_font_size( "content_h3_font_size", "#wrap_content_output h3" );
+			$style .= customizer::live_css_font_size_text( "widget_font_size", ".widget" );
+			$style .= customizer::live_css_font_size( "widget_header_font_size", ".widget h1" );
+			$style .= customizer::live_css_font_size( "footer_text_font_size", "#wrap_foot_text" );
 
 			if ( isset( static::$customizer_elements[ $prefix . "add_space" ] ) ) {
 				if ( $this->get_mod( "add_space" ) ) {
@@ -1449,7 +1705,7 @@ CSS;
 article, .widget, #sec_content img {
 	border-radius: {$border_radius};
 }
-#wrap_content_nav header, .dropdown-menu  {
+#wrap_content_nav, .dropdown-menu  {
 	border-bottom-left-radius: {$border_radius};
 	border-bottom-right-radius: {$border_radius};
 }
@@ -1475,7 +1731,7 @@ CSS;
 	border-radius: {$border_radius};
 }
 
-#wrap_content_nav header {
+#wrap_content_nav {
 	margin-left: 6px;
 	border-top-left-radius: {$border_radius};
 	border-top-right-radius: {$border_radius};
