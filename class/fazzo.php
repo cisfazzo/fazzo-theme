@@ -49,7 +49,7 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 		 * @access public
 		 * @var string
 		 */
-		const version = '1.1.1';
+		const version = '1.1.2';
 
 		/**
 		 * Minimal erforderliche PHP-Version.
@@ -1666,6 +1666,7 @@ JS;
 			$style .= customizer::live_css_font_size_text( "head_content_font_size", "#head-description" );
 			$style .= customizer::live_css_font_size_text( "main_nav_font_size", "#sec_head_nav" );
 			$style .= customizer::live_css_font_size_text( "content_nav_font_size", "#wrap_content_nav" );
+			$style .= customizer::live_css_font_size_text( "foot_nav_font_size", "#wrap_foot_nav" );
 			$style .= customizer::live_css_font_size_text( "content_font_size", "#wrap_content_output" );
 			$style .= customizer::live_css_font_size( "content_h1_font_size", "#wrap_content_output h1" );
 			$style .= customizer::live_css_font_size( "content_h2_font_size", "#wrap_content_output h2" );

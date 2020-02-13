@@ -73,3 +73,6 @@ screenshot2.png
 
 = 1.1.1 =
 * Customizer border color fix
+
+= 1.1.2 =
+* Some minor fixes
