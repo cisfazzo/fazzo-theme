@@ -134,8 +134,8 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 				$prefix . "background_body_image_repeat"     => 1,
 				$prefix . "background_body_image_scroll"     => 1,
 
-				$prefix . "background_color_top"                => "#4f4f4f",
-				$prefix . "background_color_bottom"             => "#000000",
+				$prefix . "background_color_top"                => "#ffffff",
+				$prefix . "background_color_bottom"             => "#c4c4c4",
 				$prefix . "background_color_top_transparent"    => 0,
 				$prefix . "background_color_bottom_transparent" => 0,
 				$prefix . "background_opacity"                  => "1",
@@ -146,11 +146,11 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 				$prefix . "background_image_repeat"             => 1,
 				$prefix . "background_image_scroll"             => 1,
 
-				$prefix . "background_head_color_top"                => "#0a0a0a",
-				$prefix . "background_head_color_bottom"             => "#7a7a7a",
+				$prefix . "background_head_color_top"                => "#f2f2f2",
+				$prefix . "background_head_color_bottom"             => "#ffffff",
 				$prefix . "background_head_color_top_transparent"    => 0,
 				$prefix . "background_head_color_bottom_transparent" => 0,
-				$prefix . "background_head_opacity"                  => "1",
+				$prefix . "background_head_opacity"                  => "0.9",
 				$prefix . "background_head_image"                    => "",
 				$prefix . "background_head_image_position_x"         => "center",
 				$prefix . "background_head_image_position_y"         => "center",
@@ -158,88 +158,145 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 				$prefix . "background_head_image_repeat"             => 1,
 				$prefix . "background_head_image_scroll"             => 1,
 
-				$prefix . "background_nav_top_color_top"                => "#000000",
-				$prefix . "background_nav_top_color_bottom"             => "#4c4c4c",
+				$prefix . "background_nav_top_color_top"                => "#e5e5e5",
+				$prefix . "background_nav_top_color_bottom"             => "#6592bf",
 				$prefix . "background_nav_top_color_top_transparent"    => 0,
-				$prefix . "background_nav_top_color_bottom_transparent" => 0,
-				$prefix . "background_nav_top_opacity"                  => "0.4",
+				$prefix . "background_nav_top_color_bottom_transparent" => 1,
+				$prefix . "background_nav_top_opacity"                  => "0.2",
 				$prefix . "background_nav_top_image"                    => "",
 				$prefix . "background_nav_top_image_position_x"         => "center",
 				$prefix . "background_nav_top_image_position_y"         => "center",
 				$prefix . "background_nav_top_image_size"               => "auto auto",
 				$prefix . "background_nav_top_image_repeat"             => 1,
 				$prefix . "background_nav_top_image_scroll"             => 1,
-				$prefix . "link_font_nav_top_color"                     => "#ffffff",
-				$prefix . "link_hover_font_nav_top_color"               => "#00a3f4",
+				$prefix . "link_font_nav_top_color"                     => "#000000",
+				$prefix . "link_hover_font_nav_top_color"               => "#1349dd",
 				$prefix . "link_font_nav_top_color_transparent"         => 0,
 				$prefix . "link_hover_font_nav_top_color_transparent"   => 0,
-				$prefix . "border_nav_top_color"                        => "#565656",
+				$prefix . "border_nav_top_color"                        => "#636363",
 				$prefix . "border_nav_top_color_transparent"            => 0,
 
-				$prefix . "link_font_content_head_color"                   => "#ffffff",
+				$prefix . "background_nav_top_hover_color_top"                => "#2677bf",
+				$prefix . "background_nav_top_hover_color_bottom"             => "#6592bf",
+				$prefix . "background_nav_top_hover_color_top_transparent"    => 0,
+				$prefix . "background_nav_top_hover_color_bottom_transparent" => 0,
+				$prefix . "background_nav_top_hover_opacity"                  => "0.1",
+				$prefix . "background_nav_top_hover_image"                    => "",
+				$prefix . "background_nav_top_hover_image_position_x"         => "center",
+				$prefix . "background_nav_top_hover_image_position_y"         => "center",
+				$prefix . "background_nav_top_hover_image_size"               => "auto auto",
+				$prefix . "background_nav_top_hover_image_repeat"             => 1,
+				$prefix . "background_nav_top_hover_image_scroll"             => 1,
+				$prefix . "border_nav_top_hover_color"                        => "#8e8e8e",
+				$prefix . "border_nav_top_hover_color_transparent"            => 0,
+
+				$prefix . "link_font_content_head_color"                   => "#159af2",
 				$prefix . "link_font_content_head_color_transparent"       => 0,
 				$prefix . "link_hover_font_content_head_color"             => "#00a3f4",
 				$prefix . "link_hover_font_content_head_color_transparent" => 0,
 
-				$prefix . "font_content_head_description_color"               => "#dd3333",
+				$prefix . "font_content_head_description_color"               => "#a0a0a0",
 				$prefix . "font_content_head_description_color_transparent"   => 0,
-				$prefix . "border_content_head_description_color"             => "#dd3333",
+				$prefix . "border_content_head_description_color"             => "#bfbfbf",
 				$prefix . "border_content_head_description_color_transparent" => 0,
 
-				$prefix . "background_nav_head_color_top"                => "#757575",
+				$prefix . "background_nav_head_color_top"                => "#e5e5e5",
 				$prefix . "background_nav_head_color_bottom"             => "#000000",
 				$prefix . "background_nav_head_color_top_transparent"    => 0,
-				$prefix . "background_nav_head_color_bottom_transparent" => 0,
-				$prefix . "background_nav_head_opacity"                  => "0.8",
+				$prefix . "background_nav_head_color_bottom_transparent" => 1,
+				$prefix . "background_nav_head_opacity"                  => "0.2",
 				$prefix . "background_nav_head_image"                    => "",
 				$prefix . "background_nav_head_image_position_x"         => "center",
 				$prefix . "background_nav_head_image_position_y"         => "center",
 				$prefix . "background_nav_head_image_size"               => "auto auto",
 				$prefix . "background_nav_head_image_repeat"             => 1,
 				$prefix . "background_nav_head_image_scroll"             => 1,
-				$prefix . "link_font_nav_head_color"                     => "#ffffff",
-				$prefix . "link_hover_font_nav_head_color"               => "#00a3f4",
+				$prefix . "link_font_nav_head_color"                     => "#000000",
+				$prefix . "link_hover_font_nav_head_color"               => "#1349dd",
 				$prefix . "link_font_nav_head_color_transparent"         => 0,
 				$prefix . "link_hover_font_nav_head_color_transparent"   => 0,
-				$prefix . "border_nav_head_color"                        => "#8e8e8e",
+				$prefix . "border_nav_head_color"                        => "#636363",
 				$prefix . "border_nav_head_color_transparent"            => 0,
 
-				$prefix . "background_nav_head_dropdown_color_top"                => "#757575",
-				$prefix . "background_nav_head_dropdown_color_bottom"             => "#000000",
+				$prefix . "background_nav_head_hover_color_top"                => "#2677bf",
+				$prefix . "background_nav_head_hover_color_bottom"             => "#6592bf",
+				$prefix . "background_nav_head_hover_color_top_transparent"    => 0,
+				$prefix . "background_nav_head_hover_color_bottom_transparent" => 0,
+				$prefix . "background_nav_head_hover_opacity"                  => "0.1",
+				$prefix . "background_nav_head_hover_image"                    => "",
+				$prefix . "background_nav_head_hover_image_position_x"         => "center",
+				$prefix . "background_nav_head_hover_image_position_y"         => "center",
+				$prefix . "background_nav_head_hover_image_size"               => "auto auto",
+				$prefix . "background_nav_head_hover_image_repeat"             => 1,
+				$prefix . "background_nav_head_hover_image_scroll"             => 1,
+				$prefix . "border_nav_head_hover_color"                        => "#8e8e8e",
+				$prefix . "border_nav_head_hover_color_transparent"            => 0,
+
+				$prefix . "background_nav_head_dropdown_color_top"                => "#eaeaea",
+				$prefix . "background_nav_head_dropdown_color_bottom"             => "#c9c9c9",
 				$prefix . "background_nav_head_dropdown_color_top_transparent"    => 0,
 				$prefix . "background_nav_head_dropdown_color_bottom_transparent" => 0,
-				$prefix . "background_nav_head_dropdown_opacity"                  => "0.8",
+				$prefix . "background_nav_head_dropdown_opacity"                  => "0.95",
 				$prefix . "background_nav_head_dropdown_image"                    => "",
 				$prefix . "background_nav_head_dropdown_image_position_x"         => "center",
 				$prefix . "background_nav_head_dropdown_image_position_y"         => "center",
 				$prefix . "background_nav_head_dropdown_image_size"               => "auto auto",
 				$prefix . "background_nav_head_dropdown_image_repeat"             => 1,
 				$prefix . "background_nav_head_dropdown_image_scroll"             => 1,
-				$prefix . "link_font_nav_head_dropdown_color"                     => "#ffffff",
-				$prefix . "link_hover_font_nav_head_dropdown_color"               => "#00a3f4",
+				$prefix . "link_font_nav_head_dropdown_color"                     => "#000000",
+				$prefix . "link_hover_font_nav_head_dropdown_color"               => "#1349dd",
 				$prefix . "link_font_nav_head_dropdown_color_transparent"         => 0,
 				$prefix . "link_hover_font_nav_head_dropdown_color_transparent"   => 0,
-				$prefix . "border_nav_head_dropdown_color"                        => "#8e8e8e",
+				$prefix . "border_nav_head_dropdown_color"                        => "#636363",
 				$prefix . "border_nav_head_dropdown_color_transparent"            => 0,
 
-				$prefix . "background_nav_content_color_top"                => "#757575",
-				$prefix . "background_nav_content_color_bottom"             => "#000000",
-				$prefix . "background_nav_content_color_top_transparent"    => 0,
-				$prefix . "background_nav_content_color_bottom_transparent" => 0,
-				$prefix . "background_nav_content_opacity"                  => "1",
+				$prefix . "background_nav_head_dropdown_hover_color_top"                => "#757575",
+				$prefix . "background_nav_head_dropdown_hover_color_bottom"             => "#000000",
+				$prefix . "background_nav_head_dropdown_hover_color_top_transparent"    => 0,
+				$prefix . "background_nav_head_dropdown_hover_color_bottom_transparent" => 0,
+				$prefix . "background_nav_head_dropdown_hover_opacity"                  => "0.8",
+				$prefix . "background_nav_head_dropdown_hover_image"                    => "",
+				$prefix . "background_nav_head_dropdown_hover_image_position_x"         => "center",
+				$prefix . "background_nav_head_dropdown_hover_image_position_y"         => "center",
+				$prefix . "background_nav_head_dropdown_hover_image_size"               => "auto auto",
+				$prefix . "background_nav_head_dropdown_hover_image_repeat"             => 1,
+				$prefix . "background_nav_head_dropdown_hover_image_scroll"             => 1,
+				$prefix . "border_nav_head_dropdown_hover_color"                        => "#8e8e8e",
+				$prefix . "border_nav_head_dropdown_hover_color_transparent"            => 0,
+
+				$prefix . "background_nav_content_color_top"                => "#eaeaea",
+				$prefix . "background_nav_content_color_bottom"             => "#c9c9c9",
+				$prefix . "background_nav_content_color_top_transparent"    => 1,
+				$prefix . "background_nav_content_color_bottom_transparent" => 1,
+				$prefix . "background_nav_content_opacity"                  => "0.1",
 				$prefix . "background_nav_content_image"                    => "",
 				$prefix . "background_nav_content_image_position_x"         => "center",
 				$prefix . "background_nav_content_image_position_y"         => "center",
 				$prefix . "background_nav_content_image_size"               => "auto auto",
 				$prefix . "background_nav_content_image_repeat"             => 1,
 				$prefix . "background_nav_content_image_scroll"             => 1,
-				$prefix . "link_font_nav_content_color"                     => "#ffffff",
+				$prefix . "link_font_nav_content_color"                     => "#000000",
 				$prefix . "link_hover_font_nav_content_color"               => "#00a3f4",
 				$prefix . "link_font_nav_content_color_transparent"         => 0,
 				$prefix . "link_hover_font_nav_content_color_transparent"   => 0,
-				$prefix . "border_nav_content_color"                        => "#8e8e8e",
+				$prefix . "border_nav_content_color"                        => "#000000",
 				$prefix . "border_nav_content_color_transparent"            => 0,
 				$prefix . "background_nav_content_dropdown_opacity"         => "1",
+
+				$prefix . "background_nav_content_hover_color_top"                => "#2677bf",
+				$prefix . "background_nav_content_hover_color_bottom"             => "#6592bf",
+				$prefix . "background_nav_content_hover_color_top_transparent"    => 0,
+				$prefix . "background_nav_content_hover_color_bottom_transparent" => 0,
+				$prefix . "background_nav_content_hover_opacity"                  => "0.1",
+				$prefix . "background_nav_content_hover_image"                    => "",
+				$prefix . "background_nav_content_hover_image_position_x"         => "center",
+				$prefix . "background_nav_content_hover_image_position_y"         => "center",
+				$prefix . "background_nav_content_hover_image_size"               => "auto auto",
+				$prefix . "background_nav_content_hover_image_repeat"             => 1,
+				$prefix . "background_nav_content_hover_image_scroll"             => 1,
+				$prefix . "border_nav_content_hover_color"                        => "#8e8e8e",
+				$prefix . "border_nav_content_hover_color_transparent"            => 0,
+				$prefix . "background_nav_content_hover_dropdown_opacity"         => "1",
 
 				$prefix . "background_content_color_top"                => "#757575",
 				$prefix . "background_content_color_bottom"             => "#000000",
@@ -252,10 +309,10 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 				$prefix . "background_content_image_size"               => "auto auto",
 				$prefix . "background_content_image_repeat"             => 1,
 				$prefix . "background_content_image_scroll"             => 1,
-				$prefix . "font_content_color"                          => "#fefefe",
+				$prefix . "font_content_color"                          => "#000000",
 				$prefix . "font_content_color_transparent"              => 0,
-				$prefix . "link_font_content_color"                     => "#00a3f4",
-				$prefix . "link_hover_font_content_color"               => "#fefefe",
+				$prefix . "link_font_content_color"                     => "#1349dd",
+				$prefix . "link_hover_font_content_color"               => "#00a344",
 				$prefix . "link_font_content_color_transparent"         => 0,
 				$prefix . "link_hover_font_content_color_transparent"   => 0,
 				$prefix . "border_content_color"                        => "#adadad",
@@ -272,99 +329,118 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 				$prefix . "background_widget_image_size"               => "auto auto",
 				$prefix . "background_widget_image_repeat"             => 1,
 				$prefix . "background_widget_image_scroll"             => 1,
-				$prefix . "font_widget_color"                          => "#fefefe",
+				$prefix . "font_widget_color"                          => "#1d9176",
 				$prefix . "font_widget_color_transparent"              => 0,
-				$prefix . "link_font_widget_color"                     => "#fefefe",
-				$prefix . "link_hover_font_widget_color"               => "#00a3f4",
+				$prefix . "link_font_widget_color"                     => "#1349dd",
+				$prefix . "link_hover_font_widget_color"               => "#00a344",
 				$prefix . "link_font_widget_color_transparent"         => 0,
 				$prefix . "link_hover_font_widget_color_transparent"   => 0,
-				$prefix . "border_widget_color"                        => "#adadad",
+				$prefix . "border_widget_color"                        => "#e8e8e8",
 				$prefix . "border_widget_color_transparent"            => 0,
 
-				$prefix . "background_nav_footer_color_top"                => "#a3a3a3",
+				$prefix . "background_nav_footer_color_top"                => "#e5e5e5",
 				$prefix . "background_nav_footer_color_bottom"             => "#0a0a0a",
 				$prefix . "background_nav_footer_color_top_transparent"    => 0,
-				$prefix . "background_nav_footer_color_bottom_transparent" => 0,
-				$prefix . "background_nav_footer_opacity"                  => "0.4",
+				$prefix . "background_nav_footer_color_bottom_transparent" => 1,
+				$prefix . "background_nav_footer_opacity"                  => "0.2",
 				$prefix . "background_nav_footer_image"                    => "",
 				$prefix . "background_nav_footer_image_position_x"         => "center",
 				$prefix . "background_nav_footer_image_position_y"         => "center",
 				$prefix . "background_nav_footer_image_size"               => "auto auto",
 				$prefix . "background_nav_footer_image_repeat"             => 1,
 				$prefix . "background_nav_footer_image_scroll"             => 1,
-				$prefix . "link_font_nav_footer_color"                     => "#ffffff",
-				$prefix . "link_hover_font_nav_footer_color"               => "#00a3f4",
+				$prefix . "link_font_nav_footer_color"                     => "#000000",
+				$prefix . "link_hover_font_nav_footer_color"               => "#1349dd",
 				$prefix . "link_font_nav_footer_color_transparent"         => 0,
 				$prefix . "link_hover_font_nav_footer_color_transparent"   => 0,
-				$prefix . "border_nav_footer_color"                        => "#000000",
+				$prefix . "border_nav_footer_color"                        => "#636363",
 				$prefix . "border_nav_footer_color_transparent"            => 0,
+
+				$prefix . "background_nav_footer_hover_color_top"                => "#2677bf",
+				$prefix . "background_nav_footer_hover_color_bottom"             => "#6592bf",
+				$prefix . "background_nav_footer_hover_color_top_transparent"    => 0,
+				$prefix . "background_nav_footer_hover_color_bottom_transparent" => 0,
+				$prefix . "background_nav_footer_hover_opacity"                  => "0.1",
+				$prefix . "background_nav_footer_hover_image"                    => "",
+				$prefix . "background_nav_footer_hover_image_position_x"         => "center",
+				$prefix . "background_nav_footer_hover_image_position_y"         => "center",
+				$prefix . "background_nav_footer_hover_image_size"               => "auto auto",
+				$prefix . "background_nav_footer_hover_image_repeat"             => 1,
+				$prefix . "background_nav_footer_hover_image_scroll"             => 1,
+				$prefix . "border_nav_footer_hover_color"                        => "#000000",
+				$prefix . "border_nav_footer_hover_color_transparent"            => 0,
 
 				$prefix . "background_foot_text_color_top"                => "#666666",
 				$prefix . "background_foot_text_color_bottom"             => "#000000",
-				$prefix . "background_foot_text_color_top_transparent"    => 0,
-				$prefix . "background_foot_text_color_bottom_transparent" => 0,
-				$prefix . "background_foot_text_opacity"                  => "0.4",
+				$prefix . "background_foot_text_color_top_transparent"    => 1,
+				$prefix . "background_foot_text_color_bottom_transparent" => 1,
+				$prefix . "background_foot_text_opacity"                  => "0.2",
 				$prefix . "background_foot_text_image"                    => "",
 				$prefix . "background_foot_text_image_position_x"         => "center",
 				$prefix . "background_foot_text_image_position_y"         => "center",
 				$prefix . "background_foot_text_image_size"               => "auto auto",
 				$prefix . "background_foot_text_image_repeat"             => 1,
 				$prefix . "background_foot_text_image_scroll"             => 1,
-				$prefix . "font_foot_text_color"                          => "#fefefe",
+				$prefix . "font_foot_text_color"                          => "#000000",
 				$prefix . "font_foot_text_color_transparent"              => 0,
-				$prefix . "border_foot_text_color"                        => "#000000",
+				$prefix . "border_foot_text_color"                        => "#636363",
 				$prefix . "border_foot_text_color_transparent"            => 0,
 				$prefix . "foot_text_year"                                => "1975",
 
 				$prefix . "head_height"    => "200px",
-				$prefix . "content_height" => "200px",
-				$prefix . "footer_height"  => "200px",
+				$prefix . "content_height" => "400px",
+				$prefix . "footer_height"  => "300px",
 
-				$prefix . "top_padding_h"         => ".5rem",
-				$prefix . "top_padding_v"         => "1rem",
-				$prefix . "main_nav_padding_h"    => ".5rem",
-				$prefix . "main_nav_padding_v"    => "1rem",
-				$prefix . "footer_nav_padding_h"  => ".5rem",
-				$prefix . "footer_nav_padding_v"  => "1rem",
-				$prefix . "footer_text_padding_v" => "1rem",
+				$prefix . "top_padding_h"         => "6px",
+				$prefix . "top_padding_v"         => "2px",
+				$prefix . "main_nav_padding_h"    => "12px",
+				$prefix . "main_nav_padding_v"    => "8px",
+				$prefix . "footer_nav_padding_h"  => "6px",
+				$prefix . "footer_nav_padding_v"  => "2px",
+				$prefix . "footer_text_padding_v" => "0",
 
-				$prefix . "top_font_size"                 => "1rem",
-				$prefix . "head_content_header_font_size" => "2.5rem",
+				$prefix . "top_font_size"                 => "0.8rem",
+				$prefix . "head_content_header_font_size" => "3.5rem",
 				$prefix . "head_content_font_size"        => "1rem",
 				$prefix . "main_nav_font_size"            => "1rem",
 				$prefix . "content_nav_font_size"         => "1rem",
 				$prefix . "content_font_size"             => "1rem",
-				$prefix . "content_h1_font_size"          => "2.5rem",
-				$prefix . "content_h2_font_size"          => "2rem",
+				$prefix . "content_h1_font_size"          => "2rem",
+				$prefix . "content_h2_font_size"          => "1.75rem",
 				$prefix . "content_h3_font_size"          => "1.5rem",
-				$prefix . "foot_nav_font_size"            => "1rem",
+				$prefix . "foot_nav_font_size"            => "0.8rem",
 				$prefix . "widget_font_size"              => "1rem",
-				$prefix . "widget_header_font_size"       => "2.5rem",
-				$prefix . "footer_text_font_size"         => "1rem",
+				$prefix . "widget_header_font_size"       => "2rem",
+				$prefix . "footer_text_font_size"         => "0.8rem",
 
-				$prefix . "show_search"    => 1,
-				$prefix . "add_space"      => 1,
-				$prefix . "round_corners"  => 0,
-				$prefix . "border_radius"  => "16px",
-				$prefix . "center_content" => 1,
-				$prefix . "show_post_nav"  => 1,
-				$prefix . "show_page_nav"  => 1,
-				$prefix . "show_post_date" => 1,
-				$prefix . "show_author_link" => 1,
-				$prefix . "show_page_date" => 1,
-				$prefix . "show_categories" => 1,
-				$prefix . "show_edit_link" => 1,
-				$prefix . "disable_comments" => 0,
+				$prefix . "show_search"             => 1,
+				$prefix . "add_space"               => 1,
+				$prefix . "round_corners"           => 0,
+				$prefix . "border_radius"           => "8px",
+				$prefix . "center_content"          => 1,
+				$prefix . "show_post_nav"           => 0,
+				$prefix . "show_page_nav"           => 0,
+				$prefix . "show_post_date"          => 1,
+				$prefix . "show_author_link"        => 1,
+				$prefix . "show_page_date"          => 1,
+				$prefix . "show_categories"         => 1,
+				$prefix . "show_edit_link"          => 0,
+				$prefix . "disable_comments"        => 0,
+				$prefix . "display_shadows"         => 0,
+				$prefix . "display_article_shadows" => 0,
+				$prefix . "display_widget_shadows"  => 0,
+				$prefix . "display_content_nav_shadows"  => 0,
 
 			];
 
 			/* For debugging, reset default values for customizer:
-									\remove_theme_mods();
+
+			\remove_theme_mods();
 
 			foreach ( static::$customizer_elements as $mod => $value ) {
 				\set_theme_mod( $mod, $value );
 			}
-			*/
+*/
 
 			// Sprachdateien werden eingebunden:
 			self::load_textdomain();
@@ -1047,22 +1123,26 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 
 			$customizer_set = [];
 
-			$customizer               = new customizer( $wp_customize );
-			$panel_style              = $customizer->add_panel( "style", __( 'Change style', "fazzotheme" ), __( 'Set specific styles', "fazzotheme" ) );
-			$section_background_style = $customizer->add_section( "background_style", $panel_style, __( 'Site', "fazzotheme" ), __( 'Set specific site backgrounds', "fazzotheme" ) );
-			$section_head_style       = $customizer->add_section( "background_head_style", $panel_style, __( 'Head', "fazzotheme" ), __( 'Set specific head backgrounds', "fazzotheme" ) );
-			$section_nav_top_style    = $customizer->add_section( "nav_top_style", $panel_style, __( 'Head top', "fazzotheme" ), __( 'Set specific top styles', "fazzotheme" ) );
-
-			$section_head_content_style      = $customizer->add_section( "head_content_style", $panel_style, __( 'Head content', "fazzotheme" ), __( 'Set specific head content styles', "fazzotheme" ) );
-			$section_nav_head_style          = $customizer->add_section( "nav_head_style", $panel_style, __( 'Head navigation', "fazzotheme" ), __( 'Set specific head navigation styles', "fazzotheme" ) );
-			$section_nav_head_dropdown_style = $customizer->add_section( "nav_head_dropdown_style", $panel_style, __( 'Head navigation dropdown', "fazzotheme" ), __( 'Set specific top styles', "fazzotheme" ) );
-			$section_content_style           = $customizer->add_section( "content_style", $panel_style, __( 'Content', "fazzotheme" ), __( 'Set specific content styles', "fazzotheme" ) );
-			$section_nav_content_style       = $customizer->add_section( "nav_content_style", $panel_style, __( 'Content navigation', "fazzotheme" ), __( 'Set specific navigation content styles', "fazzotheme" ) );
-			$section_nav_footer_style        = $customizer->add_section( "nav_footer_style", $panel_style, __( 'Footer navigation', "fazzotheme" ), __( 'Set specific navigation footer styles', "fazzotheme" ) );
-			$section_text_footer_style       = $customizer->add_section( "text_footer_style", $panel_style, __( 'Footer', "fazzotheme" ), __( 'Set specific footer styles', "fazzotheme" ) );
-			$section_widget_style            = $customizer->add_section( "widget_style", $panel_style, __( 'Widgets', "fazzotheme" ), __( 'Set specific widget styles', "fazzotheme" ) );
-			$section_sizes_spaces            = $customizer->add_section( "sizes_spaces", $panel_style, __( 'Sizes and Spaces', "fazzotheme" ), __( 'Set specific sizes and spaces', "fazzotheme" ) );
-			$section_settings                = $customizer->add_section( "settings", $panel_style, __( 'Settings', "fazzotheme" ), __( 'Set specific settings', "fazzotheme" ) );
+			$customizer                            = new customizer( $wp_customize );
+			$panel_style                           = $customizer->add_panel( "style", __( 'Change style', "fazzotheme" ), __( 'Set specific styles', "fazzotheme" ) );
+			$section_background_style              = $customizer->add_section( "background_style", $panel_style, __( 'Site', "fazzotheme" ), __( 'Set specific site backgrounds', "fazzotheme" ) );
+			$section_head_style                    = $customizer->add_section( "background_head_style", $panel_style, __( 'Head', "fazzotheme" ), __( 'Set specific head backgrounds', "fazzotheme" ) );
+			$section_nav_top_style                 = $customizer->add_section( "nav_top_style", $panel_style, __( 'Head top', "fazzotheme" ), __( 'Set specific top styles', "fazzotheme" ) );
+			$section_nav_top_style_hover           = $customizer->add_section( "nav_top_hover_style", $panel_style, __( 'Head top hover', "fazzotheme" ), __( 'Set specific top styles', "fazzotheme" ) );
+			$section_head_content_style            = $customizer->add_section( "head_content_style", $panel_style, __( 'Head content', "fazzotheme" ), __( 'Set specific head content styles', "fazzotheme" ) );
+			$section_nav_head_style                = $customizer->add_section( "nav_head_style", $panel_style, __( 'Head navigation', "fazzotheme" ), __( 'Set specific head navigation styles', "fazzotheme" ) );
+			$section_nav_head_hover_style          = $customizer->add_section( "nav_head_hover_style", $panel_style, __( 'Head navigation hover', "fazzotheme" ), __( 'Set specific head navigation styles', "fazzotheme" ) );
+			$section_nav_head_dropdown_style       = $customizer->add_section( "nav_head_dropdown_style", $panel_style, __( 'Head navigation dropdown', "fazzotheme" ), __( 'Set specific top styles', "fazzotheme" ) );
+			$section_nav_head_dropdown_hover_style = $customizer->add_section( "nav_head_dropdown_hover_style", $panel_style, __( 'Head navigation dropdown hover', "fazzotheme" ), __( 'Set specific top styles', "fazzotheme" ) );
+			$section_content_style                 = $customizer->add_section( "content_style", $panel_style, __( 'Content', "fazzotheme" ), __( 'Set specific content styles', "fazzotheme" ) );
+			$section_nav_content_style             = $customizer->add_section( "nav_content_style", $panel_style, __( 'Content navigation', "fazzotheme" ), __( 'Set specific navigation content styles', "fazzotheme" ) );
+			$section_nav_content_hover_style       = $customizer->add_section( "nav_content_hover_style", $panel_style, __( 'Content navigation hover', "fazzotheme" ), __( 'Set specific navigation content styles', "fazzotheme" ) );
+			$section_nav_footer_style              = $customizer->add_section( "nav_footer_style", $panel_style, __( 'Footer navigation', "fazzotheme" ), __( 'Set specific navigation footer styles', "fazzotheme" ) );
+			$section_nav_footer_hover_style        = $customizer->add_section( "nav_footer_hover_style", $panel_style, __( 'Footer navigation hover', "fazzotheme" ), __( 'Set specific navigation footer styles', "fazzotheme" ) );
+			$section_text_footer_style             = $customizer->add_section( "text_footer_style", $panel_style, __( 'Footer', "fazzotheme" ), __( 'Set specific footer styles', "fazzotheme" ) );
+			$section_widget_style                  = $customizer->add_section( "widget_style", $panel_style, __( 'Widgets', "fazzotheme" ), __( 'Set specific widget styles', "fazzotheme" ) );
+			$section_sizes_spaces                  = $customizer->add_section( "sizes_spaces", $panel_style, __( 'Sizes and Spaces', "fazzotheme" ), __( 'Set specific sizes and spaces', "fazzotheme" ) );
+			$section_settings                      = $customizer->add_section( "settings", $panel_style, __( 'Settings', "fazzotheme" ), __( 'Set specific settings', "fazzotheme" ) );
 
 			// Background Site
 			$customizer_collect            = [];
@@ -1099,6 +1179,16 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			$customizer_collect["image"]                 = $customizer->add_control( "image", "background_nav_top_image", $section_nav_top_style, __( 'Image', "fazzotheme" ) );
 			$customizer_set[]                            = $customizer_collect;
 
+			// Head top hover
+			$customizer_collect_hover                 = [];
+			$customizer_collect_hover["element"]      = "#wrap_top_nav";
+			$customizer_collect_hover["color_top"]    = $customizer->add_control( "color", "background_nav_top_hover_color_top", $section_nav_top_style_hover, __( 'Color top', "fazzotheme" ) );
+			$customizer_collect_hover["color_bottom"] = $customizer->add_control( "color", "background_nav_top_hover_color_bottom", $section_nav_top_style_hover, __( 'Color bottom', "fazzotheme" ) );
+			$customizer_collect_hover["opacity"]      = $customizer->add_control( "text", "background_nav_top_hover_opacity", $section_nav_top_style_hover, __( 'Opacity', "fazzotheme" ) );
+			$customizer_collect_hover["border_color"] = $customizer->add_control( "color", "border_nav_top_hover_color", $section_nav_top_style_hover, __( 'Border color', "fazzotheme" ) );
+			$customizer_collect_hover["image"]        = $customizer->add_control( "image", "background_nav_top_hover_image", $section_nav_top_style_hover, __( 'Image', "fazzotheme" ) );
+			$customizer_set_hover[]                   = $customizer_collect_hover;
+
 			// Head Content
 			$customizer_collect                          = [];
 			$customizer_collect["element"]               = "#head-title";
@@ -1123,9 +1213,19 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			$customizer_collect["image"]                 = $customizer->add_control( "image", "background_nav_head_image", $section_nav_head_style, __( 'Image', "fazzotheme" ) );
 			$customizer_set[]                            = $customizer_collect;
 
+			// Head Nav Hover
+			$customizer_collect_hover                 = [];
+			$customizer_collect_hover["element"]      = "#sec_head_nav";
+			$customizer_collect_hover["color_top"]    = $customizer->add_control( "color", "background_nav_head_hover_color_top", $section_nav_head_hover_style, __( 'Color top', "fazzotheme" ) );
+			$customizer_collect_hover["color_bottom"] = $customizer->add_control( "color", "background_nav_head_hover_color_bottom", $section_nav_head_hover_style, __( 'Color bottom', "fazzotheme" ) );
+			$customizer_collect_hover["opacity"]      = $customizer->add_control( "text", "background_nav_head_hover_opacity", $section_nav_head_hover_style, __( 'Opacity', "fazzotheme" ) );
+			$customizer_collect_hover["border_color"] = $customizer->add_control( "color", "border_nav_head_hover_color", $section_nav_head_hover_style, __( 'Border color', "fazzotheme" ) );
+			$customizer_collect_hover["image"]        = $customizer->add_control( "image", "background_nav_head_hover_image", $section_nav_head_hover_style, __( 'Image', "fazzotheme" ) );
+			$customizer_set_hover[]                   = $customizer_collect_hover;
+
 			// Head Nav Dropdown
 			$customizer_collect                          = [];
-			$customizer_collect["element"]               = "#sec_head_nav  .dropdown-menu";
+			$customizer_collect["element"]               = "#sec_head_nav .dropdown-menu";
 			$customizer_collect["color_top"]             = $customizer->add_control( "color", "background_nav_head_dropdown_color_top", $section_nav_head_dropdown_style, __( 'Color top', "fazzotheme" ) );
 			$customizer_collect["color_bottom"]          = $customizer->add_control( "color", "background_nav_head_dropdown_color_bottom", $section_nav_head_dropdown_style, __( 'Color bottom', "fazzotheme" ) );
 			$customizer_collect["opacity"]               = $customizer->add_control( "text", "background_nav_head_dropdown_opacity", $section_nav_head_dropdown_style, __( 'Opacity', "fazzotheme" ) );
@@ -1134,6 +1234,16 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			$customizer_collect["border_color"]          = $customizer->add_control( "color", "border_nav_head_dropdown_color", $section_nav_head_dropdown_style, __( 'Border color', "fazzotheme" ) );
 			$customizer_collect["image"]                 = $customizer->add_control( "image", "background_nav_head_dropdown_image", $section_nav_head_dropdown_style, __( 'Image', "fazzotheme" ) );
 			$customizer_set[]                            = $customizer_collect;
+
+			// Head Nav Dropdown Hover
+			$customizer_collect_hover                 = [];
+			$customizer_collect_hover["element"]      = "#sec_head_nav .dropdown-menu";
+			$customizer_collect_hover["color_top"]    = $customizer->add_control( "color", "background_nav_head_dropdown_hover_color_top", $section_nav_head_dropdown_hover_style, __( 'Color top', "fazzotheme" ) );
+			$customizer_collect_hover["color_bottom"] = $customizer->add_control( "color", "background_nav_head_dropdown_hover_color_bottom", $section_nav_head_dropdown_hover_style, __( 'Color bottom', "fazzotheme" ) );
+			$customizer_collect_hover["opacity"]      = $customizer->add_control( "text", "background_nav_head_dropdown_hover_opacity", $section_nav_head_dropdown_hover_style, __( 'Opacity', "fazzotheme" ) );
+			$customizer_collect_hover["border_color"] = $customizer->add_control( "color", "border_nav_head_dropdown_hover_color", $section_nav_head_dropdown_hover_style, __( 'Border color', "fazzotheme" ) );
+			$customizer_collect_hover["image"]        = $customizer->add_control( "image", "background_nav_head_dropdown_hover_image", $section_nav_head_dropdown_hover_style, __( 'Image', "fazzotheme" ) );
+			$customizer_set_hover[]                   = $customizer_collect_hover;
 
 
 			// Content Nav
@@ -1147,7 +1257,16 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			$customizer_collect["border_color"]          = $customizer->add_control( "color", "border_nav_content_color", $section_nav_content_style, __( 'Border color', "fazzotheme" ) );
 			$customizer_collect["image"]                 = $customizer->add_control( "image", "background_nav_content_image", $section_nav_content_style, __( 'Image', "fazzotheme" ) );
 			$customizer_set[]                            = $customizer_collect;
-			$customizer_collect                          = [];
+
+			// Content Nav Hover
+			$customizer_collect_hover                 = [];
+			$customizer_collect_hover["element"]      = "#wrap_content_nav";
+			$customizer_collect_hover["color_top"]    = $customizer->add_control( "color", "background_nav_content_hover_color_top", $section_nav_content_hover_style, __( 'Color top', "fazzotheme" ) );
+			$customizer_collect_hover["color_bottom"] = $customizer->add_control( "color", "background_nav_content_hover_color_bottom", $section_nav_content_hover_style, __( 'Color bottom', "fazzotheme" ) );
+			$customizer_collect_hover["opacity"]      = $customizer->add_control( "text", "background_nav_content_hover_opacity", $section_nav_content_hover_style, __( 'Opacity', "fazzotheme" ) );
+			$customizer_collect_hover["border_color"] = $customizer->add_control( "color", "border_nav_content_hover_color", $section_nav_content_hover_style, __( 'Border color', "fazzotheme" ) );
+			$customizer_collect_hover["image"]        = $customizer->add_control( "image", "background_nav_content_hover_image", $section_nav_content_hover_style, __( 'Image', "fazzotheme" ) );
+			$customizer_set_hover[]                   = $customizer_collect_hover;
 
 
 			// Content
@@ -1187,6 +1306,16 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			$customizer_collect["border_color"]          = $customizer->add_control( "color", "border_nav_footer_color", $section_nav_footer_style, __( 'Border color', "fazzotheme" ) );
 			$customizer_collect["image"]                 = $customizer->add_control( "image", "background_nav_footer_image", $section_nav_footer_style, __( 'Image', "fazzotheme" ) );
 			$customizer_set[]                            = $customizer_collect;
+
+			// Footer Nav Hover
+			$customizer_collect_hover                 = [];
+			$customizer_collect_hover["element"]      = "#sec_foot_nav";
+			$customizer_collect_hover["color_top"]    = $customizer->add_control( "color", "background_nav_footer_hover_color_top", $section_nav_footer_hover_style, __( 'Color top', "fazzotheme" ) );
+			$customizer_collect_hover["color_bottom"] = $customizer->add_control( "color", "background_nav_footer_hover_color_bottom", $section_nav_footer_hover_style, __( 'Color bottom', "fazzotheme" ) );
+			$customizer_collect_hover["opacity"]      = $customizer->add_control( "text", "background_nav_footer_hover_opacity", $section_nav_footer_hover_style, __( 'Opacity', "fazzotheme" ) );
+			$customizer_collect_hover["border_color"] = $customizer->add_control( "color", "border_nav_footer_hover_color", $section_nav_footer_hover_style, __( 'Border color', "fazzotheme" ) );
+			$customizer_collect_hover["image"]        = $customizer->add_control( "image", "background_nav_footer_hover_image", $section_nav_footer_hover_style, __( 'Image', "fazzotheme" ) );
+			$customizer_set_hover[]                   = $customizer_collect_hover;
 
 			// Footer Text
 			$customizer_collect                 = [];
@@ -1289,20 +1418,24 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
 			$customizer_collect                   = [];
 
 			// Settings
-			$customizer_settings                   = [];
-			$customizer_settings["show_search"]    = $customizer->add_control( "checkbox", "show_search", $section_settings, __( 'Search', "fazzotheme" ) );
-			$customizer_settings["add_space"]      = $customizer->add_control( "checkbox", "add_space", $section_settings, __( 'Increase inner distance', "fazzotheme" ) );
-			$customizer_settings["round_corners"]  = $customizer->add_control( "checkbox", "round_corners", $section_settings, __( 'Round borders', "fazzotheme" ) );
-			$customizer_settings["border_radius"]  = $customizer->add_control( "text", "border_radius", $section_settings, __( 'Radius', "fazzotheme" ) );
-			$customizer_settings["center_content"] = $customizer->add_control( "checkbox", "center_content", $section_settings, __( 'Content centered', "fazzotheme" ) );
-			$customizer_settings["show_post_nav"]  = $customizer->add_control( "checkbox", "show_post_nav", $section_settings, __( 'Show post navigation links', "fazzotheme" ) );
-			$customizer_settings["show_page_nav"]  = $customizer->add_control( "checkbox", "show_page_nav", $section_settings, __( 'Show page navigation links', "fazzotheme" ) );
-			$customizer_settings["show_post_date"] = $customizer->add_control( "checkbox", "show_post_date", $section_settings, __( 'Show post date and author', "fazzotheme" ) );
-			$customizer_settings["show_author_link"] = $customizer->add_control( "checkbox", "show_author_link", $section_settings, __( 'Show author link', "fazzotheme" ) );
-			$customizer_settings["show_page_date"] = $customizer->add_control( "checkbox", "show_page_date", $section_settings, __( 'Show page date and author', "fazzotheme" ) );
-			$customizer_settings["show_categories"] = $customizer->add_control( "checkbox", "show_categories", $section_settings, __( 'Show categories', "fazzotheme" ) );
-			$customizer_settings["show_edit_link"] = $customizer->add_control( "checkbox", "show_edit_link", $section_settings, __( 'Show edit link', "fazzotheme" ) );
-			$customizer_settings["disable_comments"] = $customizer->add_control( "checkbox", "disable_comments", $section_settings, __( 'Disable Comments', "fazzotheme" ) );
+			$customizer_settings                            = [];
+			$customizer_settings["show_search"]             = $customizer->add_control( "checkbox", "show_search", $section_settings, __( 'Search', "fazzotheme" ) );
+			$customizer_settings["add_space"]               = $customizer->add_control( "checkbox", "add_space", $section_settings, __( 'Increase inner distance', "fazzotheme" ) );
+			$customizer_settings["round_corners"]           = $customizer->add_control( "checkbox", "round_corners", $section_settings, __( 'Round borders', "fazzotheme" ) );
+			$customizer_settings["border_radius"]           = $customizer->add_control( "text", "border_radius", $section_settings, __( 'Radius', "fazzotheme" ) );
+			$customizer_settings["center_content"]          = $customizer->add_control( "checkbox", "center_content", $section_settings, __( 'Content centered', "fazzotheme" ) );
+			$customizer_settings["show_post_nav"]           = $customizer->add_control( "checkbox", "show_post_nav", $section_settings, __( 'Show post navigation links', "fazzotheme" ) );
+			$customizer_settings["show_page_nav"]           = $customizer->add_control( "checkbox", "show_page_nav", $section_settings, __( 'Show page navigation links', "fazzotheme" ) );
+			$customizer_settings["show_post_date"]          = $customizer->add_control( "checkbox", "show_post_date", $section_settings, __( 'Show post date and author', "fazzotheme" ) );
+			$customizer_settings["show_author_link"]        = $customizer->add_control( "checkbox", "show_author_link", $section_settings, __( 'Show author link', "fazzotheme" ) );
+			$customizer_settings["show_page_date"]          = $customizer->add_control( "checkbox", "show_page_date", $section_settings, __( 'Show page date and author', "fazzotheme" ) );
+			$customizer_settings["show_categories"]         = $customizer->add_control( "checkbox", "show_categories", $section_settings, __( 'Show categories', "fazzotheme" ) );
+			$customizer_settings["show_edit_link"]          = $customizer->add_control( "checkbox", "show_edit_link", $section_settings, __( 'Show edit link', "fazzotheme" ) );
+			$customizer_settings["disable_comments"]        = $customizer->add_control( "checkbox", "disable_comments", $section_settings, __( 'Disable Comments', "fazzotheme" ) );
+			$customizer_settings["display_shadows"]         = $customizer->add_control( "checkbox", "display_shadows", $section_settings, __( 'Display shadows', "fazzotheme" ) );
+			$customizer_settings["display_article_shadows"] = $customizer->add_control( "checkbox", "display_article_shadows", $section_settings, __( 'Display article shadows', "fazzotheme" ) );
+			$customizer_settings["display_widget_shadows"]  = $customizer->add_control( "checkbox", "display_widget_shadows", $section_settings, __( 'Display widget shadows', "fazzotheme" ) );
+			$customizer_settings["display_content_nav_shadows"]  = $customizer->add_control( "checkbox", "display_content_nav_shadows", $section_settings, __( 'Display content nav shadows', "fazzotheme" ) );
 
 			$js_content = <<<JS
 
@@ -1370,13 +1503,21 @@ if ( ! class_exists( '\fazzo\fazzo' ) ) {
         			var color = wp.customize(color).get();
                 $(element).css('color', color);
     }  
-    function fazzo_color_border(color, element)
+    function fazzo_color_border(color, element, opacity)
     {
         		var transparent_color = wp.customize(color+'_transparent').get();    
     			if(transparent_color)
     			    var color = 'transparent';
     			else
-        			var color = wp.customize(color).get();        
+    			{
+        			
+    				var color = wp.customize(color).get();
+    				if(opacity != 'null')
+    				{
+    					var opacity = wp.customize(opacity).get();
+    					color = hexToRgbA(color, opacity);
+    				}
+        		}
         		$(element).css('border-color', color);
     }  
     function fazzo_hide(status, element)
@@ -1491,9 +1632,19 @@ JS;
 			// CODE FOR {$cus_sec["opacity"]}:
 			wp.customize('{$cus_sec["opacity"]}', function (value) { value.bind(function (value_set) {
 			    fazzo_linear_gradient('{$cus_sec["image"]}','{$cus_sec["opacity"]}','{$cus_sec["color_top"]}','{$cus_sec["color_bottom"]}','{$cus_sec["element"]}');
-			})})
 JS;
+					if ( isset( $cus_sec["border_color"] ) ) {
+						$js_content .= <<<JS
+			    fazzo_color_border('{$cus_sec["border_color"]}', '{$cus_sec["element"]}','{$cus_sec["opacity"]}');
+			    fazzo_color_border('{$cus_sec["border_color"]}', '{$cus_sec["element"]} li','{$cus_sec["opacity"]}');
+JS;
+					}
+					$js_content .= <<<JS
+})})
+JS;
+
 				}
+
 
 				if ( isset( $cus_sec["image"] ) ) {
 					$js_content .= <<<JS
@@ -1558,18 +1709,32 @@ JS;
 JS;
 				}
 
-				if ( isset( $cus_sec["border_color"] ) ) {
+				if ( isset( $cus_sec["border_color"] ) && isset( $cus_sec["opacity"] ) ) {
 					$js_content .= <<<JS
 
 			// CODE FOR {$cus_sec["border_color"]}:
 			wp.customize('{$cus_sec["border_color"]}', function (value) { value.bind(function (value_set) {
-			    fazzo_color_border('{$cus_sec["border_color"]}', '{$cus_sec["element"]}');
-			    fazzo_color_border('{$cus_sec["border_color"]}', '{$cus_sec["element"]} li');
+			    fazzo_color_border('{$cus_sec["border_color"]}', '{$cus_sec["element"]}','{$cus_sec["opacity"]}');
+			    fazzo_color_border('{$cus_sec["border_color"]}', '{$cus_sec["element"]} li','{$cus_sec["opacity"]}');
 			})})	
 			// CODE FOR {$cus_sec["border_color"]}_transparent:
 			wp.customize('{$cus_sec["border_color"]}_transparent', function (value) { value.bind(function (value_set) {
-			    fazzo_color_border('{$cus_sec["border_color"]}', '{$cus_sec["element"]}');
-			    fazzo_color_border('{$cus_sec["border_color"]}', '{$cus_sec["element"]} li');
+			    fazzo_color_border('{$cus_sec["border_color"]}', '{$cus_sec["element"]}','{$cus_sec["opacity"]}');
+			    fazzo_color_border('{$cus_sec["border_color"]}', '{$cus_sec["element"]} li','{$cus_sec["opacity"]}');
+			})})				
+JS;
+				} elseif ( isset( $cus_sec["border_color"] ) ) {
+					$js_content .= <<<JS
+
+			// CODE FOR {$cus_sec["border_color"]}:
+			wp.customize('{$cus_sec["border_color"]}', function (value) { value.bind(function (value_set) {
+			    fazzo_color_border('{$cus_sec["border_color"]}', '{$cus_sec["element"]}','null');
+			    fazzo_color_border('{$cus_sec["border_color"]}', '{$cus_sec["element"]} li','null');
+			})})	
+			// CODE FOR {$cus_sec["border_color"]}_transparent:
+			wp.customize('{$cus_sec["border_color"]}_transparent', function (value) { value.bind(function (value_set) {
+			    fazzo_color_border('{$cus_sec["border_color"]}', '{$cus_sec["element"]}','null');
+			    fazzo_color_border('{$cus_sec["border_color"]}', '{$cus_sec["element"]} li','null');
 			})})				
 JS;
 				}
@@ -1580,7 +1745,7 @@ JS;
 })(jQuery);		
 
 JS;
-			wp_register_script( 'dummy-handle-footer', '', [ "fazzo-theme-customizer-pre-js" ], static::version, true );
+			wp_register_script( 'dummy-handle-footer', '', [ "fazzo-theme-customizer-pre-js" ], static ::version, true );
 			wp_enqueue_script( 'dummy-handle-footer' );
 			wp_add_inline_script( 'dummy-handle-footer', $js_content, 'after' );
 
@@ -1596,7 +1761,10 @@ JS;
 		 * @since  1.0.0
 		 * @access public
 		 */
-		public static function get_mod( $id ) {
+		public
+		static function get_mod(
+			$id
+		) {
 
 			if ( ! isset( static::$customizer_elements[ static::$prefix . $id ] ) ) {
 				return false;
@@ -1611,7 +1779,8 @@ JS;
 		 * @since  1.0.0
 		 * @access public
 		 */
-		public function customizer_css() {
+		public
+		function customizer_css() {
 
 			$prefix = static::$prefix;
 
@@ -1632,7 +1801,14 @@ JS;
 				"_content_head_description" => "#head-description span",
 				"_foot_text"                => "#sec_foot_text",
 				"_widget"                   => ".widget",
-				"_content"                  => [ "article", "#sec_content h1", "#sec_content h2", "#sec_content h3" ],
+				"_content"                  => "article",
+			];
+
+			$elements_hover = [
+				"_nav_top_hover"     => "#wrap_top_nav",
+				"_nav_head_hover"    => "#sec_head_nav",
+				"_nav_content_hover" => "#wrap_content_nav",
+				"_nav_footer_hover"  => "#sec_foot_nav",
 			];
 
 			foreach ( $elements as $element => $css ) {
@@ -1641,12 +1817,27 @@ JS;
 				$style .= customizer::live_css_font( "font" . $element, "color", $css, "caption" );
 				$style .= customizer::live_css_font( "link_font" . $element, "color", $css, "a" );
 				$style .= customizer::live_css_font( "link_hover_font" . $element, "color", $css, "a:hover" );
+				$style .= customizer::live_css_font( "link_hover_font" . $element, "color", $css, "li.active a" );
+				$style .= customizer::live_css_font( "link_hover_font" . $element, "color", $css, "li.current-menu-ancestor a" );
 				$style .= customizer::live_css_border( "border" . $element, "border-color", $css, "background" . $element );
 				$style .= customizer::live_css_border( "border" . $element, "border-color", $css, "background" . $element, "li" );
 				$style .= customizer::live_css_background( "background" . $element, $css );
 			}
 
+			foreach ( $elements_hover as $element => $css ) {
+				$style .= customizer::live_css_border( "border" . $element, "border-color", $css, "background" . $element, "a:hover" );
+				$style .= customizer::live_css_background( "background" . $element, $css, "a:hover" );
+			}
+			$style .= customizer::live_css_border( "border_nav_head_dropdown_hover", "border-color", "#sec_head_nav .dropdown-menu", "background" . $element, "li:hover" );
+			$style .= customizer::live_css_background( "background_nav_head_dropdown_hover", "#sec_head_nav .dropdown-menu", "li:hover" );
+
+			$style .= customizer::live_css_font( "font_content", "color", "#wrap_content_output h1" );
+			$style .= customizer::live_css_font( "font_content", "color", "#wrap_content_output h2" );
+			$style .= customizer::live_css_font( "font_content", "color", "#wrap_content_output h3" );
+
 			$style .= customizer::live_css_font( "link_font_nav_top", "color", "#wrap_top_search", "i::before" );
+			$style .= customizer::live_css_font( "link_font_nav_top", "color", "#wrap_top_search", "input" );
+			$style .= customizer::live_css_font( "link_font_nav_top", "color", "#wrap_top_search", "input::placeholder" );
 			$style .= customizer::live_css_font( "link_hover_font_nav_top", "color", "#wrap_top_search", ".search-button-wrapper:hover i::before" );
 			$style .= customizer::live_css_background( "background_nav_head_dropdown", ".offcanvas-collapse", "", "576px" );
 			$style .= customizer::live_css_height( "head_height", "#sec_head_content" );
@@ -1655,6 +1846,8 @@ JS;
 
 			$style .= customizer::live_css_padding_h( "top_padding_h", "#menu-meta-top li a" );
 			$style .= customizer::live_css_padding_v( "top_padding_v", "#menu-meta-top li a" );
+			$style .= customizer::live_css_padding_v( "top_padding_v", "#wrap_top_search input" );
+			$style .= customizer::live_css_padding_v( "top_padding_v", "#wrap_top_search i" );
 			$style .= customizer::live_css_padding_h( "main_nav_padding_h", "#meta-head-nav ul li a" );
 			$style .= customizer::live_css_padding_v( "main_nav_padding_v", "#meta-head-nav ul li a" );
 			$style .= customizer::live_css_padding_h( "footer_nav_padding_h", "#meta-bottom-nav ul li a" );
@@ -1687,6 +1880,83 @@ article, .widget {
 }
 CSS;
 				}
+			}
+
+			if ( isset( static::$customizer_elements[ $prefix . "display_shadows" ] ) && $this->get_mod( "display_shadows" ) ) {
+				$style .= <<<CSS
+#sec_head_nav, #sec_head_meta, #sec_foot_nav, #sec_foot_text {
+  box-shadow: 0px 3px 14px 0px rgba(0,0,0,0.75);
+}
+
+CSS;
+
+				if ( isset( static::$customizer_elements[ $prefix . "display_content_nav_shadows" ] ) && $this->get_mod( "display_content_nav_shadows" ) ) {
+					$style .= <<<CSS
+#wrap_content_nav {
+  box-shadow: 3px 0px 14px 0px rgba(0,0,0,0.35), -3px 0px 14px 0px rgba(0,0,0,0.35);
+}
+CSS;
+				}
+
+				if ( isset( static::$customizer_elements[ $prefix . "display_article_shadows" ] ) && $this->get_mod( "display_article_shadows" ) ) {
+					$style .= <<<CSS
+article {
+  box-shadow: 3px 0px 5px 0px rgba(0,0,0,0.2), -3px 0px 5px 0px rgba(0,0,0,0.2), 0px 3px 5px 0px rgba(0,0,0,0.2), 0px -3px 5px 0px rgba(0,0,0,0.2);
+}
+CSS;
+				}
+				if ( isset( static::$customizer_elements[ $prefix . "display_widget_shadows" ] ) && $this->get_mod( "display_widget_shadows" ) ) {
+					$style .= <<<CSS
+.widget {
+  box-shadow: 3px 0px 5px 0px rgba(0,0,0,0.2), -3px 0px 5px 0px rgba(0,0,0,0.2), 0px 3px 5px 0px rgba(0,0,0,0.2), 0px -3px 5px 0px rgba(0,0,0,0.2);
+}
+CSS;
+				}
+				$style .= <<<CSS
+#head-title {
+  text-shadow: 2px 2px 2px rgba(0,0,0,0.6);
+}
+CSS;
+				if ( isset( static::$customizer_elements[ $prefix . "round_corners" ] ) && $this->get_mod( "round_corners" ) ) {
+					$style .= <<<CSS
+#sec_head_nav, #sec_head_meta, #sec_foot_nav, #sec_foot_text{
+  box-shadow: 3px 0px 5px 0px rgba(0,0,0,0.2), -3px 0px 5px 0px rgba(0,0,0,0.2), 0px 3px 5px 0px rgba(0,0,0,0.2), 0px -3px 5px 0px rgba(0,0,0,0.2);
+}
+CSS;
+					if ( isset( static::$customizer_elements[ $prefix . "display_content_nav_shadows" ] ) && $this->get_mod( "display_content_nav_shadows" ) ) {
+						$style .= <<<CSS
+#wrap_content_nav {
+  box-shadow: 3px 0px 5px 0px rgba(0,0,0,0.2), -3px 0px 5px 0px rgba(0,0,0,0.2), 0px 3px 5px 0px rgba(0,0,0,0.2), 0px -3px 5px 0px rgba(0,0,0,0.2);
+}
+CSS;
+					}
+
+					if ( isset( static::$customizer_elements[ $prefix . "display_article_shadows" ] ) && $this->get_mod( "display_article_shadows" ) ) {
+						$style .= <<<CSS
+article {
+  box-shadow: 3px 0px 5px 0px rgba(0,0,0,0.2), -3px 0px 5px 0px rgba(0,0,0,0.2), 0px 3px 5px 0px rgba(0,0,0,0.2), 0px -3px 5px 0px rgba(0,0,0,0.2);
+}
+CSS;
+					}
+					if ( isset( static::$customizer_elements[ $prefix . "display_widget_shadows" ] ) && $this->get_mod( "display_widget_shadows" ) ) {
+						$style .= <<<CSS
+.widget {
+  box-shadow: 3px 0px 5px 0px rgba(0,0,0,0.2), -3px 0px 5px 0px rgba(0,0,0,0.2), 0px 3px 5px 0px rgba(0,0,0,0.2), 0px -3px 5px 0px rgba(0,0,0,0.2);
+}
+CSS;
+					}
+				}
+			}
+
+
+			$_nav_content_border_color = customizer::live_border_color( "border_nav_content_color", "background_nav_content" );
+			if ( $_nav_content_border_color ) {
+				$style .= <<<CSS
+#wrap_content_nav {
+	border-left: 1px solid $_nav_content_border_color;
+	border-right: 1px solid $_nav_content_border_color;
+}
+CSS;
 			}
 
 			$center_content = false;
@@ -1730,11 +2000,11 @@ CSS;
 
 					if ( $center_content || true ) {
 
-						$_nav_top_border_color     = customizer::live_border_color( "border_nav_top_color", "background" . "_nav_top" );
-						$_nav_head_border_color    = customizer::live_border_color( "border_nav_head_color", "background" . "_nav_head" );
-						$_nav_content_border_color = customizer::live_border_color( "border_nav_content_color", "background" . "_nav_content" );
-						$_nav_footer_border_color  = customizer::live_border_color( "border_nav_footer_color", "background" . "_nav_footer" );
-						$_foot_text_border_color   = customizer::live_border_color( "border_foot_text_color", "background" . "_foot_text" );
+						$_nav_top_border_color  = customizer::live_border_color( "border_nav_top_color", "background" . "_nav_top" );
+						$_nav_head_border_color = customizer::live_border_color( "border_nav_head_color", "background" . "_nav_head" );
+
+						$_nav_footer_border_color = customizer::live_border_color( "border_nav_footer_color", "background" . "_nav_footer" );
+						$_foot_text_border_color  = customizer::live_border_color( "border_foot_text_color", "background" . "_foot_text" );
 
 						$style .= <<<CSS
 
@@ -1747,7 +2017,9 @@ CSS;
 	border-top-left-radius: {$border_radius};
 	border-top-right-radius: {$border_radius};
 	margin-top: 12px;
+	margin-bottom: 12px;
 	border-top: 1px solid {$_nav_content_border_color};
+	border-bottom: 1px solid {$_nav_content_border_color};
 }
 
 #sec_head_meta, #sec_head_nav, #sec_foot_nav, #sec_foot_text, .widget {
@@ -1761,6 +2033,16 @@ CSS;
 
 #sec_head_nav, #sec_head_nav .dropdown-menu {
 	border: 1px solid {$_nav_head_border_color};
+}
+
+#sec_head_nav .dropdown-menu a:last-child {
+	border-bottom-left-radius: {$border_radius};
+	border-bottom-right-radius: {$border_radius};
+}
+
+#wrap_content_nav li:first-child a {
+	border-top-left-radius: {$border_radius};
+	border-top-right-radius: {$border_radius};
 }
 
 #sec_foot_nav, #sec_foot_nav .dropdown-menu {
@@ -1789,6 +2071,10 @@ CSS;
 
 
 			}
+
+
+			functions::minimize_string( $style );
+
 			echo "<style>" . $style . "</style>";
 		}
 	}

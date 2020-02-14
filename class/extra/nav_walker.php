@@ -150,7 +150,7 @@ if ( ! class_exists( '\fazzo\nav_walker' ) ) {
 
 
 			$indent = str_repeat( "\t", $depth );
-			$output .= "\n\n" . $indent . "<div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdown" . $this->curItem->ID . "\"><div class='d-flex flex-row'><div class='dropdown-menu-items p-2'>\n";
+			$output .= "\n\n" . $indent . "<div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdown" . $this->curItem->ID . "\"><div class='d-flex flex-row'><div class='dropdown-menu-items'>\n";
 		}
 
 		/**
@@ -180,7 +180,7 @@ if ( ! class_exists( '\fazzo\nav_walker' ) ) {
 			$top_post_img = get_the_post_thumbnail( $top_post_id, "full" );
 			if ( ! empty( $top_post_img ) ) {
 				$top_post_url = esc_url( get_permalink( $top_post_id ) );
-				$content      .= "\n<div class='dropdown-menu-img p-2'><a href='$top_post_url'>$top_post_img</a></div>\n";
+				$content      .= "\n<div class='dropdown-menu-img'><a href='$top_post_url'>$top_post_img</a></div>\n";
 			}
 			*/
 			$content .= "\n</div></div>";

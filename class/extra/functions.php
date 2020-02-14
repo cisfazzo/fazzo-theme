@@ -1239,6 +1239,24 @@ if ( ! class_exists( '\fazzo\functions' ) ) {
 			return $element_style;
 		}
 
+		/**
+		 * Entfernt mehrfache Leerzeichen und Umbrüche
+		 *
+		 * @param $string String Der Text
+		 *
+		 * @return void
+		 * @since  1.0.0
+		 * @access public
+		 * @static
+		 *
+		 */
+		public static function minimize_string(&$string)
+		{
+			$string = preg_replace('/\s+/', ' ', $string);
+			$string = str_replace("\r", " ", $string);
+			$string = str_replace("\n", " ", $string);
+		}
+
 	}
 
 

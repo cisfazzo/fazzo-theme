@@ -200,9 +200,35 @@ article header {
   margin: 0;
 }
 
+article {
+  margin-bottom: 2 * $space;
+}
+
 .navbar {
   padding: 0;
 }
+
+.mr-auto, .dropdown-menu-items {
+
+  width: 100%;
+}
+
+.dropdown-menu {
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  border-top: none;
+  margin-top: 2px;
+}
+
+#wrap_content_nav {
+  margin-right: $space;
+}
+
+#wrap_content_output, #wrap_content_widget {
+  margin-top: $space;
+}
+
 
 /* */
 /* Elements for Customizer: */
@@ -227,7 +253,7 @@ body {
 }
 
 #sec_head_content {
-  display:flex;
+  display: flex;
   align-items: center;
 }
 
@@ -312,6 +338,11 @@ body {
   input {
     height: auto;
     padding: 0;
+    background-color: transparent;
+    opacity: 1;
+    &::placeholder {
+      opacity: 1;
+    }
   }
 
 }

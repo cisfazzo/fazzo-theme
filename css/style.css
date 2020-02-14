@@ -197,8 +197,32 @@ article header {
   margin: 0;
 }
 
+article {
+  margin-bottom: 24px;
+}
+
 .navbar {
   padding: 0;
+}
+
+.mr-auto, .dropdown-menu-items {
+  width: 100%;
+}
+
+.dropdown-menu {
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  border-top: none;
+  margin-top: 2px;
+}
+
+#wrap_content_nav {
+  margin-right: 12px;
+}
+
+#wrap_content_output, #wrap_content_widget {
+  margin-top: 12px;
 }
 
 /* */
@@ -281,6 +305,11 @@ body {
 #wrap_top_search input {
   height: auto;
   padding: 0;
+  background-color: transparent;
+  opacity: 1;
+}
+#wrap_top_search input::placeholder {
+  opacity: 1;
 }
 
 #wrap_head_content {

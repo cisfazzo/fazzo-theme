@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Fazzo\n"
-"POT-Creation-Date: 2020-02-13 15:25+0100\n"
-"PO-Revision-Date: 2020-02-13 15:29+0100\n"
+"POT-Creation-Date: 2020-02-14 14:17+0100\n"
+"PO-Revision-Date: 2020-02-14 14:18+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -65,7 +65,7 @@ msgstr "Hintergrund"
 msgid "Top Left"
 msgstr "Oben links"
 
-#: class/extra/customizer_image_alignement.php:99 class/fazzo.php:683
+#: class/extra/customizer_image_alignement.php:99 class/fazzo.php:759
 msgid "Top"
 msgstr "Oben"
 
@@ -236,7 +236,7 @@ msgstr "%1$s: %2$s"
 msgid "Archives"
 msgstr "Archive"
 
-#: class/fazzo.php:504
+#: class/fazzo.php:580
 #, php-format
 msgid ""
 "FAZZO-Theme: Your server is running PHP version %s. Please upgrade at least "
@@ -245,7 +245,7 @@ msgstr ""
 "FAZZO-Theme: Auf Ihrem Server läuft die PHP-Version %s. Bitte aktualisieren "
 "Sie mindestens auf PHP Version %s."
 
-#: class/fazzo.php:508
+#: class/fazzo.php:584
 #, php-format
 msgid ""
 "FAZZO-Theme: Your Wordpress version is %s. Please upgrade at least to "
@@ -254,383 +254,427 @@ msgstr ""
 "FAZZO-Theme: Ihre Wordpress-Version ist %s. Aktualisieren Sie mindestens auf "
 "Wordpress-Version %s."
 
-#: class/fazzo.php:625
+#: class/fazzo.php:701
 msgid "Bottom A"
 msgstr "Unten A"
 
-#: class/fazzo.php:627 class/fazzo.php:637 class/fazzo.php:647
+#: class/fazzo.php:703 class/fazzo.php:713 class/fazzo.php:723
 msgid "Bottom sidebar"
 msgstr "Untere Seitenleiste"
 
-#: class/fazzo.php:635
+#: class/fazzo.php:711
 msgid "Bottom B"
 msgstr "Unten B"
 
-#: class/fazzo.php:645
+#: class/fazzo.php:721
 msgid "Bottom C"
 msgstr "Unten C"
 
-#: class/fazzo.php:657 class/fazzo.php:1059
+#: class/fazzo.php:733 class/fazzo.php:1137
 msgid "Content"
 msgstr "Inhalt"
 
-#: class/fazzo.php:659
+#: class/fazzo.php:735
 msgid "Content sidebar"
 msgstr "Seitenleiste im Inhalt"
 
-#: class/fazzo.php:670
+#: class/fazzo.php:746
 msgid "Frontpage"
 msgstr "Startseite"
 
-#: class/fazzo.php:672
+#: class/fazzo.php:748
 msgid "Frontpage sidebar"
 msgstr "Seitenleiste auf Startseite"
 
-#: class/fazzo.php:685
+#: class/fazzo.php:761
 msgid "Top sidebar"
 msgstr "Top Menü"
 
-#: class/fazzo.php:708
+#: class/fazzo.php:784
 msgid "Select picture"
 msgstr "Bild auswählen"
 
-#: class/fazzo.php:854
+#: class/fazzo.php:930
 msgid "Page config"
 msgstr "Seitenkonfiguration"
 
-#: class/fazzo.php:855 class/templ/settings.php:12
+#: class/fazzo.php:931 class/templ/settings.php:12
 msgid "Config"
 msgstr "Konfiguration"
 
-#: class/fazzo.php:960
+#: class/fazzo.php:1036
 msgid " No picture "
 msgstr " Kein Bild "
 
-#: class/fazzo.php:962
+#: class/fazzo.php:1038
 msgid " Preview image "
 msgstr " Vorschaubild "
 
-#: class/fazzo.php:968 class/fazzo.php:969
+#: class/fazzo.php:1044 class/fazzo.php:1045
 msgid "Upload image"
 msgstr "Bild hochladen"
 
-#: class/fazzo.php:972 class/fazzo.php:973
+#: class/fazzo.php:1048 class/fazzo.php:1049
 msgid "Replace image"
 msgstr "Bild ersetzen"
 
-#: class/fazzo.php:975 class/fazzo.php:976
+#: class/fazzo.php:1051 class/fazzo.php:1052
 msgid "Remove"
 msgstr "Entfernen"
 
-#: class/fazzo.php:1051
+#: class/fazzo.php:1127
 msgid "Change style"
 msgstr "Design ändern"
 
-#: class/fazzo.php:1051
+#: class/fazzo.php:1127
 msgid "Set specific styles"
 msgstr "Festlegen bestimmter Stile"
 
-#: class/fazzo.php:1052
+#: class/fazzo.php:1128
 msgid "Site"
 msgstr "Seite"
 
-#: class/fazzo.php:1052
+#: class/fazzo.php:1128
 msgid "Set specific site backgrounds"
 msgstr "Festlegen bestimmter Hintergründe"
 
-#: class/fazzo.php:1053
+#: class/fazzo.php:1129
 msgid "Head"
 msgstr "Kopf"
 
-#: class/fazzo.php:1053
+#: class/fazzo.php:1129
 msgid "Set specific head backgrounds"
 msgstr "Festlegen bestimmter Hintergründe"
 
-#: class/fazzo.php:1054
+#: class/fazzo.php:1130
 msgid "Head top"
 msgstr "Obere Leiste"
 
-#: class/fazzo.php:1054 class/fazzo.php:1058
+#: class/fazzo.php:1130 class/fazzo.php:1131 class/fazzo.php:1135
+#: class/fazzo.php:1136
 msgid "Set specific top styles"
 msgstr "Festlegen bestimmter Stile"
 
-#: class/fazzo.php:1056
+#: class/fazzo.php:1131
+msgid "Head top hover"
+msgstr "Obere Leiste Hover"
+
+#: class/fazzo.php:1132
 msgid "Head content"
 msgstr "Textbereich oben"
 
-#: class/fazzo.php:1056
+#: class/fazzo.php:1132
 msgid "Set specific head content styles"
 msgstr "Festlegen bestimmter Stile"
 
-#: class/fazzo.php:1057
+#: class/fazzo.php:1133
 msgid "Head navigation"
 msgstr "Hauptnavigation"
 
-#: class/fazzo.php:1057
+#: class/fazzo.php:1133 class/fazzo.php:1134
 msgid "Set specific head navigation styles"
 msgstr "Festlegen bestimmter Stile"
 
-#: class/fazzo.php:1058
+#: class/fazzo.php:1134
+msgid "Head navigation hover"
+msgstr "Hauptnavigation Hover"
+
+#: class/fazzo.php:1135
 msgid "Head navigation dropdown"
 msgstr "Hauptnavigation Untermenü"
 
-#: class/fazzo.php:1059
+#: class/fazzo.php:1136
+msgid "Head navigation dropdown hover"
+msgstr "Hauptnavigation Untermenü Hover"
+
+#: class/fazzo.php:1137
 msgid "Set specific content styles"
 msgstr "Festlegen bestimmter Stile"
 
-#: class/fazzo.php:1060
+#: class/fazzo.php:1138
 msgid "Content navigation"
 msgstr "Navigation im Inhaltsbereich"
 
-#: class/fazzo.php:1060
+#: class/fazzo.php:1138 class/fazzo.php:1139
 msgid "Set specific navigation content styles"
 msgstr "Festlegen bestimmter Stile"
 
-#: class/fazzo.php:1061
+#: class/fazzo.php:1139
+msgid "Content navigation hover"
+msgstr "Navigation im Inhaltsbereich Hover"
+
+#: class/fazzo.php:1140
 msgid "Footer navigation"
 msgstr "Footernavigation"
 
-#: class/fazzo.php:1061
+#: class/fazzo.php:1140 class/fazzo.php:1141
 msgid "Set specific navigation footer styles"
 msgstr "Festlegen bestimmter Stile"
 
-#: class/fazzo.php:1062
+#: class/fazzo.php:1141
+msgid "Footer navigation hover"
+msgstr "Footernavigation Hover"
+
+#: class/fazzo.php:1142
 msgid "Footer"
 msgstr "Footer"
 
-#: class/fazzo.php:1062
+#: class/fazzo.php:1142
 msgid "Set specific footer styles"
 msgstr "Festlegen bestimmter Stile"
 
-#: class/fazzo.php:1063
+#: class/fazzo.php:1143
 msgid "Widgets"
 msgstr "Widgets"
 
-#: class/fazzo.php:1063
+#: class/fazzo.php:1143
 msgid "Set specific widget styles"
 msgstr "Festlegen bestimmter Stile"
 
-#: class/fazzo.php:1064
+#: class/fazzo.php:1144
 msgid "Sizes and Spaces"
 msgstr "Größe und Abstände"
 
-#: class/fazzo.php:1064
+#: class/fazzo.php:1144
 msgid "Set specific sizes and spaces"
 msgstr "Festlegen bestimmter Hintergründe"
 
-#: class/fazzo.php:1065
+#: class/fazzo.php:1145
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: class/fazzo.php:1065
+#: class/fazzo.php:1145
 msgid "Set specific settings"
 msgstr "Festlegen bestimmter Einstellungen"
 
-#: class/fazzo.php:1070
+#: class/fazzo.php:1150
 msgid "Image layer 1"
 msgstr "Bildebene 1"
 
-#: class/fazzo.php:1075 class/fazzo.php:1084 class/fazzo.php:1093
-#: class/fazzo.php:1117 class/fazzo.php:1129 class/fazzo.php:1142
-#: class/fazzo.php:1156 class/fazzo.php:1169 class/fazzo.php:1182
-#: class/fazzo.php:1194
+#: class/fazzo.php:1155 class/fazzo.php:1164 class/fazzo.php:1173
+#: class/fazzo.php:1185 class/fazzo.php:1207 class/fazzo.php:1219
+#: class/fazzo.php:1229 class/fazzo.php:1241 class/fazzo.php:1252
+#: class/fazzo.php:1264 class/fazzo.php:1275 class/fazzo.php:1288
+#: class/fazzo.php:1301 class/fazzo.php:1313 class/fazzo.php:1323
 msgid "Color top"
 msgstr "Farbe oben"
 
-#: class/fazzo.php:1076 class/fazzo.php:1085 class/fazzo.php:1094
-#: class/fazzo.php:1118 class/fazzo.php:1130 class/fazzo.php:1143
-#: class/fazzo.php:1157 class/fazzo.php:1170 class/fazzo.php:1183
-#: class/fazzo.php:1195
+#: class/fazzo.php:1156 class/fazzo.php:1165 class/fazzo.php:1174
+#: class/fazzo.php:1186 class/fazzo.php:1208 class/fazzo.php:1220
+#: class/fazzo.php:1230 class/fazzo.php:1242 class/fazzo.php:1253
+#: class/fazzo.php:1265 class/fazzo.php:1276 class/fazzo.php:1289
+#: class/fazzo.php:1302 class/fazzo.php:1314 class/fazzo.php:1324
 msgid "Color bottom"
 msgstr "Farbe unten"
 
-#: class/fazzo.php:1077 class/fazzo.php:1086 class/fazzo.php:1095
-#: class/fazzo.php:1119 class/fazzo.php:1131 class/fazzo.php:1144
-#: class/fazzo.php:1158 class/fazzo.php:1171 class/fazzo.php:1184
-#: class/fazzo.php:1196
+#: class/fazzo.php:1157 class/fazzo.php:1166 class/fazzo.php:1175
+#: class/fazzo.php:1187 class/fazzo.php:1209 class/fazzo.php:1221
+#: class/fazzo.php:1231 class/fazzo.php:1243 class/fazzo.php:1254
+#: class/fazzo.php:1266 class/fazzo.php:1277 class/fazzo.php:1290
+#: class/fazzo.php:1303 class/fazzo.php:1315 class/fazzo.php:1325
 msgid "Opacity"
 msgstr "Deckkraft"
 
-#: class/fazzo.php:1078
+#: class/fazzo.php:1158
 msgid "Image layer 2"
 msgstr "Bildebene 2"
 
-#: class/fazzo.php:1087 class/fazzo.php:1099 class/fazzo.php:1123
-#: class/fazzo.php:1135 class/fazzo.php:1148 class/fazzo.php:1163
-#: class/fazzo.php:1176 class/fazzo.php:1188 class/fazzo.php:1200
+#: class/fazzo.php:1167 class/fazzo.php:1179 class/fazzo.php:1189
+#: class/fazzo.php:1213 class/fazzo.php:1223 class/fazzo.php:1235
+#: class/fazzo.php:1245 class/fazzo.php:1258 class/fazzo.php:1268
+#: class/fazzo.php:1282 class/fazzo.php:1295 class/fazzo.php:1307
+#: class/fazzo.php:1317 class/fazzo.php:1329
 msgid "Image"
 msgstr "Bild"
 
-#: class/fazzo.php:1096 class/fazzo.php:1105 class/fazzo.php:1120
-#: class/fazzo.php:1132 class/fazzo.php:1145 class/fazzo.php:1160
-#: class/fazzo.php:1173 class/fazzo.php:1185
+#: class/fazzo.php:1176 class/fazzo.php:1195 class/fazzo.php:1210
+#: class/fazzo.php:1232 class/fazzo.php:1255 class/fazzo.php:1279
+#: class/fazzo.php:1292 class/fazzo.php:1304
 msgid "Link color"
 msgstr "Linkfarbe"
 
-#: class/fazzo.php:1097 class/fazzo.php:1106 class/fazzo.php:1121
-#: class/fazzo.php:1133 class/fazzo.php:1146 class/fazzo.php:1161
-#: class/fazzo.php:1174 class/fazzo.php:1186
+#: class/fazzo.php:1177 class/fazzo.php:1196 class/fazzo.php:1211
+#: class/fazzo.php:1233 class/fazzo.php:1256 class/fazzo.php:1280
+#: class/fazzo.php:1293 class/fazzo.php:1305
 msgid "Link hover color"
 msgstr "Linkfarbe (Hover)"
 
-#: class/fazzo.php:1098 class/fazzo.php:1111 class/fazzo.php:1122
-#: class/fazzo.php:1134 class/fazzo.php:1147 class/fazzo.php:1162
-#: class/fazzo.php:1175 class/fazzo.php:1187 class/fazzo.php:1198
+#: class/fazzo.php:1178 class/fazzo.php:1188 class/fazzo.php:1201
+#: class/fazzo.php:1212 class/fazzo.php:1222 class/fazzo.php:1234
+#: class/fazzo.php:1244 class/fazzo.php:1257 class/fazzo.php:1267
+#: class/fazzo.php:1281 class/fazzo.php:1294 class/fazzo.php:1306
+#: class/fazzo.php:1316 class/fazzo.php:1327
 msgid "Border color"
 msgstr "Rahmenfarbe"
 
-#: class/fazzo.php:1110 class/fazzo.php:1159 class/fazzo.php:1172
-#: class/fazzo.php:1197
+#: class/fazzo.php:1200 class/fazzo.php:1278 class/fazzo.php:1291
+#: class/fazzo.php:1326
 msgid "Font color"
 msgstr "Schriftfarbe"
 
-#: class/fazzo.php:1199
+#: class/fazzo.php:1328
 msgid "Start year"
 msgstr "Startjahr"
 
-#: class/fazzo.php:1206
+#: class/fazzo.php:1335
 msgid "Head min. height"
 msgstr "Kopf min. Höhe"
 
-#: class/fazzo.php:1210
+#: class/fazzo.php:1339
 msgid "Content min. height"
 msgstr "Inhaltsbereich min. Höhe"
 
-#: class/fazzo.php:1214
+#: class/fazzo.php:1343
 msgid "Footer widget min. height"
 msgstr "Widget min. Höhe"
 
-#: class/fazzo.php:1218
+#: class/fazzo.php:1347
 msgid "Top navigation padding horiz"
 msgstr "Top Navigation Abstand horiz."
 
-#: class/fazzo.php:1219
+#: class/fazzo.php:1348
 msgid "Top navigation padding vert."
 msgstr "Top Navigation Abstand vert."
 
-#: class/fazzo.php:1223
+#: class/fazzo.php:1352
 msgid "Main navigation padding horiz."
 msgstr "Hauptnavigation Abstand horiz."
 
-#: class/fazzo.php:1224
+#: class/fazzo.php:1353
 msgid "Main navigation padding vert."
 msgstr "Hauptnavigation Abstand vert."
 
-#: class/fazzo.php:1228
+#: class/fazzo.php:1357
 msgid "Footer navigation padding horiz."
 msgstr "Footernavigation Abstand horiz."
 
-#: class/fazzo.php:1229
+#: class/fazzo.php:1358
 msgid "Footer navigation padding vert."
 msgstr "Footernavigation Abstand vert."
 
-#: class/fazzo.php:1233
+#: class/fazzo.php:1362
 msgid "Footer text padding vert."
 msgstr "Footer Text Abstand vert."
 
-#: class/fazzo.php:1239
+#: class/fazzo.php:1368
 msgid "Top font size"
 msgstr "Top-Schriftgröße"
 
-#: class/fazzo.php:1243
+#: class/fazzo.php:1372
 msgid "Head header font size"
 msgstr "Head Überschrift Schriftgröße"
 
-#: class/fazzo.php:1247
+#: class/fazzo.php:1376
 msgid "Head text font size"
 msgstr "Head Text Schriftgröße"
 
-#: class/fazzo.php:1251
+#: class/fazzo.php:1380
 msgid "Main navigation font size"
 msgstr "Hauptnavigation Schriftgröße"
 
-#: class/fazzo.php:1255
+#: class/fazzo.php:1384
 msgid "Content navigation font size"
 msgstr "Inhaltsnavigation Schriftgröße"
 
-#: class/fazzo.php:1259
+#: class/fazzo.php:1388
 msgid "Content font size"
 msgstr "Schriftgröße Inhalt"
 
-#: class/fazzo.php:1263
+#: class/fazzo.php:1392
 msgid "Content header 1 font size"
 msgstr "Content Header 1 Schriftgröße"
 
-#: class/fazzo.php:1267
+#: class/fazzo.php:1396
 msgid "Content header 2 font size"
 msgstr "Content Header 2 Schriftgröße"
 
-#: class/fazzo.php:1271
+#: class/fazzo.php:1400
 msgid "Content header 3 font size"
 msgstr "Content Header 3 Schriftgröße"
 
-#: class/fazzo.php:1275
+#: class/fazzo.php:1404
 msgid "Footer navigation font size"
 msgstr "Footernavigation Schriftgröße"
 
-#: class/fazzo.php:1279
+#: class/fazzo.php:1408
 msgid "Widget font size"
 msgstr "Widgets Schriftgröße"
 
-#: class/fazzo.php:1283
+#: class/fazzo.php:1412
 msgid "Widget header font size"
 msgstr "Widget Header Schriftgröße"
 
-#: class/fazzo.php:1287
+#: class/fazzo.php:1416
 msgid "Footer text font size"
 msgstr "Schriftgröße des Fußzeilentexts"
 
-#: class/fazzo.php:1293
+#: class/fazzo.php:1422
 msgid "Search"
 msgstr "Suche"
 
-#: class/fazzo.php:1294
+#: class/fazzo.php:1423
 msgid "Increase inner distance"
 msgstr "Inneren Abstand erhöhen"
 
-#: class/fazzo.php:1295
+#: class/fazzo.php:1424
 msgid "Round borders"
 msgstr "Runde Ecken"
 
-#: class/fazzo.php:1296
+#: class/fazzo.php:1425
 msgid "Radius"
 msgstr "Radius"
 
-#: class/fazzo.php:1297
+#: class/fazzo.php:1426
 msgid "Content centered"
 msgstr "Inhalt zentrieren"
 
-#: class/fazzo.php:1298
+#: class/fazzo.php:1427
 msgid "Show post navigation links"
 msgstr "Post-Navigationslinks anzeigen"
 
-#: class/fazzo.php:1299
+#: class/fazzo.php:1428
 msgid "Show page navigation links"
 msgstr "Seitennavigationslinks anzeigen"
 
-#: class/fazzo.php:1300
+#: class/fazzo.php:1429
 msgid "Show post date and author"
 msgstr "Postdatum und Autor anzeigen"
 
-#: class/fazzo.php:1301
+#: class/fazzo.php:1430
 msgid "Show author link"
 msgstr "Autor Link anzeigen"
 
-#: class/fazzo.php:1302
+#: class/fazzo.php:1431
 msgid "Show page date and author"
 msgstr "Seitendatum und Autor anzeigen"
 
-#: class/fazzo.php:1303
+#: class/fazzo.php:1432
 msgid "Show categories"
 msgstr "Kategorien anzeigen"
 
-#: class/fazzo.php:1304
+#: class/fazzo.php:1433
 msgid "Show edit link"
 msgstr "Editier-Link anzeigen"
 
-#: class/fazzo.php:1305
+#: class/fazzo.php:1434
 msgid "Disable Comments"
 msgstr "Kommentare deaktivieren"
+
+#: class/fazzo.php:1435
+msgid "Display shadows"
+msgstr "Schatten anzeigen"
+
+#: class/fazzo.php:1436
+msgid "Display article shadows"
+msgstr "Anzeigen von Artikelschatten"
+
+#: class/fazzo.php:1437
+msgid "Display widget shadows"
+msgstr "Widget-Schatten anzeigen"
+
+#: class/fazzo.php:1438
+msgid "Display content nav shadows"
+msgstr "Anzeigen von Inhalts-Navigationsschatten"
 
 #: class/templ/settings.php:18
 msgid "Load Bootstrap"

@@ -350,7 +350,7 @@ if ( ! class_exists( '\fazzo\customizer' ) ) {
 		 * @since  1.0.0
 		 * @access public
 		 */
-		public static function live_css_font( $element, $property, $css, $css_suffix = "" ) {
+		public static function live_css_font( $element, $property, $css, $css_suffix = "", $css_prefix = "" ) {
 			$style = "";
 			if ( isset( fazzo::$customizer_elements[ fazzo::$prefix . $element . "_color" ] ) ) {
 				$font_color             = false;
@@ -367,7 +367,7 @@ if ( ! class_exists( '\fazzo\customizer' ) ) {
 						foreach ( $css as $css_el ) {
 							$style .= <<<CSS
 
-{$css_el} {$css_suffix}{
+{$css_prefix} {$css_el} {$css_suffix} {
 	{$property}: {$font_color};
 }
 CSS;
@@ -377,7 +377,7 @@ CSS;
 
 						$style .= <<<CSS
 
-{$css} {$css_suffix}{
+{$css_prefix} {$css} {$css_suffix} {
 	{$property}: {$font_color};
 }
 CSS;
@@ -473,8 +473,9 @@ CSS;
 
 					if ( ! empty( $element_opacity ) ) {
 						$opacity               = static::get_mod( $element_opacity . "_opacity" );
+
 						$_nav_top_border_color = "rgba(" . functions::get_rgb_from_hex( $border_color ) . "," . $opacity . ")";
-					} else {
+						} else {
 						$_nav_top_border_color = $border_color;
 					}
 				}
