@@ -12,6 +12,8 @@ Highly customizable theme.
 
 == Description ==
 
+With this highly customizable theme you can set colors, background, borders, sizes, opacities and more with the builtin customizer of wordpress. It has 4 menus each is optional. A sidebar in the content and 3 footer sidebars. Even a sidebar for translation widget in the top area is possible. The main navigation has submenus. You can choose between a centered content and a full widht content. The layout is fully responsive. The menus collapsed into one for smartphone or small display.
+
 = Customizer =
 
 * Set different background images or gradients with position, repeat, scroll, opacity and transparent options for "site", "head", "meta top", "head content", "main navigation", "dropdown", "content", "content navigation", "footer navigation", "footer", "widgets"

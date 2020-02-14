@@ -1,6 +1,6 @@
 # Fazzo
 Contributors: cisfazzo<br />
-Tags: one-column, right-sidebar, flexible-header, custom-colors, custom-header, custom-menu, custom-logo, footer-widgets, theme-options, threaded-comments, translation-ready<br />
+Tags: blog, three-columns, right-sidebar, flexible-header, custom-menu, footer-widgets, theme-options, threaded-comments, translation-ready<br />
 Requires at least: 5.3.2<br />
 Tested up to: 5.3.2<br />
 Stable tag: 5.3.2<br />
@@ -11,6 +11,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.htmll<br />
 Highly customizable theme.
 
 ## Description 
+
+With this highly customizable theme you can set colors, background, borders, sizes, opacities and more with the builtin customizer of wordpress.<br />
+It has 4 menus each is optional. A sidebar in the content and 3 footer sidebars. Even a sidebar for translation widget in the top area is possible.<br />
+The main navigation has submenus. You can choose between a centered content and a full widht content.<br />
+The layout is fully responsive. The menus collapsed into one for smartphone or small display.
 
 ### Customizer 
 
@@ -97,3 +102,5 @@ Highly customizable theme.
 
 ### 1.1.2
 * Some minor fixes
+* Customizer: Added shadow setting
+* Customizer: Added hover settings for the navigation
