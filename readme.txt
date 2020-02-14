@@ -18,7 +18,7 @@ With this highly customizable theme you can set colors, background, borders, siz
 
 * Set different background images or gradients with position, repeat, scroll, opacity and transparent options for "site", "head", "meta top", "head content", "main navigation", "dropdown", "content", "content navigation", "footer navigation", "footer", "widgets"
 * Set different padding and font sizes of many elements
-* Settings: "Display search", "Round borders", "Content centered", "Show post navigation links", "Show page navigation links", "Show post date and author", "Show author", "Show categories", "Disable comments"
+* Settings: "Display search", "Round borders", "Content centered", "Show post navigation links", "Show page navigation links", "Show post date and author", "Show author", "Show categories", "Disable comments", "Display shadows"
 
 = Pages and Posts =
 

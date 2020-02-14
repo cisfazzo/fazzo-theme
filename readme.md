@@ -42,6 +42,7 @@ The layout is fully responsive. The menus collapsed into one for smartphone or s
     *   "Show author"
     *   "Show categories"
     *   "Disable comments"
+    *   "Display shadows"
 
 ### Pages and Posts 
 
